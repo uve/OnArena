@@ -1,0 +1,56 @@
+{% load i18n %}
+
+   <div class="caption">{% trans "All Matches" %}</div>
+
+  <div class="block-table">
+  <table>
+
+       <colgroup>
+       
+       {% if request.is_owner %}
+        <col width="15%">
+        <col width="10%">
+        <col width="30%">
+        <col width="10%">
+        <col width="30%">
+        <col width="5%">
+       {% else %}
+        <col width="15%">
+        <col width="10%">
+        <col width="32%">
+        <col width="11%">
+        <col width="32%">   
+       {% endif %}        
+       </colgroup>   
+       
+       
+
+      <thead>  
+        <tr>
+        <th><div title="{% trans 'Date' %}">{% trans "Date" %}</div></th>
+        <th><div title="{% trans 'Time' %}">{% trans "Time" %}</div></th>
+        <th><div title="{% trans 'Home Team' %}">{% trans "Home Team" %}</div></th>
+        <th><div title="{% trans 'Result' %}">{% trans "Result" %}</div></th>
+        <th><div title="{% trans 'Guest Team' %}">{% trans "Guest Team" %}</div></th>
+        {% if request.is_owner %}
+          <th><div title="{% trans 'Remove Match' %}"></div></th>
+        {% endif %}
+        </tr>
+     </thead>
+     <tbody id="match-browse">
+      </tbody>
+    </table>
+    </div>
+
+<noindex>
+<div id="dialog-confirm" title="{% trans 'Remove Match' %}" class="dynamic-fields">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><div class="inner"></div> {% trans "Match and all scores will be permanently deleted and cannot be recovered. Are you sure?" %}</p>
+</div>
+
+<div id="dialog-message" title="{% trans 'Remove Match' %}" class="dynamic-fields">
+	<p>
+		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+		<div class="inner"></div> {% trans "Match have removed successfully." %}
+	</p>
+</div>
+</noindex>

@@ -1,0 +1,31 @@
+{% extends 'league/templates/league_base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Create League" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/">{% trans "Tournaments" %}</a></li>
+    <li>&rarr;</li>
+    <li class="current"><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+  <div id="stylized" class="myform">
+      <form id="form" name="form" method="post" action="">
+      <h1>{% trans "Create League" %}</h1>
+      <!--<p>This is the basic look of my form without table</p>-->
+      <p></p>
+      <input type="hidden" name="tournament_id" value="{{ tournament.id }}" />
+      <input type="hidden" name="league_create" value="" />
+
+      <label>{% trans "League Name" %}</label>
+      <input type="text" id="league_name" name="league_name" value="" />
+
+    <div id="non-stylized">
+      <input class="large orange awesome" type="submit" value='{% trans "Create League"  %}'/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,184 @@
+#login-button, #logout-button{
+    margin-right: 20px;
+    padding-top: 3px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #CCC;
+    
+    a {
+        text-decoration: none;
+    }
+    
+    a:visited {
+        color: #CCC;
+    }
+    
+    a:hover {
+        color: white;
+    }    
+}
+
+
+#login-button:hover, #logout-button:hover{
+    color: white;
+}
+
+#login-form{
+    h1 {
+    }
+    
+}
+
+#powered_by {
+    font-size: 13px;
+    font-weight: bold;
+    color: #666;
+        
+    a, a:link, a:visited, a:active, a:hover, a:selected {
+        text-decoration: none;
+        border: 0px;
+    }
+}
+
+
+ul.providers {
+    width: 150px;    
+    padding: 0;
+    margin: 0 5px 5px 5px;
+    float: left;
+    list-style-type: none;
+}
+
+ul.providers li {
+    height: 50px;
+    width: 150px;
+    padding: 0;
+    margin: 10px 0 8px 0;
+    
+    a {
+        height: 50px;
+        width: 150px;      
+        display: block;
+        float: left;  
+        text-decoration: none;
+        border: 0px;
+    }
+        
+    a:link, a:active, a:hover, a:selected {
+        text-decoration: none;
+        border: 0px;
+    }
+}
+
+
+ul.providers li {
+    background: url(https://commondatastorage.googleapis.com/cometip/images/login-buttons1.png) no-repeat;    
+}
+li#verisign {
+    background-position: 0px -500px;
+}
+li#verisign:hover {
+    background-position: -150px -500px;
+}
+li#verisign.press {
+    background-position: -300px -500px;
+}
+li#yahoo {
+    background-position: 0px -550px;
+}
+li#yahoo:hover {
+    background-position: -150px -550px;
+}
+li#yahoo.press {
+    background-position: -300px -550px;
+}
+li#live_id {
+    background-position: 0px -200px;
+}
+li#live_id:hover {
+    background-position: -150px -200px;
+}
+li#live_id.press {
+    background-position: -300px -200px;
+}
+li#google {
+    background-position: 0px -100px;
+}
+li#google:hover {
+    background-position: -150px -100px;
+}
+li#google.press {
+    background-position: -300px -100px;
+}
+li#myspace {
+    background-position: 0px -300px;
+}
+li#myspace:hover {
+    background-position: -150px -300px;
+}
+li#myspace.press {
+    background-position: -300px -300px;
+}
+li#myopenid {
+    background-position: 0px -250px;
+}
+li#myopenid:hover {
+    background-position: -150px -250px;
+}
+li#myopenid.press {
+    background-position: -300px -250px;
+}
+li#linkedin {
+    background-position: 0px -150px;
+}
+li#linkedin:hover {
+    background-position: -150px -150px;
+}
+li#linkedin.press {
+    background-position: -300px -150px;
+}
+li#facebook {
+    background-position: 0px -50px;
+}
+li#facebook:hover {
+    background-position: -150px -50px;
+}
+li#facebook.press {
+    background-position: -300px -50px;
+}
+li#aol {
+    background-position: 0px 0px;
+}
+li#aol:hover {
+    background-position: -150px 0px;
+}
+li#aol.press {
+    background-position: -300px 0px;
+}
+li#openid {
+    background-position: 0px -350px;
+}
+li#openid:hover {
+    background-position: -150px -350px;
+}
+li#openid.press {
+    background-position: -300px -350px;
+}
+li#twitter {
+    background-position: 0px -450px;
+}
+li#twitter:hover {
+    background-position: -150px -450px;
+}
+li#twitter.press {
+    background-position: -300px -450px;
+}
+li#paypal {
+    background-position: 0px -400px;
+}
+li#paypal:hover {
+    background-position: -150px -400px;
+}
+li#paypal.press {
+    background-position: -300px -400px;
+}

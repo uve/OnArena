@@ -1,0 +1,1006 @@
+// Page layout can be done using mixins applied to your semantic classes and IDs
+// For instance this layout defines a two column layout on pages with
+// a body class of "two-col".
+//
+// The markup would look like:
+//    <div id="container">
+//      <div id="header"></div>
+//      <div id="sidebar"></div>
+//      <div id="content"></div>
+//      <div id="footer"></div>
+//    </div>
+//
+// and the layout would look like:
+//    +------------------------+
+//    |        #header         |
+//    +--------+---------------+
+//    |        |               |
+//    |#sidebar|    #content   |
+//    |        |               |
+//    +------------------------+
+//    |        #footer         |
+//    +--------+---------------+
+
+//@import "compass/css3";
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+nav {
+    overflow: hidden;
+    width: 100%;
+}
+
+#container {
+    @include container;   
+    
+    //border: 1px solid #EBEBEB    
+}
+
+#content-only{
+
+    overflow: hidden;
+    
+    width: 70%;
+    margin: 0 auto;
+
+    color: #444;
+
+    p {
+    
+        margin-bottom: 10px;
+    }
+    
+    h1 {
+        margin-bottom: 20px;    
+    }
+    
+    h2 {
+        background: transparent;
+        color: #444;
+        font-weight: bold;
+        font-size: 22px;
+        
+        margin-top: 20px;        
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+    
+header {
+    @include column($blueprint-liquid-grid-columns, true);
+    overflow: hidden;
+       
+    border-left: 1px solid #EBEBEB;    
+    border-right: 1px solid #EBEBEB;        
+    //border-bottom: 1px solid #EBEBEB;        
+}    
+
+footer {
+    @include column($blueprint-liquid-grid-columns, true);
+    overflow: hidden;
+    
+    background-color: #F8F8F8;
+       
+    border-left: 1px solid #EBEBEB;    
+    border-right: 1px solid #EBEBEB;        
+    border-top: 1px solid #E5E5E5;     
+    
+    margin-top: 100px;     
+} 
+
+
+aside{
+    @include column($aside-columns); 
+
+    padding: 5px;
+    
+    border-right: 1px solid #EBEBEB;    
+}
+    
+     
+section {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EBEBEB;
+    
+    overflow: hidden;
+    
+    h1 {
+        font: $font-large;
+
+        margin-left: 10px;        
+    }
+    
+    h2 {
+    
+        background: transparent;
+        color: #DD4B39;
+        font-weight: bold;
+        margin-left: 20%;
+        margin-bottom: 5px;            
+    }
+    
+    ul {
+        font: $font-normal;
+        //margin-left: 10%;
+        list-style-type: none;      
+    }
+    
+
+}    
+
+.section-caption h2 {
+    
+        background: transparent;
+        color: #DD4B39;
+        font-weight: bold;
+
+        margin-left: 13%;
+        margin-bottom: 5px;
+        margin-top: 15px;
+    }
+
+#list-league {
+ 
+    width: 100%;
+    float: left;
+    list-style-type: none;
+
+    li {
+
+        width: 100%;
+        float: left;
+        margin: 3px;
+        
+        img {
+            float: left;
+        }
+        
+        h3 {
+        
+            width: 90%;
+            float: left;
+            
+            a {
+                //font-weight: bold;
+                float: left;
+                margin-left: 5px;
+            }
+                    
+        }
+    }
+}
+
+#reformal {
+    height: 155px;
+    left: 0;
+    position: fixed;
+    top: 263px;
+    width: 25px;
+    z-index: 5;
+
+    a {
+        text-decoration: none;
+        background: url("http://reformal.ru/files/images/buttons/reformal_tab_orange.png") no-repeat scroll 0 0 transparent;
+        display: block;
+        height: 155px;
+        width: 25px;    
+        
+    }
+}
+
+
+
+#list-news {
+    
+    font-size: 15px;
+    text-align: left;
+    line-height: normal;
+
+    li {
+        margin-bottom: 7px;
+        margin-left: 5px;
+        
+        overflow:hidden;
+        white-space: nowrap;
+      
+
+        span {
+            color: #737373;
+            font-size: 14px;
+            margin-right: 4px;
+        }
+        
+        a {
+            color: #0565B2;
+            cursor: pointer;
+            text-decoration: none;
+            
+            word-wrap: break-word;
+            overflow: hidden;
+            white-space: normal;
+        }               
+    }        
+}
+
+
+#caption {
+    font: $font-large;
+    
+    h1 {
+        font-size: 25px;
+        font-weight: bold;
+        color: #444;    
+    }
+}
+
+
+
+#path{
+    display: block;
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    
+    margin-top: 10px;
+    margin-bottom: 20px;    
+    
+    padding: 10px;
+    
+    background: #F1F1F1;
+    list-style: none;
+    
+    li {
+        margin-right: 20px;
+        margin-left: 5px;        
+        float: left;
+         
+        
+        a, a:visited {
+            color: #666;
+        }            
+        
+        a:hover, a:focus{
+            color: #DD4B39;
+            text-decoration: none;
+        }
+        
+    }
+    
+    li#current a{
+        color: #DD4B39;        
+        font-weight: bold;        
+    }  
+        
+    .current li a{
+        color: #DD4B39;        
+        font-weight: bold;        
+    }      
+    
+}
+
+.default-block {
+    width: 100%;
+    display: block;
+    float: left;
+    overflow: hidden;
+
+    margin-top: 10px;    
+    margin-bottom: 10px;
+}
+    
+  #main-content {
+    // Two thirds of the grid columns, rounding up.
+    // With 24 cols, this is 16.
+    //$content-columns: ceil(2.9 * $blueprint-grid-columns / 4);
+    
+    // true means it's the last column in the row
+        
+    float: right;
+    @include column($content-columns, true); 
+    float: right;
+    
+    
+    padding: 5px;
+    padding-top: 10px;    
+
+
+        .body{
+
+        }
+        
+        .stat{
+
+                
+            .block-1-logo {
+                  @include column(6);    
+            }
+      
+            .block-2-info {
+                  @include column(6);  
+            }
+      
+            .block-3-stat {
+                  @include column(8, true);  
+            }
+            
+            .team-info {
+                  @include column(9);
+            }
+            
+            .team-players {
+                  @include column(14, true);        
+            }        
+            
+            
+            ul {
+                font: $font-normal;
+                color: #444;
+            }
+            
+            .stat-shift{
+                margin-left: 20px;
+                list-style-type: none;
+            }
+
+        } 
+        
+
+        
+        
+
+    
+    } 
+    
+
+   
+
+
+
+
+        
+    #path {
+    
+        
+        overflow: hidden;
+        margin-bottom: 20px;
+        
+        background: whiteSmoke;
+        border: 0;
+        border-bottom: 1px solid #EBEBEB;
+        border-top: 1px solid #EBEBEB;
+        cursor: default;
+        
+        padding-top: 5px;
+        padding-bottom: 5px;        
+     
+       
+    
+        ul {
+            list-style:none;
+        
+            li {
+                    display:inline;
+                    padding: 10px;              
+                a {                    
+                    color: #666;
+                    font: 13pt Arial,sans-serif;      
+                    
+         
+                }                                                       
+            }            
+        }        
+        
+        .current a {
+                     color: #DD4B39;                   
+        }                                    
+    }
+
+
+
+
+
+
+    
+   #title {
+   
+    overflow: hidden;
+    color: black;
+    font: normal 13px arial,sans-serif;
+    font-size: 32px;
+    font-weight: normal;
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;    
+
+   }
+        
+   #edit {
+        float: right;        
+   } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  .block-container .body .stat{
+      overflow: hidden;
+   }      
+    
+    
+  .block-container {
+    
+    overflow: hidden;
+    
+    font-size: 16px;
+  
+    /*border: 1px solid #B2B2B2;
+    
+    @include border-radius(10px);
+    @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 8px); 
+    */
+    
+    //border-top: 1px solid #EEE;
+    
+    border-bottom: 1px solid #EEE;
+    
+    margin-bottom: 5px;
+    margin-bottom: 20px;
+    
+    padding: 5px;
+        
+        
+        a {
+                color: #0565B2;
+                cursor: pointer;
+                text-decoration: none;
+        
+        }    
+        
+              
+        h1 {
+            
+            text-align: center;
+            height: 25px;
+            line-height: 120%;
+            margin-bottom: 10px;
+            color: #900;
+            font: bold 18px Arial,Helvetica,sans-serif;
+            
+            @include border-top-left-radius(10px);
+            @include border-top-right-radius(10px);                 
+            background: whitesmoke;
+        }    
+
+        ul {        
+            margin-left: 20px;
+            list-style-type: none;
+        
+            li {                      
+                margin-bottom: 7px;                                                
+                             
+            }
+        }
+        
+        span {      
+            font-size: 100%;
+            color: #737373;
+            margin-right: 4px;        
+        }
+                        
+  }  
+
+  
+
+ 
+  .block-table-default {
+
+        margin-bottom: 20px;
+        
+        display: block;        
+        float: left;
+        overflow: hidden;
+        width: 100%;
+        
+            
+        table {
+        
+            width: 100%;                
+            
+            th {
+                font: 15px Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                text-align: center;
+                height: 30px;
+                vertical-align: middle;
+                background: #ECECEC;            
+                
+                border-top: 1px solid #EBEBEB;               
+                border-bottom: 1px solid #EBEBEB;               
+                                
+                border-left: 1px solid white;               
+                border-right: 1px solid white;               
+                                                                
+   
+            }
+                                     
+         
+            tr:nth-child(2n) {
+                background: whiteSmoke;
+            }
+
+            tr:nth-child(2n+1) {
+                background: white;
+            }
+                        
+            
+            td {
+                padding: 0 4px;
+                border: $default-border;                                    
+                
+                overflow:hidden;
+                white-space: nowrap;
+                
+                //text-align: center;
+                
+            }
+            
+            a { 
+                text-align: center;                       
+            }        
+        }        
+                
+  }
+  
+  .block-table { 
+  
+     @extend .block-table-default;
+
+     font: $font-normal;     
+     
+     a {
+     
+          font: $font-normal;
+     }
+
+      table tr{
+            height: 35px;
+            
+            
+            td {
+              
+                font: $font-normal; 
+                text-align: center;
+                
+                max-width: 50px;
+                
+            }
+
+      }  
+      
+      .color-win a {
+            color:#1eb504;    
+      }
+      .color-draw a {
+            color:#444;
+      }
+      .color-loss a {
+            color:red;
+      }
+      
+      
+  }
+
+
+  .block-table-mini { 
+  
+      @extend .block-table-default;
+      
+      font: $font-small;     
+     
+      a {    
+          font: $font-small;
+      }
+     
+      table tr{
+            height: 25px;
+      }     
+      
+      table td{
+            max-width: 50px;
+      }         
+
+  }
+  
+  .block-align-right {
+        text-align: right;  
+        padding-right: 4px;
+  }
+  
+  .block-align-left {
+        text-align: left;
+        padding-left: 4px;        
+  }
+  
+  .block-align-center {
+        text-align: center;
+  }
+    
+  
+  #empty-box{
+    /*width: 304px;*/
+    height: 390px;
+    border: 1px solid #9AAFCA;
+
+  }
+  
+  
+
+  
+  .aw-link{
+     a {
+        color: white;
+     }
+  }
+
+
+  .caption {
+      color: #666;
+      font-family: "Warnock Pro", "Goudy Old Style","Palatino","Book Antiqua", Georgia, serif;
+      font-style: italic;
+      font-size: 24px;
+      
+      text-align: center;
+      
+      line-height: 1;
+      padding-bottom: 15px;
+            
+      display: block;        
+      float: left;
+      overflow: hidden;
+      width: 100%;            
+
+  }
+  
+    .caption-mini{
+      color: #666;
+      font-family: "Warnock Pro", "Goudy Old Style","Palatino","Book Antiqua", Georgia, serif;
+      font-style: italic;
+      font-size: 24px;
+      
+      text-align: left;
+      margin-left: 10px;           
+  }
+
+
+
+.dynamic-sanction {
+    display: none;
+    /*visibility: invisible;*/
+}
+
+.dynamic-fields {
+    display: none;
+    /*visibility: invisible;*/
+}
+.dynamic-fields-visible {
+    display: block;
+}
+  
+   
+
+
+.player-profile{
+
+    margin: 20px;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: left;
+
+    p {
+        margin-bottom: 10px;        
+        color: #444;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 19px;
+        
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+
+
+
+.form-player-add{
+    /*float: left;*/
+}
+
+.form-player-create{
+    /*float:right;*/
+}
+
+.or-break{
+    font-size: 34px;
+    width: 200px;
+    
+    margin-bottom: 30px;      
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+#team-description, #team-description p{
+    width: 100%;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin-bottom: 5px;
+    
+    font-family: tahoma, arial, verdana, sans-serif, 'Lucida Sans';
+    font-size: 16px;    
+}
+
+
+#team-description label{
+    display: block;
+    text-align: left;
+    width: 150px;
+    float: left;
+  
+    color: #777;
+}
+
+#team-description span {
+    float: left;
+
+    width: 300px;
+    text-align: left;
+ 
+    margin-left: 10px;
+
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, начиная с 1999 года */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */    
+}
+
+.dotted-link {
+
+    color:green;
+    font-size: 15px;
+    margin-left: 10px;
+    
+    a, a:visited, a:hover, a:active {
+       color:green;    
+       text-decoration: none;
+       border-bottom: 1px dashed; 
+       
+    }
+}
+
+#comments {
+    min-height: 200px;
+    padding-bottom: 50px;
+}
+
+
+#tournament-browse {
+    li {
+        
+        display: block;
+        width: 100%;
+        float: left;
+        
+        padding-top: 7px;
+        padding-bottom: 7px;        
+
+        padding-left: 5px;
+        padding-right: 5px;                
+        
+        border-bottom: 1px solid #EBEBEB;
+        
+        a {
+            text-decoration: none;
+            
+            display: block;
+            width: 100%;
+            float: left;
+        }
+    
+        img {
+            
+            float: left;
+        
+        }
+        
+        
+        p {
+            color: #444;
+            font: $font-small;
+            float: left;
+            width: 100%;
+        }
+    
+    }
+    
+    li:hover {
+        background-color: #E9E9E9;
+    }
+}
+
+
+.sw-link {
+
+    color: #0565B2;
+    cursor: pointer;
+    text-decoration: none;    
+
+    a, a:visited {
+        color: #0565B2;
+        cursor: pointer;
+        text-decoration: none;
+       
+    }
+    
+    a:hover, a:active {
+        color: #0565B2;
+        cursor: pointer;
+        text-decoration: underline;
+       
+    }
+}
+
+a, a:visited  {
+    color: #0565B2;
+    cursor: pointer;
+    text-decoration: none;
+}
+  
+a:hover, a:active {
+    text-decoration: underline;
+}  
+  
+  
+#like-box{
+    margin: 20px auto;
+    width: 225px;
+}
+
+.block-balls {
+    @include column(2.5);
+    //min-width: 45px;
+}
+
+.block-2 {
+    @include column(1.9);
+}
+
+.block-2-5 {
+    @include column(2.5);
+}
+
+.block-3 {
+    @include column(3);
+}
+
+.block-4 {
+    @include column(4);
+}
+
+.block-5 {
+    @include column(5);
+}
+
+
+.block-5-5 {
+    @include column(5.5);
+}
+
+
+.block-6 {
+    @include column(6);
+}
+
+
+.block-7 {
+    @include column(7);
+}
+
+
+.block-8 {
+    @include column(8);
+}
+
+.block-10 {
+    @include column(10);
+}
+
+.block-15 {
+    @include column(15);
+}
+
+.block-17 {
+    @include column(17, true);    
+
+    overflow: hidden;
+}
+
+
+.block-2-last {
+    @include column(1.9, true);
+    float: right;   
+}
+
+.block-4-last {
+    @include column(3.9, true);
+    float: right;   
+}
+
+.block-5-last {
+    @include column(5, true);
+    float: right;   
+}
+
+.block-6-last {
+    @include column(6, true);
+    float: right;   
+}
+
+.block-7-last {
+    @include column(7, true);
+    float: right;   
+}
+
+.block-8-last {
+    @include column(8, true);
+    float: right;   
+}
+
+
+.block-9-last {
+    @include column(9, true);
+    float: right;   
+}
+
+
+.block-12-last {
+    @include column(12, true);    
+
+    float: right;    
+}
+
+.block-14-last {
+    @include column(14, true);    
+
+    float: right;   
+}
+
+.block-15-last {
+    @include column(15, true);    
+
+    float: right;   
+}
+
+.block-17-last {
+    @include column(17, true);    
+
+    float: right;
+    overflow: hidden;
+}
+
+
+.shift-left-50 {
+    margin-left: 50px;
+}
+
+  

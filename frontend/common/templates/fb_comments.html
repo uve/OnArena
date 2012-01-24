@@ -1,0 +1,56 @@
+{% load i18n %}
+
+{% if not DEBUG %}
+
+<div id="comments" class="default-block">
+
+
+{% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
+
+<!-- Put this div tag to the place, where the Like block will be -->
+
+<div style="float:left; margin-bottom:4px;"></div>
+<div style="float:left; margin-bottom:4px;">
+    <div id="vk_like"></div>   
+</div>
+<!--
+<script type="text/javascript">
+VK.Widgets.Like("vk_like", {type: "button"});   
+</script>
+-->
+<div style="float:left; margin-bottom:4px;">
+
+  <fb:like href="" show_faces="true" width="450" font=""></fb:like>
+
+</div>
+<div style="clear:both;">
+</div>
+
+
+<div class="caption">{% trans 'Comments' %}</div>  
+
+
+<!-- Put this div tag to the place, where the Comments block will be -->
+<div id="vk_comments"></div>
+<!--
+<script type="text/javascript">
+VK.Widgets.Comments("vk_comments", {limit: 15, width: "600", attach: "*"});
+</script>
+-->
+
+{% else %}
+<div style="float:left; margin-bottom:4px;"></div>
+<div style="float:left; margin-bottom:4px; margin-top: -7px;"><g:plusone></g:plusone></div>
+<!--<div style="float:left; margin-bottom:4px;"><fb:like href="" send="true" width="350" show_faces="true" font=""></fb:like></div>-->
+<div style="clear:both;"></div>
+<!-- Place this tag where you want the +1 button to render -->
+
+<div class="caption">{% trans 'Comments' %}</div>  
+
+<div class="fb-comments" data-href="{{ request.url }}" data-num-posts="15" data-width="600"></div>
+
+
+{% endifequal %}
+
+</div>
+{% endif %}  

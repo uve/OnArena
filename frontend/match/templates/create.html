@@ -1,0 +1,69 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{% trans "Create a New Match" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>
+    <li class="current"><a href="/league/{{ league.id }}">{{ league.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+    <div id="stylized" class="myform">
+      <form id="form" name="form" method="post" action="">
+      <h1>{% trans "Create a New Match" %}</h1>
+      <!--<p>This is the basic look of my form without table</p>-->
+      <p></p>
+      <input type="hidden" name="league_id" value="{{ league.id }}" />
+      <input type="hidden" name="playoffnode_id" value="{{ playoffnode_id }}" />      
+      <input type="hidden" name="group_id" value="{{ group_id }}" />            
+      
+      <input type="hidden" name="match_create" value="" />
+
+      <label>{% trans "Match Date" %}</label>
+      <input type="text" id="datepicker" name="datepicker" value="{{ match.match_date }}" />
+
+      <label>{% trans "Match Time" %}</label>
+      <input type="text" id="timepicker" name="timepicker" value="{{ match.match_time }}" />
+
+
+      <label>{% trans "Home Team" %}*</label>
+      <select name="team1">
+            <option value="" selected>{% trans "Choose Team" %}</option>
+        {% for team in all_teams %}
+            <option value="{{ team.id }}" {% if team.id == playoff_teams.0 %}selected{% endif %}>{{ team.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label>{% trans "Guest Team" %}*</label>
+      <select name="team2">
+            <option value="" selected>{% trans "Choose Team" %}</option>
+        {% for team in all_teams %}
+            <option value="{{ team.id }}" {% if team.id == playoff_teams.1 %}selected{% endif %}>{{ team.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label>{% trans "Match Referee" %}</label>
+      <select name="referee">
+        <option selected="selected" value="">{% trans "Choose Referee" %}</option>
+        {% if all_referees|length %}
+           {% for referee in all_referees %}
+              <option value="{{ referee.id }}">{% if referee.second_name %}{{ referee.second_name }}{% endif %}
+                   {% if referee.name %}{{ referee.name }}{% endif %}</option>
+           {% endfor %}
+        {% endif %}
+      </select>
+
+      <label>{% trans "Place" %}</label>
+      <input type="text" id="place" name="place" value="" />
+
+    <div id="non-stylized">
+      <input class="large orange awesome" type="submit" value='{% trans "Create Match"  %}'/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+
+  </div>
+
+{% endblock %}

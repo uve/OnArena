@@ -1,0 +1,38 @@
+application: cometiphrd
+version: defworker2
+runtime: python27
+api_version: 1
+threadsafe: false
+skip_files: |
+ ^(.*/)?(
+ (#.*#)|
+ (.*~)|
+ (.*\.py[co])|
+ (.*/RCS/.*)|
+ (README)|
+ (CHANGELOG)|
+ (Makefile)|
+ (doc/.*)|
+ (manage.py)|
+ (appengine_django/management/commands/.*)|
+ (.bak)| 
+ (.sass-cache/.*)|
+ (.git/.*)| 
+ )$
+
+builtins:
+- remote_api: off
+- datastore_admin: off
+- appstats: off
+- deferred: off
+
+libraries:
+- name: django
+  version: latest  
+- name: PIL
+  version: latest
+  
+handlers:
+
+- url: /.*
+  script: main.app 

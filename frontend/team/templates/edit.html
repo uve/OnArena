@@ -1,0 +1,67 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{{ team.name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/">{% trans "Tournaments" %}</a></li>
+    <li><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>
+    <li><a href="/team/{{ team.id }}/">{{ team.name }}</a></li>
+    <li id="current"><a href="/team/{{ team.id }}/edit/">{% trans "Edit" %}</a></li>      
+{% endblock %}
+
+{% block content %}
+  <div id="stylized" class="myform">
+    <form id="form" name="form" method="post" action="">{% csrf_token %}
+      <h1>{% trans "Edit team" %}</h1>
+
+      <p></p>
+      <input type="hidden" name="team_id" value="{{ team.id }}" />
+      <input type="hidden" name="team_edit" value="" />
+
+    <p><label for="id_name">{% trans "Team Name" %}:</label> 
+            <input type="text" name="name" value="{% if team.name %}{{ team.name }}{% endif %}" id="id_name"></p>
+            
+    <p><label for="id_manager">{% trans "Manager" %}:</label> 
+            <input type="text" name="manager" id="id_manager" value="{% if team.manager %}{{ team.manager }}{% endif %}"></p>
+            
+    <p><label for="id_coach">{% trans "Coach" %}:</label>
+            <input type="text" name="coach" id="id_coach" value="{% if team.coach %}{{ team.coach }}{% endif %}"></p>
+            
+    <p><label for="id_captain">{% trans "Captain" %}:</label>
+            <input type="text" name="captain" id="id_captain" value="{% if team.captain %}{{ team.captain }}{% endif %}"></p>
+            
+    <p><label for="id_contacts">{% trans "Contacts" %}:</label>
+            <input type="text" name="contacts" id="id_contacts" value="{% if team.contacts %}{{ team.contacts }}{% endif %}"></p>
+            
+    <p><label for="id_about">{% trans "About Team" %}:</label>
+            <textarea id="id_about" rows="10" cols="40" name="about">{% if team.about %}{{ team.about }}{% endif %}</textarea></p>
+            
+    <p><label for="id_sponsor_name">{% trans "Team Sponsor" %}:</label>
+            <input type="text" name="sponsor_name" id="id_sponsor_name" value="{% if team.sponsor_name %}{{ team.sponsor_name }}{% endif %}"></p>
+            
+    <p><label for="id_sponsor_about">{% trans "About Sponsor" %}:</label>
+            <textarea id="id_sponsor_about" rows="10" cols="40" name="sponsor_about">{% if team.sponsor_about %}{{ team.sponsor_about }}{% endif %}</textarea></p>
+            
+    <p><label for="id_sponsor_url">{% trans "Url" %}:</label>
+            <input type="text" name="sponsor_url" id="id_sponsor_url" value="{% if team.sponsor_url %}{{ team.sponsor_url }}{% endif %}"></p>
+            
+    <p><label for="id_sponsor_email">{% trans "Sponsor E-mail" %}:</label>
+            <input type="text" name="sponsor_email" id="id_sponsor_email" value="{% if team.sponsor_email %}{{ team.sponsor_email }}{% endif %}"></p>
+            
+    <p><label for="id_sponsor_address">{% trans "Address" %}:</label>
+            <input type="text" name="sponsor_address" id="id_sponsor_address" value="{% if team.sponsor_address %}{{ team.sponsor_address }}{% endif %}"></p>
+            
+    <p><label for="id_sponsor_contact">{% trans "Sponsor Contacts" %}:</label>
+            <input type="text" name="sponsor_contact" id="id_sponsor_contact" value="{% if team.sponsor_contact %}{{ team.sponsor_contact }}{% endif %}"></p>
+      
+
+    <div id="non-stylized">
+      <input class="large orange awesome" type="submit" value="{% trans 'Save team'  %}"/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+
+  </div>
+
+{% endblock %}

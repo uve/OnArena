@@ -1,0 +1,175 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ tournament.name }} {{ league.name }}{% endblock %}
+{% block caption %}{{ league.name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a href="/league/{{ league.id }}/">{{ league.name }}</a></li>
+    <li><a href="/league/{{ league_id }}/stat/">{% trans "Statistics" %}</a>    
+    
+    {% if request.is_owner %}
+        <li><a target="_blank" href="/league/{{ league_id }}/print/">{% trans "Print" %}</a>     
+    {% endif %}        
+{% endblock %}
+
+{% block edit %}
+    <div class="aw-link">
+        <span class="large red awesome" id="league-edit">{% trans "Edit League" %} &raquo;</span>
+    </div> 
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="stat">
+      <div class="block-1-logo"> 
+        {% ifequal tournament.id '1001' %}
+         <img src="http://commondatastorage.googleapis.com/cometip/tournaments/1001/logo2.jpg" height="189" width="220" /></img>
+        {% else %}
+        {% ifequal tournament.id '1005' %}
+         <img src="http://commondatastorage.googleapis.com/cometip/tournaments/1005/logo2.jpg" height="189" width="220" /></img>
+        {% else %}
+         <img src="http://commondatastorage.googleapis.com/cometip/image/tournament/1002/t1002_logo.jpg"></img>
+        {% endifequal %}
+        {% endifequal %}
+      </div>
+      <div class="block-2-info"> 
+         <ul>
+        {% ifequal tournament.id '1001' %}
+         <li>Начало:</li>    
+         <li class="stat-shift">1 февраля 2011г.</li>
+         <li>2 тайма по 20 минут</li>
+        {% endifequal %}
+
+        {% ifequal tournament.id '1002' %}
+         <li>Начало:</li>    
+         <li class="stat-shift">1 февраля 2011г.</li>
+         <li>2 тайма по 25 минут</li>
+        {% endifequal %}
+
+        {% ifequal tournament.id '1003' %}
+         <li>Начало:</li>    
+         <li class="stat-shift">13 марта 2011г.</li>
+         <li>2 тайма по 25 минут</li>
+        {% endifequal %}
+
+        {% ifequal tournament.id '1004' %}
+         <li>Начало:</li>    
+         <li class="stat-shift">31 мая 2011г.</li>
+         <li>2 тайма по 20 минут</li>
+        {% endifequal %}
+
+
+         <li>{% trans "Points for a win" %}: 3</li>
+         <li>{% trans "Points for a draw" %}: 1</li>
+         <li>{% trans "Points for a loss" %}: 0</li>
+         <li>{% trans "Teams" %}: {{ league.teams }}</li>
+         <li>{% trans "Matches" %}:</li>
+         <li class="stat-shift">{% trans "scheduled" %}: {{ league.games }}</li>
+         <li class="stat-shift">{% trans "played" %}: {{ league.played }}</li> 
+         <li class="stat-shift">{% trans "not played" %}: {{ league.non_played }}</li>
+         <li>{% trans "Goals scored" %}: {{ league.goals }}</li>
+         <li class="stat-shift">{% trans "per game" %}: {{ league.goals_avg }}</li>
+         <li>{% trans "Yellow Cards" %}: {{ league.yellow_cards }}</li>
+         <li>{% trans "Red Cards" %}: {{ league.red_cards }}</li>
+         <ul>
+      </div>
+      <div class="block-3-stat"> 
+
+          <div class="caption">{% trans "TOP-10 Strikers" %}</div>
+
+          <div class="block-table">
+            <table>
+              <colgroup>
+                <col width="20%">
+                <col width="40%">
+                <col width="40%">
+                </colgroup>
+              <thead> 
+                <tr>
+                <th><div class="match-overview-icons"  title="{% trans 'Goals' %}">
+                          <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" height="28"></div></th>
+                <th><div title="{% trans 'Player' %}"></div>{% trans "Player" %}</th>
+                <th><div title="{% trans 'Team' %}"></div>{% trans "Team" %}</th>
+                </tr>
+             </thead>
+             <tbody>
+             {% if all_goals|length %}
+                {% for player in all_goals %}
+                    <tr>
+                        <td><b>{{ player.score }}</b></td>
+                        <td><a class="sw-link" href="/player/{{ player.player_id.id }}/?team_id={{ player.team_id.id }}">{{ player.player_id.full_name }}</a>
+                        </td>
+                        <td><a class="sw-link" href="/team/{{ player.team_id.id }}/">{{ player.team_id.name }}</a>
+                          </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+              </tbody>
+         </table>
+        </div>
+      <div class="aw-link">
+          <a class="large orange awesome" href="/league/{{ league_id }}/stat/">{% trans "Full Statistics" %} &raquo;</a>
+      </div>
+
+      </div>
+ </div>
+
+  {% if request.is_owner %}
+   
+      
+       <div class="aw-link default-block">
+        <span class="large orange awesome" style="margin-left: 30px;" id="playoff-create">{% trans "Create Playoff" %} &raquo;</span>
+       </div> 
+
+  
+  
+<!--   href="/league/{{ league_id }}/playoff/create/"-->
+
+  {% endif %}
+
+
+<div id="playoff-browse"  class="default-block"></div>
+<div id="group-browse"  class="default-block"></div>
+
+<div class="default-block">
+{% include 'match/templates/browse.html' %}
+</div>
+
+{% include 'common/templates/fb_comments.html' %}
+
+<div id="dialog-playoff-form" title="{% trans 'Create Playoff' %}" class="dynamic-fields">
+    <div id="stylized">
+	    <p class="validateTips">{% trans 'All form fields are required' %}</p>
+
+	    <form>
+
+		    <p>
+		        <label for="playoff-name">{% trans 'Playoff Name' %}</label>
+		        <input type="text" name="playoff-name" id="playoff-name" class="text ui-widget-content ui-corner-all" required/>
+		    </p>
+		    <p>
+		        <label for="playoff-teams">{% trans 'Number of Teams' %}</label>
+		        <select name="playoff-teams" id="playoff-teams" class="text ui-widget-content ui-corner-all" required>
+            		<option value="" select></option>		
+
+            		<option value="2"  >2</option>
+            		<option value="4"  >4</option>
+            		<option value="8"  >8</option>
+            		<option value="16" >16</option>    		    		    		
+            		<option value="32" >32</option>    		    		    		    		
+		        </select>		    
+		    </p>
+            <p>		    
+                <label>{% trans "Match for third place" %}</label>            
+                <input type="checkbox" name="third-place" id="id-third-place" value="">
+            </p>
+
+	    </form>
+    </div>
+</div>
+
+{% endblock %}
