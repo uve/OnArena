@@ -103,6 +103,11 @@ class UserLocation(object):
 class UserAccess(object):
     def process_view(self, request, view_func, args, kw):
 
+        url = request.META["PATH_INFO"]
+        
+        if url == u'/service/deferred/':
+            return None
+            
         user.current_user(request)
         
         request.is_global_admin = users.is_current_user_admin()
@@ -110,7 +115,7 @@ class UserAccess(object):
         request.country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY',"") or "ru"        
         #logging.info("country_code: %s",request.country_code)
         
-        url = request.META["PATH_INFO"]
+
         request.url = "http://www.onarena.com" + url
         request.local_url = url
         

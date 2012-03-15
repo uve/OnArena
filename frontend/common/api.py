@@ -3871,9 +3871,11 @@ def statistics(league_id=None, limit = 10,
                 
     results = []
     mas = []
-    last_score = -1
+    last_score = None
 
-    s = len(all_stat)# - 1 
+    s = len(all_stat) - 1 
+    
+    logging.info("Total strikers: %s", s)
 
     for i,item in enumerate(all_stat):
         
@@ -3893,9 +3895,9 @@ def statistics(league_id=None, limit = 10,
                      item.player_id, item.team_id, league, red_card).count()
 
                                                                 
-            if item.score != last_score or i == s:
+            if item.score != last_score or i >= s:
                 
-                if i == s:
+                if i >= s:
                     if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
                         mas.append(item)
 
@@ -3908,9 +3910,13 @@ def statistics(league_id=None, limit = 10,
 
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
                 mas.append(item)
+                logging.info("Append: %s", item.score)
 
         except:
             continue
+                
+
+    logging.info("Result lenght: %s", len(results))                
                 
     include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "player_id"]
         
@@ -4452,6 +4458,45 @@ def get_class( kls ):
     
 def test(league_id = "1004", limit = 1000):
 
+
+    league_id = "1108"
+
+    league = models.League.get_item(league_id)       
+    
+    nodes = models.PlayoffNode.gql("WHERE league_id = :1", league).fetch(limit)
+    try:
+        for node in nodes:
+            logging.info(": %s", node.created)
+    
+    except:
+        pass
+    
+    res = models.PlayoffCompetitor.gql("WHERE league_id = :1", league).fetch(limit)
+    
+    logging.info("competitors: %s", len(res))
+    
+    
+    playoff = models.Playoff.gql("WHERE league_id = :1", league).fetch(limit)   
+
+
+    db.delete(res)
+    db.delete(nodes)
+    db.delete(playoff)
+
+        
+    playoff_browse(league_id = league_id, is_reload = True)   
+    
+    return True    
+
+    match_get(match_id = "5161", is_reload = True)
+
+    match = match_get(match_id = "5161")
+    
+    logging.info(match["teams"][0]["name"])
+    logging.info(match["teams"][1]["name"])    
+
+    return True
+    
     for item in ["1090","1091","1092","1093","1094","1095","1096","1097","1098","1099","1100","1101","1102","1103"]:
         match_browse(tournament_id = "1001", league_id = item, is_reload = True)     
 

@@ -115,6 +115,10 @@ def match_item(request, match_id = None, format='html'):
 
     if request.method == "POST" and request.is_owner:        
 
+        for i,v in request.POST.items():
+            logging.info("i: %s", i)    
+            logging.info("v: %s", v) 
+
         s = request._raw_post_data
         taskqueue.add(url='/match/complete/', method = 'POST', params={ 'post_data': s })        
         return http.HttpResponseRedirect("/league/" + str(league_id) + "/")

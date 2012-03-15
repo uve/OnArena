@@ -22,9 +22,12 @@ skip_files: |
 
 builtins:
 - remote_api: off
-- datastore_admin: off
 - appstats: off
 - deferred: off
+- django_wsgi: on
+
+inbound_services:
+- warmup
 
 libraries:
 - name: django
