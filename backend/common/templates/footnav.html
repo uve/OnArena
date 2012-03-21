@@ -1,0 +1,16 @@
+{% load i18n %}
+{% ifnotequal area 'welcome' %}
+  <div id="footer">
+    &#169; {{component.best.legal.copyright}}
+    <a href="/about">{% trans "About" %}</a> |
+    <a href="/help">FAQ</a> |
+    <a href="/channel/{{SUPPORT_CHANNEL}}">{% trans "Support" %}</a> |
+    <a href="/privacy">{% trans "Privacy" %}</a> |
+    <a href="/terms">{{component.best.legal.terms_title}}</a>
+    | <a href="/api">API</a>
+    {% if BLOG_ENABLED %}
+    | <a href="{{BLOG_URL}}">{% trans "Blog" %}</a>
+    {% endif %}
+  </div>
+{% endifnotequal %}
+

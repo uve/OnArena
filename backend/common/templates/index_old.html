@@ -1,0 +1,107 @@
+{% extends 'common/templates/base.html' %}
+{% load i18n %}
+{% block containertag %}class="wide"{% endblock %}
+
+
+{% block bodytag %}{% endblock %}
+{% block pageblock %}style="width: 980px;"{% endblock %}
+
+
+{% block container %}
+
+<div id="container">
+    <header role="banner">
+        {% include 'common/templates/base_header.html' %}    
+    </header>   
+      
+    <div id="content-map" role="main">    
+
+        <div class="default-block"> 
+            <div id="caption">
+                <h1>{% trans "Find A Tournament Near You" %}</h1>   
+            </div>            
+            <div id="searchContainer">
+
+                    <input id="search_address" type="text" placeholder="{% trans 'type your address' %}" autofocus="autofocus">
+                    <input id="search_submit"  type="submit" value="Search">                     
+
+             
+            </div>
+            <div class="map-canvas-main" id="map_canvas"></div>
+        </div>
+        
+        <div id="tournament-list" class="default-block">
+              <h1>{% trans "Tournaments near You" %}:</h1>
+                  {% if all_tournaments|length %}
+                    <ul>
+                    {% for tournament in all_tournaments %}           
+                             <li>
+                                 <a href="/tournament/{{ tournament.id }}/">
+                    
+                                    <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="40"></img>
+              
+                                    <div class="tournament-description">                     
+                                         <h1>{{ tournament.name }}</h1>
+                                         <h3>Россия, Новосибирск, {% if tournament.address %}{{  tournament.address  }}{% endif %}</h3>
+                                    </div>        
+                                 </a>
+                             </li>
+                     {% endfor %}
+                     </ul>
+                  {% endif %}
+          </div>
+        
+    </div>
+        
+    <div id="content-signup">  
+        <div id="signupForm" class="signupForm rfloat">
+         <form id="form" name="form" method="post" action="/create/step1/">{% csrf_token %}
+            <p>
+                <h1>{% trans "Create a New Tournament" %}</h1>  
+                <h3>{% trans "It's simple and absolutely free" %}</h3>                  
+            </p>
+            <p></p>
+            <input type="hidden" name="tournament_create" value="" />              
+            <p>
+                <label for="sport_id">{% trans "Sport" %}:*</label>
+                <select name="sport" id="sport_id">
+                    <option value="">{% trans "Choose Sport" %}</option>                        
+                    <option value="1001">{% trans "Soccer" %}</option>        
+                    <option value="1002">{% trans "Basketball" %}</option>                            
+                    <option value="1003">{% trans "Volleyball" %}</option>                            
+                    <option value="1004">{% trans "Hockey" %}</option>
+                </select>
+            </p>  
+        
+
+            <p>
+                <label for="id_name">{% trans "Tournament Name" %}</label>
+                <input type="text" name="name" id="id_name">
+            </p>         
+            
+            <p>
+                <label for="id_info">{% trans "Address" %}</label>
+                <input type="text" name="info" id="id_info">
+            </p>              
+                  
+           <p></p>
+             
+           <div id="non-stylized-signup">
+                <input class="large orange awesome left-100" type="submit" 
+                            value="{% trans 'Create Tournament'  %}">
+           </div>
+           <div class="spacer"></div>
+  
+        </div>
+        
+         <div class="index-like-box default-block"> 
+             {% include 'common/templates/block_like_box.html' %}   
+        </div>
+               
+    </div>     
+    
+    {% include 'common/templates/base_footer.html' %}
+</div>
+
+{% endblock %}
+

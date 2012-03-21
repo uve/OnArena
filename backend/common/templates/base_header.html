@@ -1,0 +1,39 @@
+{% load i18n %}
+
+
+<div id="header-top">
+  <div id="nav-login">
+     <ul class="panel-nav-top"> 
+      <div class="soc-networks" id="sn">
+      <div class="provider" id="language-caption"><span>{% trans "Language" %}:</span></div>
+      <div class="provider" id="language"> {% include 'common/templates/block_languages.html' %}</div>
+      {% block login %}
+
+     
+           {% if request.user %}
+                
+              {% if request.user.profile_url %}
+                  <div class="provider" id="profile-picture"><a href="{{ request.user.profile_url }}"><img src="http://graph.facebook.com/{{ request.user.id }}/picture"/></a></div> 
+             {% endif %}
+       
+                  <div class="provider" id="name"><span>{{ request.user.name|escape }}</span></div>
+                  <div class="provider" id="logout-button"><a href="/logout/?redirect_to={{ request.local_url }}">{% trans "Log out" %}</a></div>
+           {% else %}
+
+
+
+        <div class="provider" id="login-button"><span>{% trans "Login" %}</span></div>
+      </div>
+           {% endif %}
+       
+     {% endblock %}
+      
+       
+      </ul> 
+   </div>
+
+
+
+</div>
+
+

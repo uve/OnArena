@@ -1,1 +1,78 @@
-/home/uve/workspace/onarena/frontend/queue.yaml
+queue:
+- name: default
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1  
+  
+- name: deferred
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1  
+  
+- name: players
+  rate: 20/s
+  bucket_size: 100  
+  retry_parameters:
+    task_retry_limit: 1
+  
+- name: images
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1   
+    
+- name: default1
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1
+    
+- name: default2
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1
+    
+- name: default3
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1
+
+- name: default4
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1
+
+- name: default5
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1                    
+
+- name: default6
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1    
+    
+- name: default7
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1    
+    
+- name: default8
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1    
+    
+- name: default9
+  rate: 20/s
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 1    

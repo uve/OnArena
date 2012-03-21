@@ -1,1 +1,5 @@
-/home/uve/workspace/onarena/frontend/backends.yaml
+backends:
+- name: defworker
+  class: B2
+  instances: 1
+  options: dynamic
