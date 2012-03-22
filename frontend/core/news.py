@@ -6,10 +6,13 @@ from common import util
 
 from core import Base 
 
+t = 2
 
-class News(Base): 
+class News2(Base): 
 
-    def get(self, request):        
+
+
+    def get(self):        
                                                                    
         #logging.info("News GET %s", self.item_id)    
         

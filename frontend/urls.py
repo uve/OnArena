@@ -195,11 +195,8 @@ urlpatterns += patterns('match.views',
 )
 
 
-import core
-
-urlpatterns += patterns('',
-                        
-    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'core.news.News.get()'),
+urlpatterns += patterns('core.news',                        
+    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'News2'),
 )
 
 
