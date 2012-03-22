@@ -196,7 +196,7 @@ urlpatterns += patterns('match.views',
 
 
 urlpatterns += patterns('core.news',                        
-    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'News2'),
+    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'News2.as_view()'),
 )
 
 
