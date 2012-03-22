@@ -1,31 +1,29 @@
-
-from django import http
-from django.http import Http404
 import logging
 
+from django.http import Http404
 from common import models
+from common import util
 
 from core import Base 
 
 
-class Team(Base):
-  
+class News(Base): 
 
-    def get(self):        
-                    
-        logging.info("GET request: %s", self.item_id)    
+    def get(self, request):        
+                                                                   
+        #logging.info("News GET %s", self.item_id)    
         
-        key_name = "team_get_team_id_" + self.item_id
-        content = models.StaticContent.get_by_key_name(key_name)
+    
         
-        if not content:       
+        return util.HttpJsonResponse('test', request)           
+        
+        key_name = "news_get_news_id_" + self.item_id
+        result = models.StaticContent.get_by_key_name(key_name)
+        
+        if not result:       
             raise Http404
-        
-        #logging.info("content: %s",content.content)            
- 
-        response = http.HttpResponse(content.content)
-        response['Content-type']  = "application/json; charset=utf-8"
-        return response                    
+                         
+        return util.HttpJsonResponse(result.content, request)   
                 
              
     def create(self, request):        

@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-
-
 import datetime
 
 
@@ -88,7 +86,7 @@ TIME_FORMAT = "%H:%M"
 DATETIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
 
-import core.dateutil.parser
+import common.dateutil.parser
 
 
 

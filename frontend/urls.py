@@ -194,13 +194,22 @@ urlpatterns += patterns('match.views',
     (r'^match/(?P<nick>\w+)/settings/$', 'match_settings'),
 )
 
+
+import core
+
+urlpatterns += patterns('',
+                        
+    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'core.news.News.get()'),
+)
+
+
 # News
 urlpatterns += patterns('news.views',
     (r'^news/(?P<news_id>[\da-f]+)/edit/$', 'news_edit'), 
     (r'^news/(?P<news_id>[\da-f]+)/remove/$', 'news_remove'),    
     (r'^news/(?P<news_id>[\da-f]+)/$', 'news_item'),
     
-    (r'^app/news/(?P<news_id>[\da-f]+)/$', 'app_news_item'),
+    #(r'^app/news/(?P<news_id>[\da-f]+)/$', 'app_news_item'),
     (r'^app/news/$', 'app_news_item'),
         
     (r'^tournament/(?P<tournament_id>[\da-f]+)/news/create/$', 'news_create'),

@@ -16,6 +16,7 @@ from django import http
 from django import template
 from django.conf import settings
 from django.template import loader
+from django.http import Http404
 
 from common import api
 from common import decorator
@@ -27,6 +28,8 @@ from common import models
 import logging
 import json
 
+
+from core.news import News 
 
 MATCH_HISTORY_PER_PAGE = 20
 PLAYERS_PER_INDEX_PAGE = 12
@@ -81,6 +84,8 @@ def news_edit(request, news_id = None,  format='html'):
 def app_news_item(request, news_id = None, format='html'):
     
     
+    return News(request, news_id)
+    
     if request.method == "GET":
         logging.info("READ - GET")     
         
@@ -89,7 +94,10 @@ def app_news_item(request, news_id = None, format='html'):
         key_name = "news_get_news_id_" + news_id 
         
         result = models.StaticContent.get_by_key_name(key_name) 
+        if not result:       
+            raise Http404
         
+                
         return util.HttpJsonResponse(result.content, request)
     
     if request.method == "POST":

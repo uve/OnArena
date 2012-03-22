@@ -1,0 +1,43 @@
+[INFO     2012-03-21 16:16:29,016 bulkloader.py] Logging to bulkloader-log-20120321.161629
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] Throttling transfers:
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] Bandwidth: 250000 bytes/second
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] HTTP connections: 8/second
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] Entities inserted/fetched/modified: 20/second
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] Batch Size: 10
+[INFO     2012-03-21 16:16:29,017 bulkloader.py] Opening database: bulkloader-progress-20120321.161629.sql3
+[INFO     2012-03-21 16:16:29,442 bulkloader.py] Opening database: bulkloader-results-20120321.161629.sql3
+[DEBUG    2012-03-21 16:16:29,802 adaptive_thread_pool.py] [WorkerThread-0] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,802 adaptive_thread_pool.py] [WorkerThread-1] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,802 adaptive_thread_pool.py] [WorkerThread-2] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,803 adaptive_thread_pool.py] [WorkerThread-3] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,803 adaptive_thread_pool.py] [WorkerThread-4] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,804 adaptive_thread_pool.py] [WorkerThread-5] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,804 adaptive_thread_pool.py] [WorkerThread-6] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,804 adaptive_thread_pool.py] [WorkerThread-7] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,805 adaptive_thread_pool.py] [WorkerThread-8] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,805 adaptive_thread_pool.py] [WorkerThread-9] WorkerThread: started
+[DEBUG    2012-03-21 16:16:29,806 bulkloader.py] Configuring remote_api. url_path = /_ah/remote_api, servername = cometiphrd.appspot.com
+[DEBUG    2012-03-21 16:16:29,807 bulkloader.py] Bulkloader using app_id: s~cometiphrd
+[INFO     2012-03-21 16:16:29,808 bulkloader.py] Connecting to cometiphrd.appspot.com/_ah/remote_api
+[ERROR    2012-03-21 16:16:30,499 bulkloader.py] Exception during authentication
+Traceback (most recent call last):
+  File "/opt/google_appengine/google/appengine/tools/bulkloader.py", line 3433, in Run
+    self.request_manager.Authenticate()
+  File "/opt/google_appengine/google/appengine/tools/bulkloader.py", line 1319, in Authenticate
+    remote_api_stub.MaybeInvokeAuthentication()
+  File "/opt/google_appengine/google/appengine/ext/remote_api/remote_api_stub.py", line 676, in MaybeInvokeAuthentication
+    datastore_stub._server.Send(datastore_stub._path, payload=None)
+  File "/opt/google_appengine/google/appengine/tools/appengine_rpc.py", line 366, in Send
+    f = self.opener.open(req)
+  File "/usr/lib/python2.7/urllib2.py", line 397, in open
+    response = meth(req, response)
+  File "/usr/lib/python2.7/urllib2.py", line 510, in http_response
+    'http', request, response, code, msg, hdrs)
+  File "/usr/lib/python2.7/urllib2.py", line 435, in error
+    return self._call_chain(*args)
+  File "/usr/lib/python2.7/urllib2.py", line 369, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python2.7/urllib2.py", line 518, in http_error_default
+    raise HTTPError(req.get_full_url(), code, msg, hdrs, fp)
+HTTPError: HTTP Error 404: Not Found
+[INFO     2012-03-21 16:16:30,501 bulkloader.py] Authentication Failed

@@ -1,8 +1,0 @@
-{% load verbatim_templatetag %}
-{% verbatim %}
-
-<script id="template-player-browse" type="text/x-jquery-tmpl">
-          <option value="${ id }">${ full_name } {{ each teams }}{{if $index == 0 }}({{/if}}${ name } {{if $index < teams.length-1}},{{else}}){{/if}}{{ /each }}</option>
-</script>
-
-{% endverbatim %}

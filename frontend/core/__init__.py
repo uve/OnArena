@@ -40,8 +40,38 @@ class Base(db.Model):
 
 class Base():
 
-    def __init__(self, item_id): 
-    
+    def __init__(self, request = None, item_id = None): 
         if item_id:
             self.item_id = item_id
-            logging.info("INIT item_id: %s", item_id)
+            
+        return None
+
+
+            
+    def json(self, request = None, item_id = None): 
+            
+        if request.method == "GET":
+            logging.info("READ - GET")   
+                                
+            if item_id:            
+                return self.get(request)
+            else:
+                raise Http404
+                
+        
+        if request.method == "POST":
+            logging.info("CREATE - POST")                 
+            return self.get()
+        
+        if request.method == "PUT":
+            logging.info("UPDATE - PUT")                
+            return self.get()
+        
+        if request.method == "DELETE":
+            logging.info("DELETE - DELETE")                
+            return self.get()                                    
+
+        raise Http404
+    #def __setitem__(self, key, value):
+    #    logging.info('Setting %r to %r' % (key, value))
+    #    return super().__setitem__(key, value) 

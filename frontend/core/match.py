@@ -16,7 +16,7 @@ class Match(Base):
                     
         return http.HttpResponse(status = 200)      
              
-             
+                     
     def create(self, request):        
 
     
@@ -33,7 +33,7 @@ class Match(Base):
         match_time = request.REQUEST.get("timepicker", '')
         referee_id = request.REQUEST.get("referee", '')
         
-        place        = request.REQUEST.get("place", '')
+        place      = request.REQUEST.get("place", '')
     
         match_date = match_date.replace("-",".")    
     
@@ -46,9 +46,7 @@ class Match(Base):
         logging.info("POST request")                          
                     
         return http.HttpResponse(status = 200)                   
-                
-                
-               
+                                              
         
     def update(self, request):        
 
