@@ -120,7 +120,7 @@ MIDDLEWARE_CLASSES = (
     #'middleware.strip_whitespace.WhitespaceMiddleware',
     #'middleware.profile.ProfileMiddleware',
     #'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',    
     #'common.middleware.UserLocation',    
     #'common.middleware.UserAccess',   
@@ -147,7 +147,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
     'django.core.context_processors.csrf',
 
-    'django.core.context_processors.debug',
+    #'django.core.context_processors.debug',
     'django.core.context_processors.request',
     'common.context_processors.settings',
     
@@ -159,7 +159,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
 
-    'django.core.context_processors.i18n',
+    #'django.core.context_processors.i18n',
 
 )
 
