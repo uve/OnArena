@@ -194,10 +194,14 @@ urlpatterns += patterns('match.views',
     (r'^match/(?P<nick>\w+)/settings/$', 'match_settings'),
 )
 
+from core.news import SomeView
+
 
 urlpatterns += patterns('core.news',                        
-    (r'^app/news/(?P<item_id>[\da-f]+)/$', 'News2.as_view()'),
+    (r'^app/news/(?P<pk>[\da-f]+)/$', SomeView.as_view()),
 )
+
+
 
 
 # News

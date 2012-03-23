@@ -2,7 +2,7 @@ from django import http
 from django.http import Http404
 import logging
 
-from django.views.generic import View
+from django.views.generic.base import View
 
 class Base(View):
 
