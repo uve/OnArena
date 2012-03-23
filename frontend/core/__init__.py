@@ -1,31 +1,33 @@
+import logging
 from django import http
 from django.http import Http404
-import logging
 
 from django.views.generic.base import View
 
+from common import models
+
 class Base(View):
 
-    status_code = 200
+    def get(self, request, pk):                     # READ
+        
+        if not pk:
+            raise Http404
 
-    template_name = 'manager/obj_add.html'
+        logging.info("GET request: %s", pk)    
+        
+        key_name = "team_get_team_id_" + pk
+        content = models.StaticContent.get_by_key_name(key_name)
+        
+        if not content:       
+            raise Http404
+        
+        #logging.info("content: %s",content.content)            
+        
+        response = http.HttpResponse(content.content)
+        response['Content-type']  = "application/json; charset=utf-8"
+        return response         
     
-    def __init__(self, request, item_id): 
-
-        self.request = request
-        logging.info('starting Base:')        
-            
-        #return http.HttpResponse(status = 200)        
-
-    def dispatch(request, *args, **kwargs):
-        logging.info('starting Base:')      
-        #return http.HttpResponse(status = 200)                
-    #def __setitem__(self, key, value):
-    #    logging.info('Setting %r to %r' % (key, value))
-    #    return super().__setitem__(key, value) 
     
-    
-
 '''
 class Base(db.Model):
 

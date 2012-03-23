@@ -172,12 +172,6 @@ urlpatterns += patterns('match.views2',
 )
 
 
-# MATCH
-urlpatterns += patterns('team.views2',
-    (r'^api/team/(?P<item_id>[\da-f]+)/$', 'team'),   
-)
-
-
 
 # MATCH
 urlpatterns += patterns('match.views', 
@@ -194,14 +188,16 @@ urlpatterns += patterns('match.views',
     (r'^match/(?P<nick>\w+)/settings/$', 'match_settings'),
 )
 
-from core.news import SomeView
-
+from core.news import News
+from core.team import Team
 
 urlpatterns += patterns('core.news',                        
-    (r'^app/news/(?P<pk>[\da-f]+)/$', SomeView.as_view()),
+    (r'^api/news/(?P<pk>[\da-f]+)/$', News.as_view()),
 )
 
-
+urlpatterns += patterns('core.team',                        
+    (r'^api/team/(?P<pk>[\da-f]+)/$', Team.as_view()),
+)
 
 
 # News
@@ -210,8 +206,6 @@ urlpatterns += patterns('news.views',
     (r'^news/(?P<news_id>[\da-f]+)/remove/$', 'news_remove'),    
     (r'^news/(?P<news_id>[\da-f]+)/$', 'news_item'),
     
-    #(r'^app/news/(?P<news_id>[\da-f]+)/$', 'app_news_item'),
-    (r'^app/news/$', 'app_news_item'),
         
     (r'^tournament/(?P<tournament_id>[\da-f]+)/news/create/$', 'news_create'),
 )
