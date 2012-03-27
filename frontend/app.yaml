@@ -57,6 +57,10 @@ handlers:
 - url: /static
   static_dir: static
   secure: optional
+  
+- url: /templates
+  static_dir: templates
+  secure: optional  
 
 - url: /favicon.ico
   static_files: static/favicon.ico

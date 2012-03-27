@@ -23,6 +23,57 @@ from settings import *
 urlpatterns = patterns('',
 )
 
+from views.index import Index
+
+from views.news import News
+from views.team import Team
+
+
+urlpatterns += patterns('views',              
+          
+
+    (r'^$', Index.as_view()),
+              
+    (r'^api/news/(?P<pk>[\da-f]+)/$', News.as_view()),
+    (r'^api/team/(?P<pk>[\da-f]+)/$', Team.as_view()),    
+
+    
+    #To-do:
+    
+    #(r'^api/tournament/(?P<pk>[\da-f]+)/$', Tournament.as_view()),
+    #(r'^api/season/(?P<pk>[\da-f]+)/$',  Season.as_view()),  
+       
+    #(r'^api/league/(?P<pk>[\da-f]+)/$',  League.as_view()),
+    #(r'^api/league/(?P<pk>[\da-f]+)/stat/$', League.as_view(stat=True)),
+    #(r'^api/league/(?P<pk>[\da-f]+)/print/$', League.as_view(print=True)),
+       
+    #(r'^api/match/(?P<pk>[\da-f]+)/$',   Match.as_view()),   
+    #(r'^api/player/(?P<pk>[\da-f]+)/$',  Player.as_view()),   
+    #(r'^api/referee/(?P<pk>[\da-f]+)/$', Referee.as_view()),        
+    
+    # (r'^api/image/(?P<pk>[\%\-\a-zA-Z0-9]+)$', 'Image'.as_view()),              
+)
+
+
+urlpatterns += patterns('common.user',                                                  
+    (r'^login/$', 'login'),    
+    (r'^logout/$', 'logout'),
+)
+
+
+    
+    
+###################################################3    
+    
+handler404 = 'common.views.common_404'
+handler500 = 'common.views.common_500'
+
+
+
+
+######## OLD #################
+
+'''
 
 urlpatterns += patterns('',
     (r'^i18n/', include('django.conf.urls.i18n'))
@@ -188,16 +239,6 @@ urlpatterns += patterns('match.views',
     (r'^match/(?P<nick>\w+)/settings/$', 'match_settings'),
 )
 
-from core.news import News
-from core.team import Team
-
-urlpatterns += patterns('core.news',                        
-    (r'^api/news/(?P<pk>[\da-f]+)/$', News.as_view()),
-)
-
-urlpatterns += patterns('core.team',                        
-    (r'^api/team/(?P<pk>[\da-f]+)/$', Team.as_view()),
-)
 
 
 # News
@@ -262,20 +303,7 @@ urlpatterns += patterns('referee.views',
 
 # register auth urls depending on whether we use google or hybrid auth
 
-
-urlpatterns += patterns('common.user',                                                  
-    (r'^login/$', 'login'),    
-    (r'^logout/$', 'logout'),
-)
-
-
-    
-    
-###################################################3    
-    
-handler404 = 'common.views.common_404'
-handler500 = 'common.views.common_500'
-
+'''
 
 
 
