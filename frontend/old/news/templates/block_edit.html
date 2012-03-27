@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+{% verbatim %}
+<script id="template-news-edit" type="text/x-jquery-tmpl">
+      {{ if tournament_id }}   
+         <div id="caption">
+            <div id="edit" class="aw-link">
+            </div>
+            <h1>${ tournament_id.name } - ${ name }</h1>                     
+            <nav> 
+               <ul id="path">
+         
+                <li><a href="#!/tournament${ tournament_id.id }/">${ tournament_id.name }</a></li>/
+             <li id="current"><a href="#!/news/">News</a></li>                
+             <li id="current"><a href="#!/news/${ id }/edit/">Edit News</a></li>
+    
+               </ul>
+            </nav>
+         </div>  
+         {{ /if }}
+
+<div id="stylized-news">
+    <form id="form" name="form" method="" onSubmit="return false;">
+      <input type="hidden" name="news_id" value="${ id }" />
+      <input type="hidden" name="news_edit" value="true" />
+    
+      <div class="news-row">
+          <label>Title</label>
+          <input type="text" id="name" name="name" value="${ name }" />
+      </div>
+      <div class="news-row"><label>News</label></div>      
+      
+    
+		<div class="news-row">
+        <textarea id="content" name="content" rows="15" cols="80" class="tinymce">${ content }</textarea>
+		</div>
+            
+
+    <div id="non-stylized">
+      <span class="large green awesome shift-left-50" id="news-save">Save</span>
+      <span class="large red awesome shift-left-50" id="news-delete">Delete</span>
+    </div>
+
+  </form>
+ 
+  </div>
+  
+
+</script>
+{% endverbatim %}

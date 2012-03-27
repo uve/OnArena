@@ -1,0 +1,128 @@
+{% extends "common/templates/base_wide.html" %}
+{% load i18n %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a href="/player/{{ player.id }}/">{{ player.full_name }}</a></li>
+    {% if request.is_owner %}
+        <li><a href="/player/{{ player.id }}/edit/">{% trans "Edit" %}</a></li>     
+    {% endif %}    
+{% endblock %}
+
+{% block title %}{{ player.full_name }}{% endblock %}
+
+{% block edit %}
+       <a class="large red awesome" href="/player/{{ player.id }}/edit/">{% trans "Edit Player" %} &raquo;</a> 
+{% endblock %}
+
+{% block content %}
+
+  <div class="block-7">
+
+    <div class="team-photo-small"> 
+        <a id="single_image" href="{{ player.photo_original }}"><img id="single_image_small" src="{{ player.photo_small }}" alt=""/></a>
+    </div>
+        
+    {% with "player" as value %}
+      {% with player.id as value_id %}      
+           {% include 'common/templates/block_photo_upload.html'%}           
+      {% endwith %}
+    {% endwith %}
+
+       
+
+    <div class="player-profile">
+      <p><b>{% trans "Full Name" %}:</b>  {{ player.full_name }} {% if player.third_name %}{{ player.third_name }}{% endif %}</p>
+      <p><b>{% trans "Birth Date" %}:</b> {% if player.datetime %}{{ player.datetime|date:"d.m.Y" }}{% endif %}</p>
+      <p><b>{% trans "Position" %}:</b> {% if player.position_id %}{{ player.position }}{% endif %}</p>      
+      <p><b>{% trans "Height" %}:</b> {% if player.height %}{{ player.height }}{% endif %}</p>
+      <p><b>{% trans "Weight" %}:</b> {% if player.weight %}{{ player.weight }}{% endif %}</p>
+  
+
+      {% if request.is_owner %}
+        
+   
+ 
+    
+         <form id="form" name="form" method="post" action="/player/{{ player.id }}/remove/">
+           <input type="hidden" name="player_id" value="{{ player.id }}" />
+           <input type="hidden" name="team_id" value="{{ team.id }}" />
+           <input type="hidden" name="player_remove" value="" />
+           <div id="non-stylized events-left">
+             <input class="large red awesome" type="submit" value='{% trans "Remove Player"  %}'/>
+           </div>
+
+        </form>
+      {% endif %}
+
+    </div>
+</div>
+
+<div class="block-12-last">
+  
+  <div class="caption">{% trans "Player Stastistics" %}</div>
+    <div class="block-table">
+      <table>
+       <colgroup>      
+            <col width="60%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">                         
+       </colgroup>        
+      <thead>
+        <tr>
+              <th id="first">{% trans "Seasons" %}</th>
+              <th>{% trans "Matches" %}</th>
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="28"/></div></th>
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="28"/></div></th>       
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" height="28"/></div></th>
+        </tr>
+      </thead>
+       <tbody>
+
+            {% for item in player_stat.all_player_teams %}
+            <tr>
+                <td><div><a href="/team/{{ item.team_id.id }}/">{{ item.team_id.name }}</a></div></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+              {% for season in item.all_team_seasons %}
+               <tr>
+                    <td><div class="shift-left"><a href="/league/{{ season.league_id.id }}/">{{ season.league_id.name }}</div></td>
+                    <td><div class="show-goals">
+                      <!--
+                        {% if season.playermatches %}{{ season.playermatches }}{% endif %}
+                      -->           
+                      </div> 
+                    </td>
+                    <td><div class="show-goals">{% if season.yellow_cards %}{{ season.yellow_cards }}{% endif %}</div></td>
+                    <td><div class="show-goals">{% if season.red_cards %}{{ season.red_cards }}{% endif %}</div></td>
+                    <td><div class="show-goals">{% if season.goals %}{{ season.goals }}{% endif %}</div></td>
+                </tr>
+               {% endfor %}
+
+            {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include 'common/templates/fb_comments.html' %}
+
+<div id="dialog-confirm" title="{% trans 'Remove Player' %}" class="dynamic-fields">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><div class="inner"></div> {% trans "Player and all scores will be permanently deleted and cannot be recovered. Are you sure?" %}</p>
+</div>
+
+<div id="dialog-message" title="{% trans 'Remove Player' %}" class="dynamic-fields">
+	<p>
+		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+		<div class="inner"></div> {% trans "Player have removed successfully." %}
+	</p>
+</div>
+{% endblock %}

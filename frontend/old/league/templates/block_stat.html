@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+
+{% verbatim %}
+<script id="template-group-browse" type="text/x-jquery-tmpl">
+      
+    {% include 'common/templates/block_is_owner.html' %}
+      
+    <div class="default-block">
+
+
+     <div class="caption">{{ group.group.name }}</div>
+
+
+{% endverbatim %}  
+
+  
+</script>

@@ -1,0 +1,174 @@
+{% load i18n %}
+
+{% load verbatim_templatetag %}
+
+<script id="template-team-item" type="text/x-jquery-tmpl">
+
+{% verbatim %}
+         <div id="caption">
+            <div id="edit" class="aw-link">
+            </div>
+            <h1>${ tournament_id.name } - ${ name }</h1>                     
+            <nav> 
+               <ul id="path">   
+                <li><a href="#!/tournament/${ tournament_id.id }/">${ tournament_id.name }</a></li>
+                <li id="current"><a href="#!/team/${ id }/">${ name }</a></li>
+                <li><a href="#!/team/${ id }/stat/">Statistics</a> 
+               </ul>
+            </nav>
+         </div>  
+
+{% endverbatim %}
+  <div class="block-7">
+
+    <div class="team-photo-small">
+          
+      <a id="single_image" href="${ photo_original }">
+         
+      <img id="single_image_small" src="${ photo_small }" alt=""/></a>
+
+    </div>
+
+    {% with "team" as value %}
+      {% with team.id as value_id %}      
+           {% include 'common/templates/block_photo_upload.html'%}           
+      {% endwith %}
+    {% endwith %} 
+  </div>
+
+ <div class="block-12-last">
+  
+  <div id="team-description">
+
+    {% if team.name %}
+        <p><label for="id_name">{% trans "Team Name" %}:</label><span name="name" id="id_name">{{ team.name }}</span></p>
+    {% endif %}      
+
+    {% if team.manager %}
+        <p><label for="id_manager">{% trans "Manager" %}:</label><span name="manager" id="id_manager">{{ team.manager }}</span></p>
+    {% endif %}        
+    
+    {% if team.coach %}
+        <p><label for="id_coach">{% trans "Coach" %}:</label><span name="coach" id="id_coach">{{ team.coach }}</span></p>
+    {% endif %}        
+    
+    {% if team.captain %}
+        <p><label for="id_captain">{% trans "Captain" %}:</label><span name="captain" id="id_captain">{{ team.captain }}</span></p>
+    {% endif %}          
+    
+    {% if team.contacts %}
+        <p><label for="id_contacts">{% trans "Contacts" %}:</label><span name="contacts" id="id_contacts">{{ team.contacts }}</span></p>
+    {% endif %}          
+    
+    {% if team.about %}
+        <p><label for="id_about">{% trans "About Team" %}:</label><span name="about" id="id_about">{{ team.about }}</span></p>
+    {% endif %}          
+    
+    {% if team.sponsor_name %}
+        <p><label for="id_sponsor_name">{% trans "Team Sponsor" %}:</label>
+            <span name="sponsor_name" id="id_sponsor_name">{{ team.sponsor_name }}</span></p>
+    {% endif %}          
+    
+    {% if team.sponsor_about %}
+        <p><label for="id_sponsor_about">{% trans "About Sponsor" %}:</label>
+            <span name="sponsor_about" id="id_sponsor_about">{{ team.sponsor_about }}</span></p>
+    {% endif %}          
+    
+    {% if team.sponsor_url %}
+        <p><label for="id_sponsor_url">{% trans "URL" %}:</label>
+            <span name="sponsor_url" id="id_sponsor_url">{{ team.sponsor_url }}</span></p>
+    {% endif %}          
+    
+    {% if team.sponsor_email %}
+        <p><label for="id_sponsor_email">{% trans "Sponsor E-mail" %}:</label>
+            <span name="sponsor_email" id="id_sponsor_email">{{ team.sponsor_email }}</span></p>
+    {% endif %}             
+    
+    {% if team.sponsor_address %}
+        <p><label for="id_sponsor_address">{% trans "Sponsor Contacts" %}:</label>
+            <span name="sponsor_address" id="id_sponsor_address">{{ team.sponsor_address }}</span></p>
+    {% endif %}    
+    
+    {% if team.sponsor_contact %}
+        <p><label for="id_sponsor_contact">{% trans "Sponsor Contacts" %}:</label>
+            <span name="sponsor_contact" id="id_sponsor_contact">{{ team.sponsor_contact }}</span></p>
+    {% endif %}    
+
+  </div>
+  
+  <div class="caption">{% trans "All Players" %}</div>
+    <div class="block-table">
+      <table>
+       <colgroup>      
+        {% if request.is_owner %}
+            <col width="8%">        
+            <col width="8%">
+            <col width="52%">
+            <col width="8%">
+            <col width="8%">
+            <col width="8%">
+            <col width="8%">                                    
+        {% else %}     
+            <col width="10%">
+            <col width="50%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">                       
+        {% endif %}      
+       </colgroup>      
+      <thead>
+        <tr>
+            {% if request.is_owner %}
+              <th></th>
+            {% endif %}
+              <th id="first"><div title=""></div>№</th>
+              <th>{% trans "Player" %}</th>
+              <th>{% trans "Rating" %}</th>              
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="28"/></div></th>
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="28"/></div></th>       
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" height="28"/></div></th>
+        </tr>
+      </thead>
+       <tbody>
+      {% if all_players|length %}
+        {% for player in all_players %}
+            <tr>
+             {% if request.is_owner %}
+              <td><input type="checkbox" name="{{ team.id }}" id="player_team_active" value="{{ player.id }}" {% if player.active %}checked{% endif %}/>          </td>  
+             {% endif %}
+                <td><div>{% if player.number %}{{ player.number }}{% endif %}</div></td>
+                <td><div class="events-left"><a href="/player/{{  player.id  }}/?team_id={{ team.id }}">{{ player.full_name }}</a></div></td>
+
+                <td>{% if player.rating %}{{ player.rating }}{% endif %}</td>                                                       
+                <td>{% if player.yellow_cards %}<div class="show-goals2">{{ player.yellow_cards }}{% endif %}</div></td>
+                <td>{% if player.red_cards %}<div class="show-goals2">{{ player.red_cards }}{% endif %}</div></td>
+                <td>{% if player.goals %}<div class="show-goals2">{{ player.goals }}{% endif %}</div></td>
+            </tr>
+        {% endfor %}
+  {% endif %}
+      </tbody>
+    </table>
+</div>
+
+
+  {% if request.is_owner %}
+             
+    <p class="centered">
+      <!--<a class="large orange awesome" href="/player/create/?team_id={{ team.id }}">{% trans "Create New Player" %}</a>-->
+      <a class="large orange awesome" href="/team/{{ team.id }}/player/create/">{% trans "Create New Player" %}</a>
+    </p>
+  {% endif %}
+
+</div>
+
+<div class="default-block">
+{% include 'match/templates/browse.html' %}
+</div>
+
+
+</script>
+

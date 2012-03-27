@@ -1,0 +1,106 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ referee.full_name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li><a href="/tournament/{{ tournament.id }}/referees/">{% trans "Referees" %}</a></li>  
+    <li id="current"><a href="/referee/{{ referee.id }}/">{{ referee.full_name }}</a></li>
+
+    {% if request.is_owner %}
+        <li><a href="/referee/{{ referee.id }}/edit/">{% trans "Edit" %}</a></li>     
+    {% endif %}       
+{% endblock %}
+
+{% block edit %}
+       <a class="large red awesome" href="/referee/{{ referee.id }}/edit/">{% trans "Edit Referee" %} &raquo;</a> 
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="block-7">
+
+        <div class="team-photo-small"> 
+            <!-- <img src="http://commondatastorage.googleapis.com/cometip/images/anonymous_avatar.png"/> -->
+     <a id="single_image" href="{{ referee.photo_original }}"><img id="single_image_small" src="{{ referee.photo_small }}" alt=""/></a>
+        </div>
+        
+    {% with "referee" as value %}
+      {% with referee.id as value_id %}      
+           {% include 'common/templates/block_photo_upload.html'%}           
+      {% endwith %}
+    {% endwith %}
+       
+
+    <div class="player-profile">
+      <p><b>{% trans "Full Name" %}:</b> {{ referee.full_name }}
+                                                        {% if referee.third_name %}{{ referee.third_name }}{% endif %}</p>
+      <p><b>{% trans "Birth Date" %}:</b> {% if referee.datetime %}{{ referee.datetime|date:"d.m.Y"  }}{% endif %}</p>
+  
+
+      {% if request.is_owner %}
+        
+        <div class="events-left">
+         <a class="large orange awesome" href="/referee/{{ referee.id }}/edit/">{% trans "Edit Referee" %} &raquo;</a>
+ 
+    
+       <!--  <form id="form" name="form" method="post" action="/referee/{{ referee.id }}/remove/">
+           <input type="hidden" name="referee_id" value="{{ referee.id }}" />
+           <input type="hidden" name="team_id" value="{{ team.id }}" />
+           <input type="hidden" name="referee_remove" value="" />
+           <div id="non-stylized events-left">
+             <input class="large red awesome" type="submit" value='{% trans "Remove referee"  %}'/>
+           </div>
+         -->
+        </div>
+      {% endif %}
+
+    </div>
+  </div>    
+    
+   <div class="block-12-last">
+     <div class="caption">{% trans "Referee Stastistics" %}</div>
+     <div class="block-table">
+      <table>
+      
+       <colgroup>       
+        <col width="65%">
+        <col width="15%">
+        <col width="10%">
+        <col width="10%">
+       </colgroup>         
+      <thead>
+        <tr>
+              <th id="first">{% trans "Seasons" %}</th>
+              <th>{% trans "Matches" %}</th>
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="28"/></div></th>
+              <th><div class="match-overview-icons">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="28"/></div></th>       
+        </tr>
+        
+      </thead>
+       <tbody>
+             <tr>
+               <td></td>
+               <td>{% if referee.matches %}{{ referee.matches }}{% endif %}</td>
+               <td>{% if referee.yellow_cards %}{{ referee.yellow_cards }}{% endif %}</td>
+               <td>{% if referee.red_cards %}{{ referee.red_cards }}{% endif %}</td>
+             </tr>
+       
+      </tbody>
+      </table>
+    </div>
+        
+  
+</div>
+
+<div class="default-block">
+{% include 'match/templates/browse.html' %}
+</div>
+{% include 'common/templates/fb_comments.html' %}
+
+
+{% endblock %}

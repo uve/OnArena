@@ -1,0 +1,63 @@
+{% load i18n %}
+
+{% load verbatim_templatetag %}
+{% verbatim %}
+
+<script id="template-referee-browse" type="text/x-jquery-tmpl">
+
+
+         <div id="caption">
+            <div id="edit" class="aw-link">
+            </div>
+            <h1>${ tournament_id.name } - ${ name }</h1>                     
+            <nav> 
+               <ul id="path">   
+                <li><a href="#!/tournament/${ tournament_id.id }/">${ tournament_id.name }</a></li>
+                <li id="current"><a href="#!/tournament/${ id }/referees/">Referees</a></li>
+               </ul>
+            </nav>
+         </div>  
+
+
+<div class="block-15">
+   <div class="caption lfloat">Referees</div>
+  <div class="block-table">
+    <table>     
+       <colgroup>
+        <col width="70%">
+        <col width="10%">        
+        <col width="10%">           
+        <col width="10%">           
+       </colgroup>
+      <thead> 
+        <tr>
+        <th>Referees</th>
+        <th>Matches</th>        
+        <th><img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="28"></th>
+        <th><img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="28"></th>
+        </tr>
+     </thead>
+     <tbody>
+     {% if all_referees|length %}
+        {% for item in all_referees %}
+            <tr>
+                <td><div class="lfloat"><a class="sw-link" href="/referee/{{ item.id }}/">{% if item.second_name %}{{ item.second_name }}{% endif %} {% if item.name %}{{ item.name }}{% endif %}</a></div></td>
+                <td>{{ item.matches }}</td>                                
+                <td>{{ item.yellow_cards }}</td>     
+                <td>{{ item.red_cards }}</td>                                     
+            </tr>
+        {% endfor %}
+    {% endif %}
+     </tbody>
+   </table>
+ </div>
+
+{% if request.is_owner %}
+  <div class="events-left shift-bottom">
+      <a class="large orange awesome" href="/referee/create/?tournament_id={{ tournament.id }}">Create Referee &raquo;</a>
+  </div>
+{% endif %}
+</div>
+</script>
+
+{% endverbatim %}

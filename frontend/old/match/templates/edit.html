@@ -1,0 +1,127 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{{ team0.name }} {{ match.teams.0.scored }} - {{ match.teams.1.scored }} {{ team1.name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li><a href="/league/{{ league.id }}/">{{ league.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+    <form id="match_edit" action="" method="post">
+    <input type="hidden" name="match_id" value="{{ match.id }}" />
+    <input type="hidden" name="match_edit" value="" />
+
+
+
+<div class="match-date">
+      <p><time><strong>{% trans "Match Date" %} <input type="text" id="datepicker" name="datepicker" value='{{ match.datetime|date:"d.m.Y" }}' /></strong>
+      <strong>{% trans "Match Time" %} <input type="text" id="timepicker" name="timepicker" value='{{ match.datetime|date:'H:i' }}' /></strong></time></p>
+</div>
+
+<div class="match-referee">
+  <strong>{% trans "Match Referee" %}:</strong>
+  <select id="referee" name="referee">
+   <option selected="selected" value="">{% trans "Choose Referee" %}</option>
+   {% if all_referees|length %}
+     {% for referee in all_referees %}
+       <option {% ifequal referee.id match.referees.0.referee_id.id %}selected="selected"{% endifequal %}
+               value="{{ referee.id }}">{{ referee.full_name }}</option>
+     {% endfor %}
+   {% endif %}
+  </select>
+  <strong>{% trans "Place" %} <input type="text" id="place" name="place" value="{% if match.place %}{{ match.place }}{% endif %}" /></strong></time></p>
+</div>
+
+
+<div class="match-header default-block">
+	<div class="block-2 match-header-rating">
+	    <a href="/team/{{ team0.id }}/">	
+	        {% if team0.rating %}
+		        <p class="match-team-rating-title">{% trans "Rating" %}</p>
+		        <p class="match-team-rating">{{ team0.rating }}</p>	
+	        {% endif %}	
+	    </a>		
+	</div>
+
+	<div class="block-5-5">
+		  <select id="teams0" name="teams0" class="rfloat">
+        {% for team in all_teams %}
+            <option {% ifequal team.id match.teams.0.id %}selected="selected"{% endifequal %}
+               value="{{ team.id }}">{{ team.name }}</option>
+        {% endfor %}
+      </select>
+	</div>
+	
+	 <div class="block-5">
+	        <div class="match-header-score1"><input type="text" id="team-score" name="team-score" class="team-score"  value="{{ match.teams.0.scored }}"/></div>
+	        <div class="match-header-score2"><input type="text" id="team-score" name="team-score" class="team-score" value="{{ match.teams.1.scored }}"/></div>   
+	</div>	
+
+
+	<div class="block-5-5">
+      <select id="teams1" name="teams1" class="lfloat">
+        {% for team in all_teams %}
+            <option {% ifequal team.id match.teams.1.id %}selected="selected"{% endifequal %}
+               value="{{ team.id }}">{{ team.name }}</option>
+        {% endfor %}
+      </select>
+	</div>
+	
+
+	<div class="block-2-last match-header-rating">
+	    <a href="/team/{{ team1.id }}/">	
+	        {% if team1.rating %}
+		        <p class="match-team-rating-title">{% trans "Rating" %}</p>
+		        <p class="match-team-rating">{{ team1.rating }}</p>	
+	        {% endif %}	
+	    </a>		
+	</div>
+	
+</div>
+
+
+
+<div class="default-block"> 
+  <div class="block-8">
+
+    {% with team0 as team %}
+      {% with match.teams.0.players as teamplayers %}
+          {% with team0_players_active as teamplayers_active %}                
+              
+             {% include 'match/templates/block_players.html'%}
+             
+          {% endwith %}         
+      {% endwith %}
+    {% endwith %}
+  </div>
+
+  <div class="align-center">
+     <input class="large orange awesome events-right" type="submit" value='{% trans "Save" %}'/>
+  </div>  
+
+   <div class="block-8-last">
+
+    {% with team1 as team %}
+      {% with match.teams.1.players as teamplayers %}
+          {% with team1_players_active as teamplayers_active %}                
+              
+             {% include 'match/templates/block_players.html'%}
+             
+          {% endwith %}             
+      {% endwith %}
+    {% endwith %}
+  </div>
+
+</div>
+   
+    
+</form>
+
+  
+   {% include 'common/templates/fb_comments.html' %}
+
+  
+
+{% endblock %}
