@@ -1,0 +1,45 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{{ referee.full_name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>
+    <li><a href="/referee/{{ referee.id }}/">{{ referee.full_name }}</a></li>
+    <li id="current"><a href="/referee/{{ referee.id }}/">{% trans "Edit" %}</a></li>    
+{% endblock %}
+
+{% block content %}
+  <div id="stylized" class="myform">
+    <form id="form" name="form" method="post" action="">
+      <h1>{% trans "Edit Referee" %}</h1>
+      <!--<p>This is the basic look of my form without table</p>-->
+      <p></p>
+      <input type="hidden" name="referee_id" value="{{ referee.id }}" />
+      <input type="hidden" name="referee_edit" value="" />
+
+
+      <label>{% trans "Second Name" %}</label>
+      <input type="text" id="referee_second_name" name="referee_second_name"
+                                    value="{% if referee.second_name %}{{ referee.second_name }}{% endif %}" />
+
+      <label>{% trans "First Name" %}</label>
+      <input type="text" id="referee_name" name="referee_name" 
+                                    value="{% if referee.name %}{{ referee.name }}{% endif %}" />
+
+
+      <label>{% trans "Birthday" %}</label>
+      <input type="text" id="datepicker" name="datepicker"
+                                    value="{% if referee.datetime %}{{ referee.datetime|date:'d.m.Y'}}{% endif %}" />
+
+
+
+    <div id="non-stylized">
+      <input class="large orange awesome" type="submit" value='{% trans "Save Referee"  %}'/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+
+  </div>
+
+{% endblock %}

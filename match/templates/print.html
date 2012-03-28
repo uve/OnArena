@@ -1,0 +1,102 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+@media print {
+   BODY {width:100%;}
+@page :first{
+/*size:A4 landscape;*/
+}
+  
+}
+
+table
+{
+border-collapse:collapse;
+}
+
+td, th {
+  min-width: 30px;
+  
+  max-width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+th {
+    border: 1px solid #000;
+}
+
+span {
+    margin-right: 50px;
+}
+</style>
+</head>
+
+<title>www.onarena.com</title>
+<body>
+
+
+ <h2>{{ tournament.name }}  &rarr;  {{ league.name }}</h2> 
+ <p><span><strong>{% trans "Date" %}:</strong> {{ match.datetime|date:"D, d M. Y H:i" }}</span>
+  <span><strong>{% trans "Place" %}:</strong>{{ match.place }}</span>  
+ <span><strong>{% trans "Match Referee" %}:</strong>
+    {% if match.referees %}
+          {% for referee in match.referees %}
+             {{ referee.referee_id.full_name }} 
+          {% endfor %}
+    {% endif %}
+    </span>
+
+   </p>
+
+
+<div class="events"  style="margin-bottom: 40px;">
+
+      <table width="95%" border="0" cellspacing="0" cellpadding="5">
+    <thead> 
+     <tr>
+       <th width="40%" style="font-size: 120%">{{ match.teams.0.name }}</th>
+       <th width="10%"></th>               
+       <th width="10%"></th>
+       <th width="40%" style="font-size: 120%">{{ match.teams.1.name }}</th>
+    </tr>
+    </thead>           
+    <tbody>           
+           <tr>
+               <td valign="top" colspan="2">
+                    {% with team0_players_active as all_players %}     
+                       {% include 'match/templates/block_players_print.html' %}
+                    {% endwith %}   
+               </td>
+             
+               <td valign="top" colspan="2">
+                    {% with team1_players_active as all_players %}     
+                       {% include 'match/templates/block_players_print.html' %}
+                    {% endwith %}   
+               </td>
+           <tr>
+      
+    </tbody>
+    </table>
+
+    </div>    
+    
+ 
+    
+<!--
+<SCRIPT LANGUAGE="JavaScript">
+if (window.print) {
+document.write('<form> '
++ '<input type=button name=print value="{% trans 'Print' %}" '
++ 'onClick="javascript:window.print()"> {% trans 'Click To Print this page!' %}</form>');
+}
+
+</script>
+-->
+
+
+</body>
+</html>
+

@@ -1,0 +1,532 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+
+{% if request.is_owner %}
+
+{% include 'common/templates/block_upload.html' %}
+
+
+{% endif %}
+s
+{% verbatim %} 
+
+<!--------------------------------   TEMPLATES    ------------------------------------>
+
+<script id="template-list-league" type="text/x-jquery-tmpl">
+<li>
+
+{{ if tournament_id.sport_id.id == "1001" }}       
+<img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"></img>
+{{ /if }} 
+{{ if tournament_id.sport_id.id == "1002" }}        
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/basketball1.png" width="20"></img>
+{{ /if }}                    
+{{ if tournament_id.sport_id.id == "1003" }}    
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/volleyball1.png" width="20"></img>
+{{ /if }} 
+{{ if tournament_id.sport_id.id == "1004" }}        
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/hockey1.png" width="20"></img>
+{{ /if }}    
+
+
+<h3><a href="/league/${id}/">${name}</a></h3>
+</li>
+</script>
+
+
+ 
+<script id="template-news-browse" type="text/x-jquery-tmpl">
+<li>
+    <span><time datetime='${ChangeDate( created, "S" )}' pubdate>
+       ${ChangeDate( created, "dd MMM" )}</time>
+    </span>
+    <a href="/news/${id}/">${name}</a>
+</li>
+</script>
+  
+
+
+
+{% endverbatim %}
+
+{% include 'common/templates/block_login.html' %}	
+
+{% include 'common/templates/block_list_match.html' %}	
+{% include 'common/templates/block_tournament_browse.html' %}	
+{% include 'common/templates/block_match_browse.html' %}	    	
+{% include 'common/templates/block_playoff.html' %}
+{% include 'league/templates/block_group.html' %}	
+
+{% include 'common/templates/block_player_browse.html' %}	
+
+<script id="template-team-browse" type="text/x-jquery-tmpl">
+    <option value="${ id }">${ name }</option>
+ </script>
+ 
+
+<!--------------------------------   TEMPLATES    ------------------------------------>
+<script src="http://commondatastorage.googleapis.com/cometip/js/12/default.js"></script>
+ 
+
+
+<script>
+
+window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+
+  {% if request.is_global_admin %}
+      console.log(errorMsg);
+  {% endif %}
+    
+  switch(errorMsg)
+  {
+      case "Uncaught TypeError: Cannot read property 'maxZoom' of undefined":
+        break;
+        
+      case "Uncaught TypeError: Cannot set property 'height' of null":
+        break;
+        
+      case "Script error.":
+        break;             
+      
+      default:   
+          jQuery.ajax({url: '/error/',
+                  type: 'POST',
+                  data: { 'errorMsg': errorMsg, 'url': url, 'lineNumber': lineNumber},
+                  success: function(response) {  
+                    }
+          });	
+        break;
+  }
+   
+  return true;
+}
+
+</script>
+
+ 
+<script>
+
+             
+function ChangeDate(datetime, format){
+   datetime = datetime.replace(" ", "T");
+   return Globalize.format(new Date(Globalize.parseDate( datetime, 'S' )), format);
+};
+
+function supports_html5_storage(){
+  try {
+    
+    JSON.stringify(window.localStorage, function(k, v) { return v === "" ? "" : v });
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};                             
+
+          
+    
+/*global $ */
+//$(document).ready(function () {
+$(function () {
+
+      $.extend( $.tmpl.tag, { "var": { open: "var $1;"},
+                              "log": { open: "console.log($1);"}
+                             });    
+                             
+     var is_localStorage  =   supports_html5_storage();                           
+
+
+     {% if request.is_global_admin %}
+         if (is_localStorage == true){
+                   
+             console.log("is_localStorage: " + is_localStorage);    
+
+             t =  JSON.stringify(window.localStorage, function(k, v) { return v === "" ? "" : v });
+             
+             if (t){
+                 total_size = t.length;
+                 console.log("LocalStorage Size: " + total_size);
+            }                 
+
+         }
+     {% endif %}             
+
+  
+     {% include 'common/scripts/localize.js' %}       
+     
+     {% include 'common/scripts/load_async.js' %}                      
+
+     {% if load_async == "league_item"  %}     
+         {% include 'common/scripts/load_playoff_browse.js' %} 
+         {% include 'common/scripts/load_group_browse.js' %} 
+         
+         {% include 'common/scripts/load_match_browse_league.js' %}          
+     {% endif %}     
+     
+     
+     {% if load_async == "team_item"  %}     
+        {% include 'common/scripts/load_match_browse_team.js' %} 
+     {% endif %}     
+          
+     {% if load_async == "referee_item"  %}     
+        {% include 'common/scripts/load_match_browse_referee.js' %} 
+     {% endif %}     
+      
+     {% if load_async == "player_create"  %}    
+        {% include 'common/scripts/load_player_browse.js' %} 
+        
+        
+     {% endif %}              
+      
+
+
+
+
+     {% if request.tournament.id %}
+
+         {% include 'common/scripts/load_league_browse.js' %}          
+         {% include 'common/scripts/load_news_browse.js' %}        
+         {% include 'common/scripts/load_list_match.js' %}   
+                   
+     {% endif %}      
+      
+
+     {% include 'common/scripts/login.js' %}      
+     {% include 'common/scripts/search.js' %}   
+        
+
+  
+  var yes = '{% trans "Remove Match" %}';
+  var no = '{% trans "Cancel" %}';
+  
+  var league_id = "{{ league.id }}";
+
+  {% if LANGUAGE_CODE == "en-us"  %}  
+  $("#datepicker" ).datepicker($.datepicker.regional[ "" ]);
+  {% else %} 
+  $("#datepicker" ).datepicker($.datepicker.regional[ "{{ LANGUAGE_CODE }}" ]); 
+  {% endif %}      
+  
+
+    
+});
+
+/*global $ */
+$(function () {
+
+
+
+
+{% if request.is_owner %}
+
+
+    'use strict';
+
+    // Initialize the jQuery File Upload widget:
+    
+    $('#fileupload').fileupload({
+        autoUpload: true,
+        previewAsCanvas: true,
+        maxFileSize: 30000000,
+        previewMaxWidth: 80,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|bmp)$/i,
+        
+        add: function (e, data) {
+            var that = this;
+            $.getJSON('/image/add/', function (url) {
+                data.url = url;
+                $.blueimpUI.fileupload.prototype
+                    .options.add.call(that, e, data);
+            });
+        }    
+    })                 
+        .bind('fileuploaddone', function (e, data) {
+            console.log("Done");                                                
+            $.each(data.result, function (index, file) {
+                if (file.url != "") {
+                  $("#single_image_small").attr("src",file.small_url);
+                  $("#single_image").attr("href","");
+                }
+          
+            });
+            
+        });        
+
+
+
+    // Open download dialogs via iframes,
+    // to prevent aborting current uploads:
+    $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
+        e.preventDefault();
+        $('<iframe style="display:none;"></iframe>')
+            .prop('src', this.href)
+            .appendTo('body');
+    });
+    
+
+
+		/*************************************************************/
+
+        $('.test-feature').click(function() {        
+         
+            $.ajax({url: '/rpc/hello.hello',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: '{ "my_name" : "Bob" }',
+                  dataType: 'json',
+                  success: function(response) {
+                    alert(response.hello);
+                  }
+             });	
+         });		
+        
+        /************************************************************/ 
+         
+         $('form').submit(function() {
+             $(this).serializeArray();
+        }); 
+        
+        /************************************************************/ 
+
+        $(".remove-field").click(function() {
+               $(this).parent().remove();
+         });
+
+
+        /************************************************************/   
+        
+        $('.select-team').change(function() {
+        
+            var str = "";
+            str = $(".select-team option:selected").val();
+           
+           
+            $("#loading_throbber").empty().html('<img src="{{ STORAGE_URL }}/images/loading3.gif">');
+
+          
+           
+            str = "/team/" + $(this).val() + "/json?jsoncallback=?";
+            var options = '';
+    
+            options = '<option value="">' + '{% trans "Choose Player" %}' + '</option>';
+            $(".select-player").html(options);
+             
+            var jqxhr = $.getJSON(str, function(j) {
+                          
+              for (var i = 0; i < j.items.length; i++) {
+                options += '<option value="' + j.items[i].id + '">' + j.items[i].name + '</option>';
+              }  
+         
+     
+              $(".select-player").html(options);
+         
+              $("#loading_throbber").empty();      
+            
+            })
+            .success(function() { /*alert("second success"); */})
+            .error(function() { alert("error"); })
+            .complete(function() { })            
+
+        });          
+        
+                
+        /************************************************************/       
+        
+        $(".add-sanction").click(function() {       
+    
+           $(this).parent().find(".dynamic-sanction").clone(true).insertBefore($(this).parent().find(".empty-addsanction")).removeClass("dynamic-sanction")
+  
+          });           
+          
+        /************************************************************/   
+        
+        $('input[type=checkbox]#player_team_active').bind('click', function() {        
+  		    
+			    var $is_checked;
+            	if ($( this ).is(':checked')){ 
+          		    $is_checked = true; } else { $is_checked = false; }
+          		    
+                var $team = $( this ).attr("name");
+                var $player = $( this ).attr("value");
+
+                $.post("/player/"+$player+"/disable/", 
+            { "team_id": $team, "player_id": $player, "is_checked": $is_checked } );    
+
+         });        
+         
+         
+                                   
+        {% include 'common/scripts/create_playoff.js' %}  
+ 
+{% endif %}		        
+        /************************************************************/   
+
+       
+        /************************************************************/   
+
+  
+        /************************************************************/  
+        
+	    $("a#single_image").fancybox({
+	    	'overlayShow'	:	true,
+    		'hideOnContentClick': true
+	    });        
+	    
+       	$("a#group_image").fancybox({
+    		'transitionIn'	:	'none',
+    		'transitionOut'	:	'none',
+    		'speedIn'		:	0, 
+    		'speedOut'		:	0, 
+    		'overlayShow'	:	false,
+    		'titleShow' 	:	true,
+    		'titlePosition' :   'inside'
+    		    		
+	    });
+	 
+        /************************************************************/  	 
+	
+	    /*
+	    $("#non-stylized-signup").click(function () { 
+            alert("Not working yet!!");
+        });       
+        */
+        
+        var tips;
+
+        
+        function updateTips( t ) {
+            tips = $( ".validateTips" );
+            
+			tips
+				.text( t )
+				.addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				tips.removeClass( "ui-state-highlight", 1500 );
+			}, 500 );
+		}
+
+		function checkLength( o, n, min, max ) {
+			if ( o.val().length > max || o.val().length < min ) {
+				o.addClass( "ui-state-error" );
+				updateTips( "Length of " + n + " must be between " +
+					min + " and " + max + "." );
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		function checkRegexp( o, regexp, n ) {
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass( "ui-state-error" );
+				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+	
+    
+  	
+	
+      });        	
+</script>
+
+{% if is_map %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&v=3&libraries=geometry"></script>
+{% endif %}
+
+<script>
+$(document).ready(function () {
+ {% if request.is_owner %}
+  
+    {% include 'common/scripts/tinymce.js' %}    
+    
+  {% endif %}
+  
+  {% if is_map  %}  
+      {% include 'common/scripts/google_maps.js' %}        
+  {% endif %}
+  
+    $("#vk_poll iframe").css("width","220px !important");    
+}); 
+</script>
+
+{% if not DEBUG %}
+
+{% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
+
+{% else %}    
+<!--
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/9tn5KIpCCVVANkY0dYAcVw.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
+-->
+
+<div id="fb-root"></div>
+       <script>(function(d){
+  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+  js = d.createElement('script'); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  d.getElementsByTagName('head')[0].appendChild(js);
+}(document));</script> 
+
+
+<!-- Place this tag after the last plusone tag -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+
+{% endifequal %}
+
+
+{% endif %}  
+
+
+
+
+
+{% if not DEBUG %}
+{% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
+<div id="vk_api_transport"></div>
+<script type="text/javascript">
+  window.vkAsyncInit = function() {
+    VK.init({apiId: {{ VKONTAKE_ID }}, onlyWidgets: true});
+    
+        
+    /*VK.Widgets.Poll("vk_poll", {width: 220}, "11189699_c3e62fac297e0d6210");*/
+    
+    
+   
+    
+    VK.Widgets.Group("vk_groups", {mode: 2, width: "220", height: "390"}, 24970033);
+    VK.Widgets.Like("vk_like", {type: "button"});  
+    VK.Widgets.Comments("vk_comments", {limit: 15, width: "600", attach: "*"});
+    
+    
+  };
+
+  setTimeout(function() {
+    var el = document.createElement("script");
+    el.type = "text/javascript";
+    el.src = "http://userapi.com/js/api/openapi.js?45";
+    el.async = true;
+    document.getElementById("vk_api_transport").appendChild(el);
+  }, 0);
+</script>
+
+{% endifequal %}
+{% endif %} 
+
+

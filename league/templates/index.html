@@ -1,0 +1,29 @@
+{% extends 'league/templates/league_base.html' %}
+{% load i18n %}
+
+
+{% block league_body %}
+  <div id="group-intro">
+    <p class="centered">
+      <a href="/league/create">{% trans "Create New League" %}</a>
+    </p>
+  </div>
+
+  {% if owned_leagues|length %}
+  <h2>{% trans "Leagues You Administer" %}</h2>
+    <div class="groups">
+      {% with owned_leagues as league_tiles %}
+        {% include 'league/templates/league_tiles.html' %}
+      {% endwith %}
+    </div>
+  {% endif %}
+
+  <h2>{% trans "All Leagues" %}</h2>
+  {% if all_leagues|length %}
+    <div class="groups">
+      {% with all_leagues as league_tiles %}
+        {% include 'league/templates/league_tiles.html' %}
+      {% endwith %}
+    </div>
+  {% endif %}
+{% endblock %}

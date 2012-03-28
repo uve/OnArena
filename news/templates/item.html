@@ -1,0 +1,79 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ league.name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a>{% trans "News" %}</a></li>
+{% endblock %}
+
+
+{% block edit %}
+       <a class="large red awesome" href="/news/{{ news.id }}/edit/">{% trans "Edit News" %} &raquo;</a> 
+{% endblock %}
+
+{% block content %}
+
+  <div class="block-4">
+      <div class="stat-league" style="margin-right: 20px;"> 
+          {% ifequal tournament.id '1001' %}
+               <img src="http://commondatastorage.googleapis.com/cometip/tournaments/1001/logo2.jpg" height="189" width="220" />
+          {% else %}  
+                <img src="{{ STORAGE_URL }}/images/logo_y.png"></img>
+        {% endifequal %}    
+      </div>
+  </div>    
+  
+  <div class="block-15-last">
+      <div>{{ news.created|date:"d.m.Y  H:i" }}</div>
+      <div class="caption align-left">{{ news.name }}</div>
+   
+        <div class="news-content">
+            {% autoescape off %}
+             {{ news.content }}
+            {% endautoescape %}        
+        </div>
+        
+    {% if news.photos %}    
+      <div class="image-gallery default-block"> 
+        {% for item in news.photos %}        
+        
+          {% if item.photo_big %} 
+            <a id="group_image" rel="group1" {% if item.name %}title="{{ item.name }}"{% endif %} href="{{ STORAGE_URL }}/{{ item.photo_big }}" height='80'>          
+          {% else %}                   
+            <a id="group_image" rel="group1" {% if item.name %}title="{{ item.name }}"{% endif %} href="{{ STORAGE_URL }}/{{ item.photo_original }}" height='80'>
+          {% endif %}       
+            <img src="{{ STORAGE_URL }}/{{ item.photo_small }}" alt=""/></a>
+           
+        {% endfor %}
+      </div>                    
+    {% endif %}
+
+    {% if request.is_owner %}
+       <div class="events-left">
+         
+         <span class="div-left"><form id="form" name="form" method="post" action="/news/{{ news.id }}/remove/">
+           <input type="hidden" name="news_remove" value="" />
+           <div id="non-stylized events-left">
+             <input class="large red awesome" type="submit" value='{% trans "Remove News"  %} &raquo;'/>
+           </div>
+        </span>
+        </div>    
+    {% endif %}    
+        
+    <p class="events-right">
+    <a href="{{ news.user_id.profile_url }}"><img src="http://graph.facebook.com/{{ news.user_id.id }}/picture"/></a>
+    <span>{{ news.user_id.name|escape }}</span>
+
+    </p>
+    </div>
+
+
+
+  {% include 'common/templates/fb_comments.html' %}
+     
+
+
+
+{% endblock %}

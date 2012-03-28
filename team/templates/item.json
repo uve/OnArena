@@ -1,0 +1,8 @@
+{{ jsoncallback }}({
+		"title": "Cometip.com Statistics",
+		"link": "http://www.cometip.com/",
+		"description": "",
+		"modified": "2011-03-30T06:43:12Z",
+		"generator": "http://www.cometip.com/",
+		"items": [{% for player in all_players %}{ "name": "{% if player.second_name %}{{ player.second_name }}{% endif %} {% if player.name %}{{ player.name }}{% endif %}", "id": "{{ player.id }}" }{% if not forloop.last %},{% endif %}{% endfor %}]
+		})

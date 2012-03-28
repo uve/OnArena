@@ -1,0 +1,66 @@
+total_storage_limit: 100M
+queue:
+- name: default
+  rate: 10/s
+  bucket_size: 100
+  
+  
+- name: deferred
+  rate: 10/s
+  bucket_size: 100
+  
+  
+- name: players
+  rate: 10/s
+  bucket_size: 100  
+
+  
+- name: images
+  rate: 10/s
+  bucket_size: 100
+   
+    
+- name: default1
+  rate: 10/s
+  bucket_size: 100
+
+    
+- name: default2
+  rate: 10/s
+  bucket_size: 100
+
+    
+- name: default3
+  rate: 10/s
+  bucket_size: 100
+
+
+- name: default4
+  rate: 10/s
+  bucket_size: 100
+
+
+- name: default5
+  rate: 10/s
+  bucket_size: 100
+                    
+
+- name: default6
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default7
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default8
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default9
+  rate: 10/s
+  bucket_size: 100
+    

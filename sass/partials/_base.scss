@@ -1,0 +1,31 @@
+// Here is where you can define your constants for your application and to configure the blueprint framework.
+// Feel free to delete these if you want keep the defaults:
+@import "blueprint/liquid";
+
+
+
+$blueprint-liquid-grid-columns: 20;
+
+$blueprint-liquid-grid-width: 5%;
+$blueprint-liquid-grid-margin: 0%;
+
+$blueprint-liquid-container-width: 90%;
+$blueprint-liquid-container-min-width: 980px;
+
+
+// Use this to calculate the width based on the total width.
+// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
+//$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
+
+$aside-columns: 4.5;
+$content-columns: 15;
+
+$content-map:    12.5; 
+$content-signup: 7;
+
+
+$default-border: 1px solid #ECECEC;
+    
+$font-large:  normal 25px Arial,Helvetica,sans-serif;    
+$font-normal: normal 17px Arial,Helvetica,sans-serif;    
+$font-small:  normal 15px Arial,Helvetica,sans-serif;        

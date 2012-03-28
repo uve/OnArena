@@ -1,0 +1,31 @@
+{% load i18n %}
+<div id="header-search">
+    <div id="header-logo">
+        <a href="/">
+        <img src="http://commondatastorage.googleapis.com/cometip/images/logo_small.png" height="60" width="79" />
+        <h1>OnArena.com</h1>
+        <!--<p><h3>{% trans "Tournament Manager" %}</h3></p>-->
+            </a>
+    </div>
+    <div id="block-search" class="block-8">
+        <input id="search-query" type="text" placeholder="{% trans 'type your address' %}">
+        {% ifequal area "index" %}
+            <input id="search_submit" type="submit" value="Search">                     
+        {% else %}            
+                {% ifequal area "create" %}
+                    <input id="search_submit" type="submit" value="Search">                     
+                {% else %}            
+                    <input id="search-submit-site" type="submit" value="Search">                     
+                {% endifequal %}  
+        {% endifequal %}            
+    </div>
+    
+    {% ifequal area "index" %}
+     <div id="non-stylized-create-tournament" class="block-7-last"> 
+        <input class="large green awesome" type="submit" 
+                value="{% trans 'Create a New Tournament' %} &raquo;">
+     </div>
+    {% endifequal %}                
+
+    <div id="block-search-results"></div>
+</div>

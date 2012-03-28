@@ -1,0 +1,194 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+
+
+<script id="template-group-browse" type="text/x-jquery-tmpl">
+      
+    {% include 'common/templates/block_is_owner.html' %}
+
+    <div class="default-block">
+
+  {% verbatim %}  
+     <div class="caption">{{ if group }}${ group.name }{{ /if }}</div>
+
+
+
+        <div id="tabs${index}">
+        
+ {% endverbatim %}     
+	        <ul>
+		        <li><a href="#tabs${index}-1">{% trans "Table" %}</a></li>
+		        <li><a href="#tabs${index}-2">{% trans "Cross Table" %}</a></li>
+	        </ul>
+    {% verbatim %}     
+             <div id="tabs${index}-1">      
+   {% endverbatim %}                 
+                <div class="block-table">
+                  <table>
+                      <thead>  
+                        <tr>
+                        <th><div title=""></div></th>
+                        <th><div title="">{% trans "Team" %}</div></th>
+                        {% comment %} Matches Played {% endcomment %}
+                        <th><div title="{% trans 'matches Played' %}">{% trans "P" %}</div></th>
+                        {% comment %} Matches Won {% endcomment %}
+                        <th><div title="{% trans 'Won' %}">{% trans "W" %}</div></th>
+                        {% comment %} Matches Drew {% endcomment %}
+                        <th><div title="{% trans 'Drew' %}">{% trans "D" %}</div></th>
+                        {% comment %} Matches Loss {% endcomment %}
+                        <th><div title="{% trans 'Loss' %}">{% trans "L" %}</div></th>
+                        {% comment %} goals For || goal scored {% endcomment %}
+                        <th><div title="{% trans 'goals For || goal scored' %}">{% trans "F" %}</div></th>
+                        {% comment %} goals Against || goal conceded {% endcomment %}
+                        <th><div title="{% trans 'goals Against || goal conceded' %}">{% trans "A" %}</div></th>
+                        {% comment %} Goal Different {% endcomment %}
+                        <th><div title="{% trans 'Goal Different' %}">{% trans "GD" %}</div></th>
+                        {% comment %} Points {% endcomment %}                    
+                        <th><div title="{% trans 'Points' %}">{% trans "Pts" %}</div></th>
+                       {% verbatim %}                                                
+                        {{ if is_owner == true }}
+                           <th width=40></th>
+                        {{ /if }}                            
+                        </tr>
+                     </thead>
+                     <tbody> 
+                 
+                     {{ each all_teams }}
+                         <tr>
+                            <td>${team.place}</td>
+                            <td><div class="sw-link block-align-left"><a href="/team/${team.id}/">${team.name}</a></div></td>
+
+                            <td>${ team.match_played }</td>
+                            <td>${ team.won }</td>
+                            <td>${ team.drew }</td>
+                            <td>${ team.loss }</td>
+                            <td>${ team.scored }</td>
+                            <td>${ team.conceded }</td>
+                            <td>${ team.diff }</td>
+                            <td><b>${ team.points }</b></td>
+   {{ if is_owner == true }}
+    <td><span class="remove-team-group" data-team_id="${ team.id }" data-team_name="${ team.name }"
+     data-league_id="{% endverbatim %}{{ league_id }}{% verbatim %}" data-group_id="{{ if group }}${ group.id }{{ /if }}">
+           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span></td>
+   {{ /if }}                            
+                        </tr>
+                     {{ /each }}   
+                     {% endverbatim %}
+                     </tbody>
+                 </table>
+                </div>                            
+            </div>
+           
+
+            
+            <div id="tabs${index}-2">
+		        <div class="block-table">
+                  <table>
+                  <thead>  
+                    <tr>
+                    <th><div title=""></div></th>
+                    <th><div title="">{% trans "Team" %}</div></th>
+                     {% verbatim %}
+                     {{ each all_teams }}
+                        <th>${ team.place }</th>
+                     {{ /each }}   
+                    {% endverbatim %}
+                    <th><div title="{% trans 'Points' %}">{% trans "Pts" %}</div></th>
+                    {% verbatim %}
+                    {{ if is_owner == true }}
+                       <th width=40></th>
+                    {{ /if }}                    
+                               
+                    </tr>
+                 </thead>
+                 <tbody>
+            
+                     {{ each(index0, item) all_teams }}
+                        <tr>
+                              <td>${ item.team.place }</td>
+                              <td><div class="sw-link block-align-left"><a href="/team/${ team.id }/">${ item.team.name }</a></div></td>
+                                             
+                               {{ each(index, node) item.matches }}            
+                                  <td class="small-font">
+                                 {{ if index0 == index }}
+                                    <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"/>
+                                 {{ /if }}   
+                                  {{ each(index, match) node }}
+                                  
+                                      {{ if match[1] == 2 }}      
+                                         {{ if match[4] == 0 }}<p class="color-draw">{{ /if }}
+                                         {{ if match[4] == 1 }}<p class="color-win">{{ /if }}
+                                         {{ if match[4] == 2 }}<p class="color-loss">{{ /if }}
+                                         <a href="/match/${ match[0] }/">${ match[2] } - ${ match[3] }</a></p>
+                                      {{ else }}
+                                          {{ if match[1] == 1 }}
+                                              <p class="color-draw"><a href="/match/${ match[0] }/">? - ?</a></p>
+                                          {{ else }}
+                                         {{ /if }}
+                                      {{ /if }}                               
+                                
+                                  {{ /each }}                                          
+
+                                  </td>          
+                              {{ /each }} 
+               
+                             <td><b>${ item.team.points }</b></td>
+   {{ if is_owner == true }}
+    <td><span class="remove-team-group" data-team_id="${ item.team.id }"  data-team_name="${ item.team.name }" 
+         data-league_id="{% endverbatim %}{{ league_id }}{% verbatim %}" data-group_id="{{ if group }}${ group.id }{{ /if }}">
+           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span></td>
+   {{ /if }}                                  
+                        </tr>
+                     {{ /each }}   
+              
+                  </tbody>
+                 </table>
+    </div>
+	</div>
+          
+          
+          
+          
+        </div>
+    </div>    
+
+  {{ if is_owner == true }}
+     <div class="aw-link">
+      <a class="large green awesome" href="/team/create/?league_id={% endverbatim %}{{ league_id }}{% verbatim %}{{ if group }}&group_id=${ group.id }{{ /if }}">${Globalize.localize("Add Team")} &raquo;</a>  
+      <a class="large red awesome" href="/match/create/?league_id={% endverbatim %}{{ league_id }}{% verbatim %}{{ if group }}&group_id=${ group.id }{{ /if }}">${Globalize.localize("Create New Match")} &raquo;</a>
+     </div>
+  {{ /if }}
+{% endverbatim %}  
+  
+</script>
+
+
+
+<script id="template-group-browse-empty" type="text/x-jquery-tmpl">
+      
+   {% include 'common/templates/block_is_owner.html' %}
+
+ 
+   {% verbatim %} 
+  {{ if is_owner == true }}
+     <div class="aw-link">
+      <a class="large green awesome" href="/team/create/?league_id={% endverbatim %}{{ league_id }}{% verbatim %}{{ if group }}&group_id=${ group.id }{{ /if }}">${Globalize.localize("Add Team")} &raquo;</a>  
+     </div>
+  {{ /if }}
+{% endverbatim %}  
+
+  
+</script>
+
+<div id="dialog-remove-team-group-confirm" title="{% trans 'Remove Team' %}" class="dynamic-fields">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><div class="inner"></div> {% trans "Team and all scores will be permanently deleted from this League and cannot be recovered. Are you sure?" %}</p>
+</div>
+
+<div id="dialog-remove-team-group-message" title="{% trans 'Remove Team' %}" class="dynamic-fields">
+	<p>
+		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+		<div class="inner"></div> {% trans "Team have removed from League successfully." %}
+	</p>
+</div>
+

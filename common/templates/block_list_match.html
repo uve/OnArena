@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+
+<script id="template-list-match" type="text/x-jquery-tmpl">
+
+{% include 'common/templates/block_is_owner.html' %}
+
+{% verbatim %}
+       {{if is_new_date}}
+          <tr>
+              <td colspan="2" class="block-align-right">
+                <time datetime='${ChangeDate( datetime, "S" )}' pubdate>
+                      ${ChangeDate( datetime, "d MMM")}
+                </time>
+              </td>
+              <td colspan="2" class="block-align-left">
+               <time datetime='${ChangeDate( datetime, "S" )}' pubdate>
+                      ${ChangeDate( datetime, "dddd")}
+              </time>
+              </td>          
+          </tr>
+       {{/if}} 
+          <tr>
+            <td class="block-align-center">
+                <time datetime='${ChangeDate( datetime, "S" )}' pubdate>
+                  ${ChangeDate( datetime, "t")}
+                </time>
+            </td>
+           {{ if teams.length > 1 }}
+            <td class="block-align-center">
+                    <a class="sw-link" href="/team/${teams[0].id}/" title="${teams[0].name}">${teams[0].name}</a>
+                </td>
+                <td class="block-align-center">
+                  <a href="/match/${id}/" class="sw-bold sw-link"><b id="/match/${id}/">
+                  {{if teams[0].played}}${teams[0].score}{{else}}?{{/if}} - {{if teams[1].played}}${teams[1].score}{{else}}?{{/if}}
+                  </b></a>
+                </td>
+                <td class="block-align-center">
+                    <a class="sw-link" href="/team/${teams[1].id}/" title="${teams[1].name}">${teams[1].name}</a>
+                </td>
+            {{ else }}
+                <td>error</td>
+                <td><a href="/match/${id}/" class="sw-bold sw-link">? - ?</a></td>
+                <td>error</td>            
+            {{ /if }}                
+          </tr>
+          
+ {% endverbatim %}         
+</script>
