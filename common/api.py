@@ -1101,7 +1101,9 @@ def league_update(league_id = None, limit = 1000):
 
     deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
 
-
+    deferred.defer(rating_player_update, tournament_id = tournament_id)    
+    deferred.defer(rating_team_update, tournament_id = tournament_id)        
+   
     
     deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
     
@@ -1701,7 +1703,7 @@ def match_create(request):
     return True
 
 
-def match_edit(post_data, limit=1000):
+def match_edit(post_data, limit=5000):
         
    
        
@@ -1808,7 +1810,8 @@ def match_edit(post_data, limit=1000):
     #ranking_player = ranking_team +  match.ranking * league.ranking * ranking_for_goal * goals    
   
     #****************************         REMOVE ALL     **************************************#
-    
+
+    all_results = []    
 
     old_competitors = db.GqlQuery("SELECT * FROM Competitor WHERE match_id = :1", match_ref.key()).fetch(limit)
     
@@ -1823,17 +1826,31 @@ def match_edit(post_data, limit=1000):
         except:
             logging.error("No Team Ranking")                
        
-    #db.put(update_teams)      
-    s13 = db.put_async(update_teams)
-         
+   
+    all_results.append(db.put_async(update_teams))    
+    
+     
+    all_results.append(db.delete_async(old_competitors))    
+    
+    # Remove all data    
     
     old_scores = db.GqlQuery("SELECT __key__ FROM Score WHERE match_id = :1", match_ref.key()).fetch(limit)
+    all_results.append(db.delete_async(old_scores))         
+    
     old_events = db.GqlQuery("SELECT __key__ FROM Event WHERE match_id = :1", match_ref.key()).fetch(limit)
+    all_results.append(db.delete_async(old_events))  
+    
     old_referees = db.GqlQuery("SELECT __key__ FROM RefereeMatch WHERE match_id = :1", match_ref.key()).fetch(limit)
+    all_results.append(db.delete_async(old_referees))      
 
     old_sanctions = db.GqlQuery("SELECT __key__ FROM Sanction WHERE match_id = :1", match_ref.key()).fetch(limit)                
+    all_results.append(db.delete_async(old_sanctions))      
         
-    old_playermatches = db.GqlQuery("SELECT * FROM PlayerMatch WHERE match_id = :1", match_ref.key()).fetch(limit)        
+    old_playermatches = db.GqlQuery("SELECT __key__ FROM PlayerMatch WHERE match_id = :1", match_ref.key()).fetch(limit)        
+    all_results.append(db.delete_async(old_playermatches))      
+    
+    
+    
 
     update_players = []    
     for item in old_playermatches:
@@ -1849,29 +1866,13 @@ def match_edit(post_data, limit=1000):
                   
             
 
-       
+    all_results.append(db.put_async(update_players))    
     
-    '''
-    db.put(update_players)
+     
+    all_results.append(db.delete_async(old_playermatches))         
+      
     
         
-    db.delete(old_competitors)
-    db.delete(old_scores)
-    db.delete(old_events)
-    db.delete(old_referees)
-    db.delete(old_playermatches)
-    db.delete(old_sanctions)
-    '''
-    
-    s01 = db.put_async(update_players)
-    
-    s02 = db.delete_async(old_competitors)
-    s03 = db.delete_async(old_scores)
-    s04 = db.delete_async(old_events)
-    s05 = db.delete_async(old_referees)
-    s06 = db.delete_async(old_playermatches)
-    s07 = db.delete_async(old_sanctions)    
-    
     
     
     #****************************         REMOVE ALL     **************************************#    
@@ -1968,9 +1969,7 @@ def match_edit(post_data, limit=1000):
             refereematch_ref = models.RefereeMatch(**params)
 
 
-            # Async
-            #refereematch_ref.put()               
-            s15 = db.put_async(refereematch_ref)
+            all_results.append(db.put_async(refereematch_ref))    
     
     
     #if not (team_refs[0].id == competitors[0].team_id.id and team_refs[1].id == competitors[1].team_id.id):
@@ -2054,7 +2053,8 @@ def match_edit(post_data, limit=1000):
                 score_ref = models.Score(**params)
                 new_scores.append(score_ref)         
                 
-    s11 = db.put_async(new_scores)                   
+       
+    all_results.append(db.put_async(new_scores))   
 
     ########################   PlayerMatch  #############################################
 
@@ -2118,7 +2118,7 @@ def match_edit(post_data, limit=1000):
                 logging.error("Error Save Match %s \t is_played %s", match_ref.id, value)
                 pass 
     
-    s09 = db.put_async(new_playermatches)
+    all_results.append(db.put_async(new_playermatches))   
     
         
     if "sanction_player_id" in all_events:
@@ -2152,7 +2152,8 @@ def match_edit(post_data, limit=1000):
                 logging.error("Error Save Match %s \t Sanction: %s", match_ref.id, value)
                 pass            
 
-    s10 = db.put_async(new_sanctions)
+
+    all_results.append(db.put_async(new_sanctions))   
 
     #####################################################################
 
@@ -2201,120 +2202,20 @@ def match_edit(post_data, limit=1000):
                     logging.error("Error Save Match %s \t Event: %s", match_ref.id, value)
                     pass             
      
-    s12 = db.put_async(new_events)       
 
-    #db.put(new_competitors)
+    all_results.append(db.put_async(new_events))   
 
-    # Async
-    '''
-    db.put(new_playermatches)
-    db.put(new_sanctions)
-
-    db.put(new_scores)
-    db.put(new_events)      
-    '''
-
-    try:
-        s01.get_result()             
-    except:
-        logging.error("Match_edit async put: s01")           
-
-    try:
-        s02.get_result()             
-    except:
-        logging.error("Match_edit async put: s02")
-        
-    try:
-        s03.get_result()             
-    except:
-        logging.error("Match_edit async put: s03")
-        
-    try:
-        s04.get_result()             
-    except:
-        logging.error("Match_edit async put: s04")
-        
-    try:
-        s05.get_result()             
-    except:
-        logging.error("Match_edit async put: s05")
-        
-    try:
-        s06.get_result()             
-    except:
-        logging.error("Match_edit async put: s06")
-        
-    try:
-        s07.get_result()             
-    except:
-        logging.error("Match_edit async put: s07")
-        
-    try:
-        s08.get_result()             
-    except:
-        logging.error("Match_edit async put: s08")
-        
-    try:
-        s09.get_result()             
-    except:
-        logging.error("Match_edit async put: s09")
-        
-    try:
-        s10.get_result()             
-    except:
-        logging.error("Match_edit async put: s10")
-        
-    try:
-        s11.get_result()             
-    except:
-        logging.error("Match_edit async put: s11")
-        
-    try:
-        s12.get_result()             
-    except:
-        logging.error("Match_edit async put: s12")
-        
-    try:
-        s13.get_result()             
-    except:
-        logging.error("Match_edit async put: s13")
-        
-    try:
-        s14.get_result()             
-    except:
-        logging.error("Match_edit async put: s14, maybe not using")
-        
-    try:
-        s15.get_result()             
-    except:
-        logging.error("Match_edit async put: s15")
-
-    '''
-    try:
-        s01.get_result()     
-        s02.get_result()    
-        s03.get_result()    
-        s04.get_result()    
-        s05.get_result()    
-        s06.get_result()    
-        s07.get_result()    
-
-        s09.get_result()        
-        s10.get_result()        
-        s11.get_result()        
-        s12.get_result()        
-        s13.get_result()    
-        
-        s15.get_result()                  
-    except:
-        logging.error("Match_edit async put")        
-        pass                                      
-
-    '''
-    
+  
+    for item in all_results:
+        try:
+            res = item.get_result()                     
+            logging.info("Edit async: %s:" % res)
+        except:
+            logging.error("Match_edit async put")        
+            pass                                      
+  
     
     logging.info("Start League Update")
-
 
     deferred.defer(match_get, match_id = match_id, is_reload = True)
 
@@ -2326,25 +2227,17 @@ def match_edit(post_data, limit=1000):
         #stat_update(league_id = league_id, team_id = team_ref.id)
         deferred.defer(stat_update, league_id = league_id, team_id = team_id)        
         deferred.defer(match_browse, team_id = team_id, is_reload = True) 
+        
+        deferred.defer(team_get, team_id = team_id, is_reload = True)  
+        deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)        
+        
 
     logging.info("League Update Complete.")
     
     
-    if is_played == True:        
-        #deferred.defer(rating_update, tournament_id = tournament_id,
-        #                _target = "defworker")    
-
-        for team_ref in team_refs: 
-            team_id = team_ref.id
-        
-            deferred.defer(team_get, team_id = team_id, is_reload = True)  
-            deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)        
-        
-        #######     Teams players update Statistics  ########
-                
-        for player_id in players:        
-            deferred.defer(player_get, player_id = player_id, is_reload = True)
-            deferred.defer(player_stat_get, player_id = player_id, is_reload = True)
+    for player_id in players:        
+        deferred.defer(player_get, player_id = player_id, is_reload = True)
+        deferred.defer(player_stat_get, player_id = player_id, is_reload = True)
             
             
     if referee_id:            
@@ -3357,8 +3250,8 @@ def increment_counter2():
         i += 1
     db.put(all_items)    
 
-def rating_update(tournament_id = None, limit = 5000,
-                 is_reload=None, memcache_delete=None, key_name=""):
+
+def rating_player_update(tournament_id = None, limit = 5000):
 
     tournament = models.Tournament.get_item(tournament_id) 
     
@@ -3386,7 +3279,12 @@ def rating_update(tournament_id = None, limit = 5000,
     
     end3 = round(time.time() - start, 6)  
     logging.info("Rating Players update time: %s", end3)    
+    
+    return True
 
+def rating_team_update(tournament_id = None, limit = 5000):
+
+    tournament = models.Tournament.get_item(tournament_id) 
         
     start = time.time()
     all_items = models.Team.gql("WHERE tournament_id = :1 ORDER BY ranking DESC", tournament).fetch(limit)
@@ -4457,7 +4355,14 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 def test(league_id = "1004", limit = 1000):
 
 
-    league_browse(tournament_id = "1003", is_reload = True)    
+    deferred.defer( team_get_players, team_id = "1631", stat = True, is_reload = True) 
+    #deferred.defer(team_browse_rating, tournament_id = "1003", is_reload = True)  
+    
+    #deferred.defer(rating_player_update, tournament_id = "1003")    
+    #deferred.defer(rating_team_update, tournament_id = "1003")        
+    
+
+    #league_browse(tournament_id = "1003", is_reload = True)    
     
     #deferred.defer(news_browse, tournament_id = "1001", is_reload = True)   
     #deferred.defer(league_update, league_id = "1087")  

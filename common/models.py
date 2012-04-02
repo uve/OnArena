@@ -48,13 +48,6 @@ class CustomModel(db.Model):
                  
                 
         if value is not None:
-            logging.info("Get by key: %s", key_name)
-
-            try:
-                logging.info("key name: %s", value.name)
-            except:
-                pass 
-            
             return value
         else:
             value = self.gql("WHERE id = :1", str(item)).get()
@@ -63,14 +56,7 @@ class CustomModel(db.Model):
             if value is None:
                 logging.warning("Error get DB item: %s", key_name)
                 return None
-                
-            logging.info("Database: %s", key_name)
-
-            try:
-                logging.info("key name: %s", value.name)
-            except:
-                pass               
-            
+        
             return value           
             
             

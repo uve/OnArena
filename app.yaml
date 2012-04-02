@@ -25,9 +25,6 @@ builtins:
 - deferred: off
 - django_wsgi: off
 
-inbound_services:
-- warmup
-
 libraries:
 - name: django
   version: latest  
