@@ -293,8 +293,9 @@ def deferred(request):
     #logging.info("_raw_post_data: %s", request._raw_post_data)     
 
     for i,v in request.POST.items():
-        logging.info("i: %s", i)    
-        logging.info("v: %s", v)            
+        pass
+        #logging.info("i: %s", i)    
+        #logging.info("v: %s", v)            
     
     try:
         run(request._raw_post_data)       
