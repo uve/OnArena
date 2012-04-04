@@ -17,7 +17,8 @@ skip_files: |
  (appengine_django/management/commands/.*)|
  (.bak)| 
  (.sass-cache/.*)|
- (.git/.*)| 
+ (.git/.*)|
+ (old/.*)| 
  )$
 
 builtins:

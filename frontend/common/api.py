@@ -4262,6 +4262,8 @@ def team_edit(form = None, team_id = None, limit = 100):
 
     team_get(team_id = team_id, is_reload = True)
     
+    return team
+    
     season = models.Season.gql("WHERE team_id = :1 ORDER BY created DESC", team).get()    
     if season:       
         deferred.defer(group_browse, league_id = season.league_id.id, is_reload = True)

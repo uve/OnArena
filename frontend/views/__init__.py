@@ -6,26 +6,58 @@ from django.views.generic.base import View
 
 from common import models
 
+import json
+
+
+
 class Base(View):
-
-    def get(self, request, pk):                     # READ
-        
-        if not pk:
-            raise Http404
-
-        logging.info("GET request: %s", pk)    
-        
-        key_name = "team_get_team_id_" + pk
-        content = models.StaticContent.get_by_key_name(key_name)
-        
+    
+    @classmethod
+    def output(cls, content):
+                
         if not content:       
             raise Http404
-        
-        #logging.info("content: %s",content.content)            
-        
-        response = http.HttpResponse(content.content)
+                                                
+        response = http.HttpResponse(content)
         response['Content-type']  = "application/json; charset=utf-8"
-        return response         
+        return response  
+
+    
+    def get(self, request, pk):                     # READ
+        
+        if not pk: raise Http404
+       
+        key_name = "team_get_team_id_" + pk
+        content = models.StaticContent.get_by_key_name(key_name)
+    
+        return self.output(content.content)
+    
+    def post(self, request):                          # CREATE
+                
+        request = json.loads( request.raw_post_data )                
+        content = self.create(request) 
+                               
+        content = json.dumps(content)                                       
+        return self.output(content)     
+    
+    def put(self, request, pk):                       # UPDATE
+        
+        if not pk: raise Http404
+       
+        request = json.loads( request.raw_post_data )                
+        content = self.save(request, pk)               
+        
+        content = json.dumps(content)        
+        return self.output(content)              
+        
+    def delete(self, request, pk):                    # DELETE
+        
+        if not pk: raise Http404
+                
+        content = self.remove(request, pk)
+               
+        content = json.dumps(content)        
+        return self.output(content)  
     
     
 '''
