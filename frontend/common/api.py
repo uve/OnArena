@@ -4459,6 +4459,24 @@ def get_class( kls ):
 def test(league_id = "1004", limit = 1000):
 
 
+    test_create(league_id = "1116", name=u'Первая Лига 1-6 места',
+                 group_teams=["1331", "1183", "1185", "1631", "1324", "1323"])
+
+
+    test_create(league_id = "1116", name=u'Первая Лига 7-9 места',
+                 group_teams=["1332", "1375", "1485"])
+
+
+    test_create(league_id = "1118", name=u'Третья Лига 1-6 места',
+                 group_teams=["1634", "1474", "1326", "1471", "1594", "1593"])
+
+
+    test_create(league_id = "1118", name=u'Третья Лига 7-10 места',
+                 group_teams=["1473", "1500", "1470", "1596"])
+              
+
+    return True 
+    
     league_id = "1108"
 
     league = models.League.get_item(league_id)       
