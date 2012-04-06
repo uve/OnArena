@@ -56,16 +56,15 @@ urlpatterns += patterns('views',
 
 
 # TOURNAMENT
-urlpatterns += patterns('tournament.views',
-    
+urlpatterns += patterns('tournament.views',    
     (r'^tournament/(?P<tournament_id>[\da-f]+)/$', 'tournament_item'),
-    
     (r'^tournament/(?P<tournament_id>[\da-f]+)/test/$', 'tournament_test'),
-    (r'^tournament/(?P<tournament_id>[\da-f]+)/start/$', 'tournament_start'),
-    
+    (r'^tournament/(?P<tournament_id>[\da-f]+)/start/$', 'tournament_start'),        
+)
 
 
-    
+urlpatterns += patterns('common.deferred',
+    (r'^service/deferred/$', 'deferred'),
 )
 
 

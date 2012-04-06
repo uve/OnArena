@@ -1,0 +1,54 @@
+{%extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{{ tournament.name }}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/">{% trans "Tournaments" %}</a></li>
+    <li><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>     
+{% endblock %}
+
+{% block content %}
+  <div id="stylized" class="myform">
+    <form id="form" name="form" method="post" action="">{% csrf_token %}
+      <h1>{% trans "Edit Tournament" %}</h1>
+
+      <p></p>
+      <input type="hidden" name="tournament_id" value="{{ tournament.id }}" />
+      <input type="hidden" name="tournament_edit" value="" />
+      
+
+    <p><label for="id_name">{% trans "Tournament Name" %}:*</label>
+            <input type="text" name="name" value="{% if tournament.name %}{{ tournament.name }}{% endif %}" id="id_name" required="required"></p>
+            
+    <p><label for="id_country">{% trans "Country" %}:*</label>
+        <input type="text" name="country" value="{% if tournament.country %}{{ tournament.country }}{% endif %}" id="id_country" required="required"></p>
+        
+    <p><label for="id_city">{% trans "City" %}:*</label>
+        <input type="text" name="city" value="{% if tournament.city %}{{ tournament.city }}{% endif %}" id="id_city" required="required"></p>            
+        
+    <p><label for="id_address">{% trans "Address" %}:</label>
+        <input type="text" name="address" value="{% if tournament.address %}{{ tournament.address }}{% endif %}" id="id_address"  required="required"></p>        
+                    
+    <p><label for="id_about">{% trans "About Tournament" %}:</label>
+            <textarea id="id_about" rows="10" cols="40" name="about">{% if tournament.about %}{{ tournament.about }}{% endif %}</textarea></p>
+            
+    <p><label for="id_contacts">{% trans "Contacts" %}:</label>
+            <input type="text" name="contacts" value="{% if tournament.contacts %}{{ tournament.contacts }}{% endif %}" id="id_contacts"></p>
+                       
+    <p><label for="id_url">{% trans "Url" %}:</label>
+        <input type="text" name="url" value="{% if tournament.url %}{{ tournament.url }}{% endif %}" id="id_url"></p>
+
+    <p><label for="id_email">{% trans "E-mail" %}:</label>
+        <input type="text" name="email" value="{% if tournament.email %}{{ tournament.email }}{% endif %}" id="id_email"></p>
+     
+
+    <div id="non-stylized">
+      <input class="large orange awesome" type="submit" value="{% trans 'Save Tournament'  %}"/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+
+  </div>
+
+{% endblock %}
