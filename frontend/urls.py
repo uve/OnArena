@@ -55,6 +55,21 @@ urlpatterns += patterns('views',
 )
 
 
+# TOURNAMENT
+urlpatterns += patterns('tournament.views',
+    
+    (r'^tournament/(?P<tournament_id>[\da-f]+)/$', 'tournament_item'),
+    
+    (r'^tournament/(?P<tournament_id>[\da-f]+)/test/$', 'tournament_test'),
+    (r'^tournament/(?P<tournament_id>[\da-f]+)/start/$', 'tournament_start'),
+    
+
+
+    
+)
+
+
+
 urlpatterns += patterns('common.user',                                                  
     (r'^login/$', 'login'),    
     (r'^logout/$', 'logout'),

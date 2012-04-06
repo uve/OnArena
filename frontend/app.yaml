@@ -18,6 +18,7 @@ skip_files: |
  (.bak)| 
  (.sass-cache/.*)|
  (.git/.*)|
+ (.swp)|
  (old/.*)| 
  )$
 
