@@ -1,7 +1,8 @@
 define([
   'jquery',
-  //'jsrender',
+ 
   //'jqueryui',
+
   'underscore',
   'backbone',
   'vm',
@@ -59,7 +60,13 @@ define([
      	 	var compiledTemplate = _.template( teamEditTemplate, sg.item.toJSON() );
             sg.$el.html( compiledTemplate );	             
             */
-           
+
+             /*
+         	require(["jqueryui"], function(someModule) {
+         	    //...
+         	 });
+         	 
+         	 */
              
            var compiledTemplate = _.template( teamEditTemplate, sg.item.toJSON() );
            sg.$el.html( compiledTemplate );	
@@ -73,7 +80,8 @@ define([
     			title:"Tasks",
     			modal: true
     		})
-    	
+       
+         	
     		/*this.el = $(".dialogForm");
     		this.delegateEvents(this.events)
     		return this;

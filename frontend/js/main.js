@@ -4,7 +4,7 @@ require.config({
   paths: {
     // Major libraries
     jquery: 'libs/jquery/jquery-min',
-    jqueryui: 'libs/jquery/jquery-ui.min.js',
+    jqueryui: 'libs/jquery/jquery-ui.min',
     
     jsrender: 'libs/jsrender/jsrender',    
     underscore: 'libs/underscore/underscore', // https://github.com/amdjs
