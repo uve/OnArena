@@ -72,15 +72,15 @@ define([
            sg.$el.html( compiledTemplate );	
              
            /*console.log(sg.$el);*/
-        
-    		this.$("#task_form_tpl").dialog({
-    			autoOpen: true,
-    			height: 460,
-    			width: 350,
-    			title:"Tasks",
-    			modal: true
-    		})
-       
+           
+       	$("#task_form_tpl").dialog({
+			autoOpen: true,
+			height: 460,
+			width: 350,
+			title:"Tasks",
+			modal: true
+		});
+               
          	
     		/*this.el = $(".dialogForm");
     		this.delegateEvents(this.events)
