@@ -1,7 +1,7 @@
 // Filename: router.js
 define([
   'jquery',
-
+  /*'jqueryui',*/
   'underscore',
   'backbone',
 	'vm'
@@ -64,7 +64,7 @@ define([
 		
 		router.on('route:team', function (id) {			
 
-			require(['views/team/page'], function (TeamPage) {
+			require(['views/team/page', 'jquery', 'jqueryui'], function (TeamPage) {
 				var teamPage = Vm.create(appView, 'TeamPage', TeamPage, id);
 				
 				teamPage.render();

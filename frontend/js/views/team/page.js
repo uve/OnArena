@@ -1,12 +1,15 @@
 define([
   'jquery',
-  //'jsrender',
+ 
+  //'jqueryui',
+
   'underscore',
   'backbone',
   'vm',
   'models/team',
-  'text!templates/team/page.html'
-], function($, _, Backbone, Vm, Team, teamPageTemplate){
+  'text!templates/team/page.html',
+  'text!templates/team/edit.html'
+], function($, _, Backbone, Vm, Team, teamPageTemplate, teamEditTemplate){
 	
 
   var TeamPage = Backbone.View.extend({
@@ -15,54 +18,19 @@ define([
     
     render: function () {
 
-      var sg = this;         
-      
-      sg.item = new Team({ id: this.id });	   
-           
+      var sg = this;               
+      sg.item = new Team({ id: this.id });	              
       sg.item.fetch( { 
-                         beforeSend: function( xhr ) {                        
-                           
-                           },
-   
-                         success: function() {
+                         success: function(){
 
                         	 	var compiledTemplate = _.template( teamPageTemplate, sg.item.toJSON() );
-                             
-	                             sg.$el.html( compiledTemplate );
-	                             
-	                             //sg.item.attributes['name'] = 'Затулинка';
-	                             
-	                             //console.log(sg.item);
-	                             	                             	                            	                             	   
-	                             
-	                             /*
-	                             sg.item.destroy({
-	                            	 success: function(model, response) {
-	                            		 console.log('s2');
-	                            	 },
-	                            	 error: function(model, response) {
-	                            		 
-	                            		 console.log('e2');
-	                            		 console.log(model);
-	                            		 console.log(response);
-	                            	 },	                            	 
-	                            	 complete: function(model, response) {
-	                            		 console.log(model.responseText);
-	                            	 }
-	                             });
-	                             */
-	                                                                                           
-                           },
-                         error: function( request, error) {
-
-                        	 sg.$el.html( 'Error ' + error.status  );                        	 
-                        	
+                                sg.$el.html( compiledTemplate );	                            	                                                                                         
+                         },
+                         error: function(request, error){
+                        	 sg.$el.html('Error ' + error.status);                        	                         	
                          }
                           
-                        });             
-      
-      //console.log('end');
-      //this.$el.html(teamPageTemplate);
+                    });
     },
 		events: {
 		  'click .add-view': 'addView',
@@ -77,12 +45,54 @@ define([
 			this.counter++;
 			return false;
 		},
+		initialize : function(){
+			_.bindAll(this,"render")
+		/*	this.template = _.template($("#task_form_tpl").html());
+			this.render().el;
+			*/
+		},		
 		edit: function () {
 			
 		
-			  var sg = this;         
+             var sg = this;         
+			
+             /*
+     	 	var compiledTemplate = _.template( teamEditTemplate, sg.item.toJSON() );
+            sg.$el.html( compiledTemplate );	             
+            */
+
+             /*
+         	require(["jqueryui"], function(someModule) {
+         	    //...
+         	 });
+         	 
+         	 */
+             
+           var compiledTemplate = _.template( teamEditTemplate, sg.item.toJSON() );
+           sg.$el.html( compiledTemplate );	
+             
+           /*console.log(sg.$el);*/
+           
+       	$("#task_form_tpl").dialog({
+			autoOpen: true,
+			height: 460,
+			width: 350,
+			title:"Tasks",
+			modal: true
+		});
+               
+         	
+    		/*this.el = $(".dialogForm");
+    		this.delegateEvents(this.events)
+    		return this;
+    		*/
+    		
+            
+			  /*
+ 
+ 		  	 sg.item.attributes['name'] = 'Затулинка';
+		
 			  
-			  //sg.item.attributes['name'] = 'Затулинка';
 		      		      
 			  var res = sg.item.save({att1 : "value"},
 					  				 {
@@ -94,7 +104,7 @@ define([
 				  						}
 					  				 });
 			  
-			  
+			  */
 		      
 			return true;
 		},

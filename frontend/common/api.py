@@ -141,32 +141,32 @@ def cache_set(key_name, value, include = [], commit = False):
         
         logging.info("Start encoding: %s", key_name)            
         
-        logging.info("memory usage: %s",runtime.memory_usage().current())           
+        #logging.info("memory usage: %s",runtime.memory_usage().current())           
         value = jsonloader.encode(input = value, include = include)
         
-        logging.info("Save to Cache: %s", key_name)            
+        #logging.info("Save to Cache: %s", key_name)            
         
-        logging.info("memory usage: %s",runtime.memory_usage().current())           
+        #logging.info("memory usage: %s",runtime.memory_usage().current())           
         
         content = models.StaticContent( key_name = key_name, name = key_name, 
                             content = value, content_type = 'application/json')
                             
         content.put()       
         
-        logging.info("Cache saved")             
+        #logging.info("Cache saved")             
 
         last_modified = content.last_modified.strftime(HTTP_DATE_FMT)
         memcache.set(key_name, last_modified)             
         
-        logging.info("memcache saved")                     
+        #logging.info("memcache saved")                     
                                     
-        logging.info("memory usage: %s",runtime.memory_usage().current())                                       
+        #logging.info("memory usage: %s",runtime.memory_usage().current())                                       
         
         if commit:
             del value
             return True
         
-        logging.info("json.loads: %s", key_name)
+        #logging.info("json.loads: %s", key_name)
     
         return json.loads(value, object_hook=decode_datetime) 
     except:
