@@ -4459,8 +4459,16 @@ def get_class( kls ):
 def test(league_id = "1004", limit = 1000):
 
 
-    deferred.defer(group_browse, league_id = "1116", is_reload = True)
-    deferred.defer(group_browse, league_id = "1118", is_reload = True)
+
+    test_create(league_id = "1115", name=u'Высшая Лига 1-6 места',
+                 group_teams=["1178", "1170", "1176", "1177", "1174", "1366"])
+
+
+    test_create(league_id = "1115", name=u'Высшая Лига 7-10 места',
+                 group_teams=["1359", "1592", "1184", "1187"])
+
+    #deferred.defer(group_browse, league_id = "1116", is_reload = True)
+    #deferred.defer(group_browse, league_id = "1118", is_reload = True)
     
     
     return True
