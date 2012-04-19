@@ -110,9 +110,11 @@ AUTHENTICATION_BACKENDS = (
 
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.csrf.CsrfViewMiddleware',
+
     
-    #'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
+    'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
+    
+    'django.middleware.csrf.CsrfViewMiddleware',    
     #'middleware.domain.DomainMiddleware',
     #'middleware.auth.AuthenticationMiddleware',
     #'middleware.exception.ExceptionMiddleware',

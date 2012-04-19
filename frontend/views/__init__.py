@@ -9,6 +9,7 @@ from common import models
 import json
 
 
+from google.appengine.ext import db
 
 class Base(View):
     
@@ -28,8 +29,11 @@ class Base(View):
         if not pk: raise Http404
        
         key_name = "team_get_team_id_" + pk
-        content = models.StaticContent.get_by_key_name(key_name)
-    
+        
+        k = db.Key.from_path('StaticContent', key_name) 
+        content = db.get_async(k).get_result()        
+        #content = models.StaticContent.get_by_key_name(key_name)
+        
         return self.output(content.content)
     
     def post(self, request):                          # CREATE
