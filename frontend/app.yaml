@@ -23,27 +23,18 @@ skip_files: |
  )$
 
 builtins:
-- remote_api: on
-- appstats: off
+- remote_api: off
+- appstats: on
 - deferred: off
 - django_wsgi: on
 
-inbound_services:
-- warmup
+#inbound_services:
+#- warmup
 
 libraries:
 - name: django
   version: latest  
-- name: webapp2
-  version: latest  
-- name: markupsafe
-  version: latest
-- name: setuptools
-  version: latest
-- name: PIL
-  version: latest
 
-  
 handlers:
 
 - url: /css
@@ -73,11 +64,3 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
   secure: optional
-  
-  
-  
-- url: /error/.*
-  script: static.app
-  
-- url: /.*
-  script: main.app 
