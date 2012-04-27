@@ -800,7 +800,8 @@ def league_browse(tournament_id = None, limit = 100,
             if int(item.id) >= int("1068"):
                 new_res.append(item)    
                 
-    if tournament_id in ["1008"]:       
+    if tournament_id in ["1008"]:     
+        new_res = []  
         for item in results:
             if int(item.id) >= int("1137"):
                 new_res.append(item)     
@@ -808,6 +809,8 @@ def league_browse(tournament_id = None, limit = 100,
                 logging.info(item.id)               
                
                 new_res = sorted(new_res, key=lambda student: student.id, reverse=True)  
+                
+        return cache_set(key_name, new_res, include)                   
                                
                 
 
