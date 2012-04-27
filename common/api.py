@@ -795,12 +795,21 @@ def league_browse(tournament_id = None, limit = 100,
                 
         return cache_set(key_name, new_res, include)           
     
-    if tournament_id in ["1003","1008"]:       
+    if tournament_id in ["1003"]:       
         for item in results:
             if int(item.id) >= int("1068"):
                 new_res.append(item)    
                 
-        return cache_set(key_name, new_res, include)
+    if tournament_id in ["1008"]:       
+        for item in results:
+            if int(item.id) >= int("1137"):
+                new_res.append(item)     
+                
+                logging.info(item.id)               
+               
+                new_res = sorted(new_res, key=lambda student: student.id, reverse=True)  
+                               
+                
 
     return cache_set(key_name, results, include)
 
@@ -4354,8 +4363,9 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
+    deferred.defer(league_browse, tournament_id = "1008", is_reload = True)
 
-    deferred.defer( team_get_players, team_id = "1631", stat = True, is_reload = True) 
+    #deferred.defer( team_get_players, team_id = "1631", stat = True, is_reload = True) 
     #deferred.defer(team_browse_rating, tournament_id = "1003", is_reload = True)  
     
     #deferred.defer(rating_player_update, tournament_id = "1003")    
