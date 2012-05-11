@@ -4459,6 +4459,10 @@ def get_class( kls ):
 def test(league_id = "1004", limit = 1000):
 
 
+    match_remove("6487")
+
+    return True
+
 
     test_create(league_id = "1115", name=u'Высшая Лига 1-6 места',
                  group_teams=["1178", "1170", "1176", "1177", "1174", "1366"])
