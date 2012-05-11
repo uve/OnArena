@@ -4459,7 +4459,127 @@ def get_class( kls ):
 def test(league_id = "1004", limit = 1000):
 
 
-    match_remove("6487")
+
+    tournament = models.Tournament.get_item("1008")
+        
+    del_mas = []
+
+    all_matches = models.Match.gql("WHERE tournament_id = :1", tournament).fetch(limit)
+        
+        
+    for match in all_matches:
+    
+        all_players = models.PlayerMatch.gql("WHERE match_id = :1", match).fetch(limit)
+        for i, v in enumerate(all_players):
+            for i2, v2 in enumerate(all_players): 
+                try:
+                    if v.player_id.id == v2.player_id.id and v.team_id.id == v2.team_id.id and i < i2:
+                        logging.info("team: %s \t player: %s \t datetime: %s",
+                                       v.team_id.name, v.player_id.full_name, match.datetime)
+                                       
+                        del_mas.append(v2)
+                except:
+                    pass
+                
+    
+
+
+    models.db.delete(del_mas)  
+
+    return True    
+    
+    for team in all_teams:
+        deferred.defer(team_get_players, team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
+
+
+        
+    for team in all_teams:    
+        all_players = models.PlayerTeam.gql("WHERE team_id = :1", team).fetch(limit)
+        for i, v in enumerate(all_players):
+            for i2, v2 in enumerate(all_players): 
+                if v.player_id.id == v2.player_id.id and i < i2:
+                    logging.info("team: %s \t player: %s",
+                                   team.name, v.player_id.full_name)
+                                   
+                    del_mas.append(v2)
+    
+    models.db.delete(del_mas)     
+    
+    
+    return True 
+
+
+    
+    all_players = models.Player.gql("WHERE tournament_id = :1", tournament).fetch(limit)
+    
+    
+    
+    
+    uniq = {}
+    
+    for i, item in enumerate(all_players):
+        
+            
+        for j, item2 in enumerate(all_players):
+            if item.full_name == item2.full_name and i!=j:
+                
+                if not item.full_name in uniq:
+                    uniq[item.full_name] = []            
+            
+                if not item.key() in uniq[item.full_name]:
+                    uniq[item.full_name].append(item.key())
+                
+                if not item2.key() in uniq[item.full_name]:
+                    uniq[item.full_name].append(item2.key())
+                    
+                #logging.info("Name: %s, /t id1: %s, /t id2: %s", item.full_name, item.id, item2.id)
+
+    mas = [ models.PlayerMatch, models.PlayerTeam, models.Event, models.Sanction, models.StatPlayer, models.Image]
+
+    all_results = []
+
+    for item in uniq:        
+        #s = ""
+        #for value in uniq[item]:
+        #    s += value + ", "
+        #logging.info("Name: %s, \t Ids: %s", item, s)
+        
+        for item3 in mas:
+            logging.info("%s", uniq[item][0])
+            rem  = item3.gql("WHERE player_id IN :1", uniq[item][1:]).fetch(limit)
+            
+            if len(rem) > 0:
+                logging.info("Name: %s, len: %s", item3, len(rem))
+
+            
+            #for x in rem:
+            #    x.player_id = uniq[item][0]
+            #            
+            #all_results.append(db.put_async(rem))
+             
+    
+    #for item in all_results: 
+    #    item.get_result()   
+    
+    
+    return True
+
+    mas = [ models.Season, models.PlayoffCompetitor, models.Competitor,  
+            models.Score,  models.PlayerMatch, models.PlayerTeam, models.Event,
+            models.Sanction, models.StatPlayer, models.Image, models.Vote]
+    
+    
+    
+    for item in mas:
+        rem  = item.gql("WHERE tournament_id = :1 and team_id IN :2", tournament, res2).fetch(limit)
+        for x in rem:
+            x.team_id = value
+                        
+        db.put(rem)         
+
+    #match_remove("6487")
 
     return True
 
@@ -4552,8 +4672,10 @@ def test(league_id = "1004", limit = 1000):
     for match in all_matches:    
         deferred.defer(match_get, match_id = match.id, is_reload = True)
 
-    return True 
-    
+    return True
+
+    all_matches = models.Match.gql("WHERE tournament_id = :1", tournament).fetch(limit)
+        
         
     for match in all_matches:
     

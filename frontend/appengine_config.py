@@ -1,3 +1,4 @@
+'''
 import cProfile
 import cStringIO
 import logging
@@ -15,3 +16,4 @@ def webapp_add_wsgi_middleware(app):
     return response
 
   return profiling_wrapper
+'''

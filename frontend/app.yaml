@@ -24,7 +24,7 @@ skip_files: |
 
 builtins:
 - remote_api: off
-- appstats: on
+- appstats: off
 - deferred: off
 - django_wsgi: on
 
