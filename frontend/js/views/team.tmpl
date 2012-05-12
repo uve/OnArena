@@ -8,8 +8,10 @@ template TeamView(TeamInterface data) {
                 <li><a href="/#!/tournament/${data.tournament_id.item_id}/">${data.tournament_id.item_name}</a></li>
                 <li><a href="/#!/tournament/${data.tournament_id.item_id}/teams/">Teams</a></li>    
                 <li id="current"><a href="/#!/team/${data.item_id}/">${data.item_name}</a></li>
-  
-                <li><a href="/team/${data.item_id}/edit/">Edit</a></li> 
+  				
+  				
+                <li><a href="/team/${data.item_id}/edit/">Edit</a></li>
+              
             </ul>
     </div>  
     
@@ -19,7 +21,7 @@ template TeamView(TeamInterface data) {
         <div class="team-photo-small">
           
           <a id="single_image" href="">                                     
-              <img id="single_image_small" src="" alt=""/>
+              <img id="single_image_small" src='${data.photo_small}' alt=""/>
           </a>
 
         </div>

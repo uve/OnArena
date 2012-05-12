@@ -23,8 +23,7 @@ class Base {
 
   }
 
-  //read(var data) {
-  //}
+  abstract void read(var data);
 
   void get(String id) {
 

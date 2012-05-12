@@ -42,7 +42,7 @@ class TeamView {
     e12.elements.add(e13);
     var e14 = new Element.html('<a href="" id="single_image"></a>');
     e13.elements.add(e14);
-    var e15 = new Element.html('<img alt="" src="" id="single_image_small"></img>');
+    var e15 = new Element.html('<img alt="" src="${data.photo_small}" id="single_image_small"></img>');
     e14.elements.add(e15);
     var e16 = new Element.html('<div class="block-12-last"></div>');
     _fragment.elements.add(e16);

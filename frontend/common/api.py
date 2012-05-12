@@ -4462,21 +4462,20 @@ def test(league_id = "1004", limit = 5000):
 
     tournament = models.Tournament.get_item("1008")
         
+    check_mas = []    
+        
     del_mas = []
 
     all_players = models.PlayerMatch.gql("WHERE tournament_id = :1", tournament).fetch(limit)
-    for i, v in enumerate(all_players):
-        for i2, v2 in enumerate(all_players[i:]): 
-            try:
-                if v.player_id.key() == v2.player_id.key() and v.team_id.key() == v2.team_id.key() and v.match_id.key() == v2.match_id.key() and i < i2:
-                    #logging.info("team: %s \t player: %s \t datetime: %s",       v.team_id.name, v.player_id.full_name, match.datetime)
-                    
-                    models.db.delete_async(v2) 
-            except:
-                pass
-                
-
-    models.db.delete(del_mas)  
+    for i, v in enumerate(all_players):        
+        try:
+            check_mas.append( (v.player_id.key(), v.team_id.key(), v.match_id.key()) )
+        except:
+            pass
+    
+    logging.info( len(check_mas) );
+    
+    logging.info( check_mas[0] );      
 
     return True    
     

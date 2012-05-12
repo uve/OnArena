@@ -133,6 +133,8 @@ $defProp(Object.prototype, '$typeNameOf', (function() {
     if (name == 'HTMLTableDataCellElement') return 'HTMLTableCellElement';
     if (name == 'HTMLTableHeaderCellElement') return 'HTMLTableCellElement';
     if (name == 'MSStyleCSSProperties') return 'CSSStyleDeclaration';
+    if (name == 'CanvasPixelArray') return 'Uint8ClampedArray';
+    if (name == 'HTMLPhraseElement') return 'HTMLElement';
     return name;
   }
 
@@ -871,6 +873,30 @@ HashMapImplementation_Dynamic$DoubleLinkedQueueEntry_KeyValuePair.prototype.clea
 HashMapImplementation_Dynamic$DoubleLinkedQueueEntry_KeyValuePair.prototype.forEach$1 = function($0) {
   return this.forEach(to$call$2($0));
 };
+$inherits(HashMapImplementation_dart_core_String$dart_core_Function, HashMapImplementation);
+function HashMapImplementation_dart_core_String$dart_core_Function() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$dart_core_Function.prototype.clear$0 = HashMapImplementation_dart_core_String$dart_core_Function.prototype.clear$_;
+HashMapImplementation_dart_core_String$dart_core_Function.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$List_IObserver, HashMapImplementation);
+function HashMapImplementation_dart_core_String$List_IObserver() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$List_IObserver.prototype.clear$0 = HashMapImplementation_dart_core_String$List_IObserver.prototype.clear$_;
+HashMapImplementation_dart_core_String$List_IObserver.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
 $inherits(HashMapImplementation_dart_core_String$Object, HashMapImplementation);
 function HashMapImplementation_dart_core_String$Object() {
   this._numberOfEntries = (0);
@@ -893,6 +919,78 @@ function HashMapImplementation_dart_core_String$dart_core_String() {
 }
 HashMapImplementation_dart_core_String$dart_core_String.prototype.clear$0 = HashMapImplementation_dart_core_String$dart_core_String.prototype.clear$_;
 HashMapImplementation_dart_core_String$dart_core_String.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IController, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IController() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IController.prototype.clear$0 = HashMapImplementation_dart_core_String$IController.prototype.clear$_;
+HashMapImplementation_dart_core_String$IController.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IFacade, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IFacade() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IFacade.prototype.clear$0 = HashMapImplementation_dart_core_String$IFacade.prototype.clear$_;
+HashMapImplementation_dart_core_String$IFacade.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IMediator, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IMediator() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IMediator.prototype.clear$0 = HashMapImplementation_dart_core_String$IMediator.prototype.clear$_;
+HashMapImplementation_dart_core_String$IMediator.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IModel, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IModel() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IModel.prototype.clear$0 = HashMapImplementation_dart_core_String$IModel.prototype.clear$_;
+HashMapImplementation_dart_core_String$IModel.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IProxy, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IProxy() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IProxy.prototype.clear$0 = HashMapImplementation_dart_core_String$IProxy.prototype.clear$_;
+HashMapImplementation_dart_core_String$IProxy.prototype.forEach$1 = function($0) {
+  return this.forEach(to$call$2($0));
+};
+$inherits(HashMapImplementation_dart_core_String$IView, HashMapImplementation);
+function HashMapImplementation_dart_core_String$IView() {
+  this._numberOfEntries = (0);
+  this._numberOfDeleted = (0);
+  this._loadLimit = HashMapImplementation._computeLoadLimit((8));
+  this._keys = new Array((8));
+  this._values = new Array((8));
+}
+HashMapImplementation_dart_core_String$IView.prototype.clear$0 = HashMapImplementation_dart_core_String$IView.prototype.clear$_;
+HashMapImplementation_dart_core_String$IView.prototype.forEach$1 = function($0) {
   return this.forEach(to$call$2($0));
 };
 function HashSetImplementation() {
@@ -1445,6 +1543,7 @@ $dynamic("set$$$dom_className").Element = function(value) {
 $dynamic("get$$$dom_firstElementChild").Element = function() {
   return this.firstElementChild;
 }
+$dynamic("get$innerHTML").Element = function() { return this.innerHTML; };
 $dynamic("set$innerHTML").Element = function(value) { return this.innerHTML = value; };
 $dynamic("get$$$dom_lastElementChild").Element = function() {
   return this.lastElementChild;
@@ -1684,6 +1783,11 @@ $dynamic("get$elements").DocumentFragment = function() {
     this._elements = new FilteredElementList(this);
   }
   return this._elements;
+}
+$dynamic("get$innerHTML").DocumentFragment = function() {
+  var e = _ElementFactoryProvider.Element$tag$factory("div");
+  e.get$nodes().add(this.cloneNode(true));
+  return e.get$innerHTML();
 }
 $dynamic("set$innerHTML").DocumentFragment = function(value) {
   this.get$nodes().clear$_();
@@ -2146,7 +2250,45 @@ _EventListenerListImpl.prototype.add$1 = function($0) {
 $dynamic("get$name").HTMLFieldSetElement = function() { return this.name; };
 $dynamic("get$name").File = function() { return this.name; };
 $dynamic("get$name").FileException = function() { return this.name; };
+$dynamic("is$List").FileList = function(){return true};
+$dynamic("is$Collection").FileList = function(){return true};
 $dynamic("get$length").FileList = function() { return this.length; };
+$dynamic("$index").FileList = function(index) {
+  return this[index];
+}
+$dynamic("$setindex").FileList = function(index, value) {
+  $throw(new UnsupportedOperationException("Cannot assign element of immutable List."));
+}
+$dynamic("iterator").FileList = function() {
+  return new _FixedSizeListIterator_html_File(this);
+}
+$dynamic("add").FileList = function(value) {
+  $throw(new UnsupportedOperationException("Cannot add to immutable List."));
+}
+$dynamic("addAll").FileList = function(collection) {
+  $throw(new UnsupportedOperationException("Cannot add to immutable List."));
+}
+$dynamic("forEach").FileList = function(f) {
+  return _Collections.forEach(this, f);
+}
+$dynamic("filter").FileList = function(f) {
+  return _Collections.filter(this, [], f);
+}
+$dynamic("last").FileList = function() {
+  return this.$index(this.length - (1));
+}
+$dynamic("removeLast").FileList = function() {
+  $throw(new UnsupportedOperationException("Cannot removeLast on immutable List."));
+}
+$dynamic("add$1").FileList = function($0) {
+  return this.add($0);
+};
+$dynamic("filter$1").FileList = function($0) {
+  return this.filter($wrap_call$1(to$call$1($0)));
+};
+$dynamic("forEach$1").FileList = function($0) {
+  return this.forEach($wrap_call$1(to$call$1($0)));
+};
 $dynamic("$dom_addEventListener$3").FileReader = function($0, $1, $2) {
   return this.addEventListener($0, $wrap_call$1(to$call$1($1)), $2);
 };
@@ -2722,6 +2864,12 @@ $dynamic("set$elements").SVGElement = function(value) {
   elements.clear$0();
   elements.addAll(value);
 }
+$dynamic("get$innerHTML").SVGElement = function() {
+  var container = _ElementFactoryProvider.Element$tag$factory("div");
+  var cloned = this.cloneNode(true);
+  container.get$elements().addAll(cloned.get$elements());
+  return container.get$innerHTML();
+}
 $dynamic("set$innerHTML").SVGElement = function(svg) {
   var container = _ElementFactoryProvider.Element$tag$factory("div");
   container.set$innerHTML(("<svg version=\"1.1\">" + svg + "</svg>"));
@@ -2767,6 +2915,7 @@ $dynamic("get$length").HTMLSelectElement = function() { return this.length; };
 $dynamic("get$name").HTMLSelectElement = function() { return this.name; };
 $dynamic("get$value").HTMLSelectElement = function() { return this.value; };
 $dynamic("set$value").HTMLSelectElement = function(value) { return this.value = value; };
+$dynamic("get$innerHTML").ShadowRoot = function() { return this.innerHTML; };
 $dynamic("set$innerHTML").ShadowRoot = function(value) { return this.innerHTML = value; };
 $dynamic("get$name").SharedWorkerContext = function() { return this.name; };
 $inherits(_SharedWorkerContextEventsImpl, _WorkerContextEventsImpl);
@@ -3029,12 +3178,57 @@ $dynamic("removeLast").Uint8Array = function() {
   $throw(new UnsupportedOperationException("Cannot removeLast on immutable List."));
 }
 $dynamic("add$1").Uint8Array = function($0) {
-  return this.add($0);
+  if (Object.getPrototypeOf(this).hasOwnProperty("add$1")) {
+    return this.add($0);
+  }
+  return Object.prototype.add$1.call(this, $0);
 };
 $dynamic("filter$1").Uint8Array = function($0) {
-  return this.filter($wrap_call$1(to$call$1($0)));
+  if (Object.getPrototypeOf(this).hasOwnProperty("filter$1")) {
+    return this.filter($wrap_call$1(to$call$1($0)));
+  }
+  return Object.prototype.filter$1.call(this, $0);
 };
 $dynamic("forEach$1").Uint8Array = function($0) {
+  if (Object.getPrototypeOf(this).hasOwnProperty("forEach$1")) {
+    return this.forEach($wrap_call$1(to$call$1($0)));
+  }
+  return Object.prototype.forEach$1.call(this, $0);
+};
+$dynamic("$index").Uint8ClampedArray = function(index) {
+  return this[index];
+}
+$dynamic("$setindex").Uint8ClampedArray = function(index, value) {
+  this[index] = value
+}
+$dynamic("iterator").Uint8ClampedArray = function() {
+  return new _FixedSizeListIterator_int(this);
+}
+$dynamic("add").Uint8ClampedArray = function(value) {
+  $throw(new UnsupportedOperationException("Cannot add to immutable List."));
+}
+$dynamic("addAll").Uint8ClampedArray = function(collection) {
+  $throw(new UnsupportedOperationException("Cannot add to immutable List."));
+}
+$dynamic("forEach").Uint8ClampedArray = function(f) {
+  return _Collections.forEach(this, f);
+}
+$dynamic("filter").Uint8ClampedArray = function(f) {
+  return _Collections.filter(this, [], f);
+}
+$dynamic("last").Uint8ClampedArray = function() {
+  return this.$index(this.length - (1));
+}
+$dynamic("removeLast").Uint8ClampedArray = function() {
+  $throw(new UnsupportedOperationException("Cannot removeLast on immutable List."));
+}
+$dynamic("add$1").Uint8ClampedArray = function($0) {
+  return this.add($0);
+};
+$dynamic("filter$1").Uint8ClampedArray = function($0) {
+  return this.filter($wrap_call$1(to$call$1($0)));
+};
+$dynamic("forEach$1").Uint8ClampedArray = function($0) {
   return this.forEach($wrap_call$1(to$call$1($0)));
 };
 $dynamic("get$name").WebGLActiveInfo = function() { return this.name; };
@@ -3076,7 +3270,6 @@ $inherits(_XMLHttpRequestUploadEventsImpl, _EventsImpl);
 function _XMLHttpRequestUploadEventsImpl() {}
 $dynamic("get$name").XPathException = function() { return this.name; };
 function _AudioElementFactoryProvider() {}
-function _BlobBuilderFactoryProvider() {}
 function _CSSMatrixFactoryProvider() {}
 function _DOMParserFactoryProvider() {}
 function _DOMURLFactoryProvider() {}
@@ -3133,10 +3326,15 @@ _DocumentFragmentFactoryProvider.DocumentFragment$factory = function() {
 }
 function _SVGElementFactoryProvider() {}
 function _SVGSVGElementFactoryProvider() {}
+function _DOMWindowCrossFrameImpl() {}
+_DOMWindowCrossFrameImpl.prototype.get$length = function() {
+  return this._window.length;
+}
 function _AudioContextFactoryProvider() {}
 function _PointFactoryProvider() {}
 function _WebSocketFactoryProvider() {}
 function _TextFactoryProvider() {}
+function _IDBKeyRangeFactoryProvider() {}
 function _TypedArrayFactoryProvider() {}
 function Testing() {}
 function _Device() {}
@@ -3184,6 +3382,16 @@ $inherits(_FixedSizeListIterator_num, _FixedSizeListIterator);
 function _FixedSizeListIterator_num(array) {
   this._html_length = array.get$length();
   _VariableSizeListIterator_num.call(this, array);
+}
+$inherits(_VariableSizeListIterator_html_File, _VariableSizeListIterator);
+function _VariableSizeListIterator_html_File(array) {
+  this._html_array = array;
+  this._html_pos = (0);
+}
+$inherits(_FixedSizeListIterator_html_File, _FixedSizeListIterator);
+function _FixedSizeListIterator_html_File(array) {
+  this._html_length = array.get$length();
+  _VariableSizeListIterator_html_File.call(this, array);
 }
 $inherits(_VariableSizeListIterator_html_Node, _VariableSizeListIterator);
 function _VariableSizeListIterator_html_Node(array) {
@@ -3412,7 +3620,7 @@ function TeamView(data) {
   e12.get$elements().add(e13);
   var e14 = _ElementFactoryProvider.Element$html$factory("<a href=\"\" id=\"single_image\"></a>");
   e13.get$elements().add(e14);
-  var e15 = _ElementFactoryProvider.Element$html$factory("<img alt=\"\" src=\"\" id=\"single_image_small\"></img>");
+  var e15 = _ElementFactoryProvider.Element$html$factory(("<img alt=\"\" src=\"" + this.data.noSuchMethod("get:photo_small", []) + "\" id=\"single_image_small\"></img>"));
   e14.get$elements().add(e15);
   var e16 = _ElementFactoryProvider.Element$html$factory("<div class=\"block-12-last\"></div>");
   this._fragment.get$elements().add(e16);
@@ -3483,6 +3691,192 @@ function add_team_templatesStyles() {
     get$$document().head.get$elements().add(_ElementFactoryProvider.Element$html$factory(("<style>" + styles.toString() + "</style>")));
   }
 }
+function MVCNotifier() {
+
+}
+MVCNotifier.prototype.initializeNotifier = function(key) {
+  this.multitonKey = key;
+}
+$inherits(MVCProxy, MVCNotifier);
+function MVCProxy(name, data) {
+  this.name = name;
+  this.data = data;
+  MVCNotifier.call(this);
+}
+MVCProxy.prototype.getName = function() {
+  return this.name;
+}
+MVCProxy.prototype.getData = function() {
+  return this.data;
+}
+MVCProxy.prototype.onRegister = function() {
+
+}
+MVCProxy.prototype.get$name = function() { return this.name; };
+function MVCFacade(key) {
+  if ($ne$($globals.MVCFacade_instanceMap.$index(key))) $throw(new MultitonFacadeExistsError());
+  this.initializeNotifier(key);
+  $globals.MVCFacade_instanceMap.$setindex(this.multitonKey, this);
+  this.initializeFacade();
+}
+MVCFacade.prototype.initializeFacade = function() {
+  this.initializeModel();
+  this.initializeController();
+  this.initializeView();
+}
+MVCFacade.getInstance = function(key) {
+  if (key == null || key == "") return null;
+  if ($globals.MVCFacade_instanceMap == null) $globals.MVCFacade_instanceMap = new HashMapImplementation_dart_core_String$IFacade();
+  if ($eq$($globals.MVCFacade_instanceMap.$index(key))) $globals.MVCFacade_instanceMap.$setindex(key, new MVCFacade(key));
+  return $globals.MVCFacade_instanceMap.$index(key);
+}
+MVCFacade.prototype.initializeController = function() {
+  if (this.controller != null) return;
+  this.controller = MVCController.getInstance(this.multitonKey);
+}
+MVCFacade.prototype.initializeModel = function() {
+  if (this.model != null) return;
+  this.model = MVCModel.getInstance(this.multitonKey);
+}
+MVCFacade.prototype.initializeView = function() {
+  if (this.view != null) return;
+  this.view = MVCView.getInstance(this.multitonKey);
+}
+MVCFacade.prototype.registerProxy = function(proxy) {
+  this.model.registerProxy(proxy);
+}
+MVCFacade.prototype.retrieveProxy = function(proxyName) {
+  return this.model.retrieveProxy(proxyName);
+}
+MVCFacade.prototype.initializeNotifier = function(key) {
+  this.multitonKey = key;
+}
+function MultitonFacadeExistsError() {
+
+}
+MultitonFacadeExistsError.prototype.toString = function() {
+  return "IFacade Multiton instance already constructed for this key.";
+}
+function MVCModel(key) {
+  if ($ne$($globals.MVCModel_instanceMap.$index(key))) $throw(new MultitonModelExistsError());
+  this.multitonKey = key;
+  $globals.MVCModel_instanceMap.$setindex(this.multitonKey, this);
+  this.proxyMap = new HashMapImplementation_dart_core_String$IProxy();
+  this.initializeModel();
+}
+MVCModel.prototype.initializeModel = function() {
+
+}
+MVCModel.getInstance = function(key) {
+  if (key == null || key == "") return null;
+  if ($globals.MVCModel_instanceMap == null) $globals.MVCModel_instanceMap = new HashMapImplementation_dart_core_String$IModel();
+  if ($eq$($globals.MVCModel_instanceMap.$index(key))) $globals.MVCModel_instanceMap.$setindex(key, new MVCModel(key));
+  return $globals.MVCModel_instanceMap.$index(key);
+}
+MVCModel.prototype.registerProxy = function(proxy) {
+  proxy.initializeNotifier(this.multitonKey);
+  this.proxyMap.$setindex(proxy.getName(), proxy);
+  proxy.onRegister();
+}
+MVCModel.prototype.retrieveProxy = function(proxyName) {
+  return this.proxyMap.$index(proxyName);
+}
+function MultitonModelExistsError() {
+
+}
+MultitonModelExistsError.prototype.toString = function() {
+  return "IModel Multiton instance already constructed for this key.";
+}
+function MVCView(key) {
+  if ($ne$($globals.MVCView_instanceMap.$index(key))) $throw(new MultitonViewExistsError());
+  this.multitonKey = key;
+  $globals.MVCView_instanceMap.$setindex(this.multitonKey, this);
+  this.mediatorMap = new HashMapImplementation_dart_core_String$IMediator();
+  this.observerMap = new HashMapImplementation_dart_core_String$List_IObserver();
+  this.initializeView();
+}
+MVCView.prototype.initializeView = function() {
+
+}
+MVCView.getInstance = function(key) {
+  if (key == null || key == "") return null;
+  if ($globals.MVCView_instanceMap == null) $globals.MVCView_instanceMap = new HashMapImplementation_dart_core_String$IView();
+  if ($eq$($globals.MVCView_instanceMap.$index(key))) $globals.MVCView_instanceMap.$setindex(key, new MVCView(key));
+  return $globals.MVCView_instanceMap.$index(key);
+}
+function MultitonViewExistsError() {
+
+}
+MultitonViewExistsError.prototype.toString = function() {
+  return "IViewMultiton instance already constructed for this key.";
+}
+function MVCController(key) {
+  if ($ne$($globals.MVCController_instanceMap.$index(key))) $throw(new MultitonControllerExistsError());
+  this.multitonKey = key;
+  $globals.MVCController_instanceMap.$setindex(this.multitonKey, this);
+  this.commandMap = new HashMapImplementation_dart_core_String$dart_core_Function();
+  this.initializeController();
+}
+MVCController.prototype.initializeController = function() {
+  this.view = MVCView.getInstance(this.multitonKey);
+}
+MVCController.getInstance = function(key) {
+  if (key == null || key == "") return null;
+  if ($globals.MVCController_instanceMap == null) $globals.MVCController_instanceMap = new HashMapImplementation_dart_core_String$IController();
+  if ($eq$($globals.MVCController_instanceMap.$index(key))) $globals.MVCController_instanceMap.$setindex(key, new MVCController(key));
+  return $globals.MVCController_instanceMap.$index(key);
+}
+function MultitonControllerExistsError() {
+
+}
+MultitonControllerExistsError.prototype.toString = function() {
+  return "IController Multiton instance already constructed for this key.";
+}
+function PureMVC_Dart() {
+
+}
+PureMVC_Dart.prototype.test = function() {
+  var multitonKey = "Test Core";
+  var dataPoint1 = "Hello";
+  var dataPoint2 = "World";
+  var proxyName = "DataProxy";
+  var retrievedObject;
+  var badJuju = "";
+  try {
+    var facade = MVCFacade.getInstance(multitonKey);
+    this.write(("Facade created for " + multitonKey + "."));
+    var dataObject = new Array();
+    this.write("Data Object (List&ltString&gt) created.");
+    dataObject.add(dataPoint1);
+    this.write(("Data point added '" + dataPoint1 + "'."));
+    dataObject.add(dataPoint2);
+    this.write(("Data point added '" + dataPoint2 + "'."));
+    var proxy = new MVCProxy(proxyName, dataObject);
+    this.write(("Proxy '" + proxyName + "' created with for Data Object."));
+    facade.registerProxy(proxy);
+    this.write(("Proxy '" + proxyName + "' registered with Model, via Facade."));
+    var retrievedProxy = facade.retrieveProxy(proxyName);
+    this.write(("Proxy '" + proxyName + "' retrieved from Model, via Facade."));
+    retrievedObject = retrievedProxy.getData();
+    this.write(("Data Object (List&ltString&gt) retrieved from " + proxyName));
+    this.write("Data Object (List&ltString&gt) Length: " + retrievedObject.get$length());
+    this.write(("Contents: " + retrievedObject.$index((0)) + " " + retrievedObject.$index((1))));
+  } catch (e) {
+    e = _toDartException(e);
+    badJuju = e.toString();
+  } finally {
+    if (badJuju.length == (0) && retrievedObject != null && $eq$(retrievedObject.$index((0)), dataPoint1) && $eq$(retrievedObject.$index((1)), dataPoint2)) {
+      this.write("<P/><B>Science!</B> PureMVC is purring like a kitten. Take her out for a spin!");
+    }
+    else {
+      this.write("<P/><B>Claptrap!</B> Someone's thrown a spanner in the works.");
+      if (badJuju.length > (0)) this.write(("<B>Bad juju reported:</B> " + badJuju));
+    }
+  }
+}
+PureMVC_Dart.prototype.write = function(message) {
+  get$$document().query("#main-content").set$innerHTML($add$($add$(get$$document().query("#main-content").get$innerHTML(), "<br/>"), message));
+}
 function main() {
   get$$document().query("#a1004").get$on().get$click().add$1((function (e) {
     return review("1004");
@@ -3492,6 +3886,7 @@ function main() {
     return review("1005");
   })
   );
+  new PureMVC_Dart().test();
 }
 function review(item_id) {
   new Team().get$_(item_id);
