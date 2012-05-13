@@ -30,12 +30,15 @@ builtins:
 - deferred: off
 - django_wsgi: on
 
-#inbound_services:
-#- warmup
+
+inbound_services:
+- warmup
+
 
 libraries:
 - name: django
   version: latest  
+  
 
 handlers:
 
