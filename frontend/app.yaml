@@ -20,6 +20,8 @@ skip_files: |
  (.git/.*)|
  (.swp)|
  (old/.*)| 
+ (.dart)|
+ (.tmpl)|
  )$
 
 builtins:
