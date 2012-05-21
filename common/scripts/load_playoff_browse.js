@@ -1,7 +1,7 @@
 {% load i18n %}
 
 load_async({ 
-            'key':           'playoff_browse_league_id_' + '{{ league.id }}',
+            'key':           'playoff_browse_league_id_' + '1123',//'{{ league.id }}',
             'last_modified': '{{ request.playoff_browse_league_id_ }}',
             'template':      '#template-playoff-browse', 
             'selector':      '#playoff-browse',

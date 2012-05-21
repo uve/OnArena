@@ -10,6 +10,8 @@ function load_async(item, callback) {
   var etag_local = '';
   var item_local = '';
   
+  is_localStorage = false;
+  
   if (is_localStorage == true){  
     etag_local = window.localStorage.getItem(last_modified);     
     item_local = window.localStorage.getItem(key)  
@@ -39,9 +41,13 @@ function load_async(item, callback) {
   }
   else{
 
+	//var server = "http://www.onarena.com/api/";
+	
+	var server = "/api/";
+	  
     var geturl = $.ajax({                         
                 type: "GET",
-                url: "/api/",
+                url: server,
                 data: ( item['data'] ),  
                                         
                 jsonp: "$callback",                 

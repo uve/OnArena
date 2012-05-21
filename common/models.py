@@ -322,7 +322,7 @@ class PlayoffNode(CustomModel):
 class PlayoffCompetitor(CustomModel):
 
     id          = db.StringProperty(required=True)
-    team_id  = db.ReferenceProperty(Team,   collection_name='team_playoffcompetitors',    required=False)
+    team_id       = db.ReferenceProperty(Team,   collection_name='team_playoffcompetitors',    required=False)
 
     tournament_id = db.ReferenceProperty(Tournament, collection_name='tournament_playoffcompetitors', required=True)
     league_id     = db.ReferenceProperty(League,     collection_name='league_playoffcompetitors',     required=True)

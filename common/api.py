@@ -2571,7 +2571,23 @@ def playoff_browse(league_id = None, limit = 1000, is_reload = None, memcache_de
         item.nodes = models.PlayoffNode.gql("WHERE playoff_id = :1 ORDER BY playoff_id, created ASC", item).fetch(limit)
         
         for value in item.nodes:
+            #value.competitors = models.PlayoffCompetitor.gql("WHERE playoffnode_id = :1 ORDER BY created ASC", value).fetch(limit)
+            
+            value.competitors = []
+            
             value.competitors = models.PlayoffCompetitor.gql("WHERE playoffnode_id = :1 ORDER BY created ASC", value).fetch(limit)
+            
+            
+            '''
+            value.competitors = []
+            
+            for competitor in competitors:
+                
+                logging.info(competitor.id)
+                logging.info(competitor.key())
+                
+                value.competitors.append(competitor.team_id)
+            '''
 
             value.matches     = models.Match.gql("WHERE playoffnode_id = :1 ORDER BY created ASC", value).fetch(limit)
                                
@@ -2598,6 +2614,11 @@ def playoff_browse(league_id = None, limit = 1000, is_reload = None, memcache_de
                         #new_team.score = 0                                          
                     
                     match.teams.append(new_team)   
+                    
+                    for competitor in value.competitors:
+                        if not competitor.team_id:                                                
+                            competitor.team_id = new_team
+                            break
     
     
     include = ["id", "name", "playoffnode_id", "size", "playoffstage_id", "nodes", 
@@ -4366,7 +4387,13 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
-    deferred.defer(league_browse, tournament_id = "1008", is_reload = True)
+
+    mas = ['1119', '1120', '1121', '1122', '1123', '1124', '1125', '1126', '1127', '1128', '1129', '1130' ]
+
+    for item in mas:
+        playoff_browse(league_id = item, is_reload = True) 
+        
+    #deferred.defer(league_browse, tournament_id = "1008", is_reload = True)
 
     #deferred.defer( team_get_players, team_id = "1631", stat = True, is_reload = True) 
     #deferred.defer(team_browse_rating, tournament_id = "1003", is_reload = True)  
