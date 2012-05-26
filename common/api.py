@@ -768,7 +768,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1002":       
         for item in results:
-            if int(item.id) >= int("1100"):
+            if int(item.id) >= int("1146"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
