@@ -775,7 +775,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1003":       
         for item in results:
-            if int(item.id) >= int("1115"):
+            if int(item.id) >= int("1143"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -790,7 +790,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1001":       
         for item in results:
-            if int(item.id) >= int("1118"):
+            if int(item.id) >= int("1143"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -4387,6 +4387,9 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
+    league_browse(tournament_id = "1001", is_reload=True)
+
+    return True
 
     mas = ['1119', '1120', '1121', '1122', '1123', '1124', '1125', '1126', '1127', '1128', '1129', '1130' ]
 
