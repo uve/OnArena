@@ -22,19 +22,19 @@ class TeamView {
     e0.elements.add(e3);
     var e4 = new Element.html('<li></li>');
     e3.elements.add(e4);
-    var e5 = new Element.html('<a href="/#!/tournament/${data.tournament_id.item_id}/">${inject_1()}</a>');
+    var e5 = new Element.html('<a href="/#!/tournament/${data["tournament_id"]["id"]}/">${inject_1()}</a>');
     e4.elements.add(e5);
     var e6 = new Element.html('<li></li>');
     e3.elements.add(e6);
-    var e7 = new Element.html('<a href="/#!/tournament/${data.tournament_id.item_id}/teams/">Teams</a>');
+    var e7 = new Element.html('<a href="/#!/tournament/${data["tournament_id"]["id"]}/teams/">Teams</a>');
     e6.elements.add(e7);
     var e8 = new Element.html('<li id="current"></li>');
     e3.elements.add(e8);
-    var e9 = new Element.html('<a href="/#!/team/${data.item_id}/">${inject_2()}</a>');
+    var e9 = new Element.html('<a href="/#!/team/${data["id"]}/">${inject_2()}</a>');
     e8.elements.add(e9);
     var e10 = new Element.html('<li></li>');
     e3.elements.add(e10);
-    var e11 = new Element.html('<a href="/team/${data.item_id}/edit/">Edit</a>');
+    var e11 = new Element.html('<a href="/team/${data["id"]}/edit/">Edit</a>');
     e10.elements.add(e11);
     var e12 = new Element.html('<div class="block-7"></div>');
     _fragment.elements.add(e12);
@@ -42,7 +42,7 @@ class TeamView {
     e12.elements.add(e13);
     var e14 = new Element.html('<a href="" id="single_image"></a>');
     e13.elements.add(e14);
-    var e15 = new Element.html('<img alt="" src="${data.photo_small}" id="single_image_small"></img>');
+    var e15 = new Element.html('<img alt="" src="${data["photo_small"]}" id="single_image_small"></img>');
     e14.elements.add(e15);
     var e16 = new Element.html('<div class="block-12-last"></div>');
     _fragment.elements.add(e16);
@@ -92,19 +92,19 @@ class TeamView {
 
   // Injection functions:
   String inject_0() {
-    return safeHTML('${data.item_name}');
+    return safeHTML('${data["name"]}');
   }
 
   String inject_1() {
-    return safeHTML('${data.tournament_id.item_name}');
+    return safeHTML('${data["tournament_id"]["name"]}');
   }
 
   String inject_2() {
-    return safeHTML('${data.item_name}');
+    return safeHTML('${data["name"]}');
   }
 
   String inject_3() {
-    return safeHTML('${data.item_name}');
+    return safeHTML('${data["name"]}');
   }
 
   // Each functions:
