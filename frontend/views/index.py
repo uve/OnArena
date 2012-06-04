@@ -18,6 +18,8 @@ class Index(TemplateView):
 
     template_name = 'common/templates/index.html'
     
+   
+    
     '''
     c = template.RequestContext(request, locals())
     #c.update(csrf(request))

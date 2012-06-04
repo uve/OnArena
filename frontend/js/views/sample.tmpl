@@ -1,0 +1,12 @@
+  template FriendEntry(var age) {
+    <li>
+      
+        
+        ${#if (age<18)}
+          <span class=”left-space”>child</span>
+        ${#else}
+          <span class=”left-space”>adult</span>
+        ${/if}
+      
+    </li>
+  }

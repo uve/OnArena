@@ -3,11 +3,9 @@
 #import('dart:html');
 #import('base.dart');
 #import('tournament.dart');
-
 #source('../views/team.dart');
 
 interface TeamInterface extends BaseInterface {
-
 
     TournamentInterface tournament_id;
 
@@ -42,9 +40,11 @@ class Team extends Base {
 
     }
 
-    read(Map data) {
+    read(TeamInterface data) {
+
 
          TeamView team_item = new TeamView(data);
+
 
          document.query('#main-content').nodes.clear();
          document.query('#main-content').nodes.add(team_item.root);

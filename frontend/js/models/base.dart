@@ -1,23 +1,17 @@
 #library('base');
 
-#import('../JsonObject.dart');
 #import('dart:html');
+#import("dart:json");
 
-
-interface BaseInterface extends JsonObject {
+interface BaseInterface extends Object{
 
     String id;
     String name;
-    String item_id;
-    String item_name;
-
     String created;
 }
 
 
 class Base {
-
-  //String class_name;
 
   Base() {
 
@@ -38,10 +32,8 @@ class Base {
       request.on.readyStateChange.add((Event e) {
         if (request.readyState == XMLHttpRequest.DONE &&
               (request.status == 200 || request.status == 0)) {
-                  //Map data = JSON.parse(request.responseText);
 
-                  Map data = new JsonObject.fromJsonString(request.responseText);
-
+                  var data = JSON.parse(request.responseText);
                   read(data);
             }
         });
@@ -54,7 +46,7 @@ class Base {
 
   void write(String message) {
     // the HTML library defines a global "document" variable
-    document.query('#status').innerHTML = document.query('#status').innerHTML + "<br/>" + message;
+   // document.query('#status').innerHTML = document.query('#status').innerHTML + "<br/>" + message;
   }
 
 
