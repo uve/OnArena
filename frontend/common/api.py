@@ -773,7 +773,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1002":       
         for item in results:
-            if int(item.id) >= int("1100"):
+            if int(item.id) >= int("1146"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
@@ -4460,6 +4460,28 @@ def test(league_id = "1004", limit = 5000):
 
 
 
+    
+    
+    
+    league = models.League.get_item("1147")
+    league.name = u"Летний Кубок. Группа B"
+    league.put()
+    
+    league = models.League.get_item("1148")
+    league.name = u"Летний Кубок. Группа C"
+    league.put()
+    
+    league = models.League.get_item("1149")
+    league.name = u"Летний Кубок. Группа D"
+    league.put()
+    
+    
+    league_browse(tournament_id = "1002", is_reload = True)
+    
+    return True
+    
+    
+    
     tournament = models.Tournament.get_item("1008")
         
     check_mas = []    
