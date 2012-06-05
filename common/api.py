@@ -2052,9 +2052,7 @@ def match_edit(post_data, limit=5000):
                 score_ref = models.Score(**params)
                 #new_scores.append(score_ref)
                 #score_ref
-                all_results.append(db.put_async(score_ref))
-                
-                logging.info("Async score % ", res)
+                all_results.append(db.put_async(score_ref))                                
                 
         else:
             
@@ -2460,7 +2458,7 @@ def news_create(request, **kw):
     tournament    = models.Tournament.get_item(tournament_id)
     
     if not tournament:
-        logging.error("No team: %s", team_id)
+        logging.error("No tournament_id: %s", tournament_id)
         return None
       
    
