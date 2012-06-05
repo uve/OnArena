@@ -135,7 +135,7 @@
 
         <ul>
         {% for item in sanctions %}
-        {% ifequal team.id item.team_id.id %}
+  
          <li>              
               
             <span class="event-player"> 
@@ -150,7 +150,7 @@
 
             <span class="remove-field"><img src="http://commondatastorage.googleapis.com/cometip/images/cross.png"/></span>
           </li>    
-         {% endifequal %}
+   
          {% endfor %} 
         <li class="empty-addsanction" id="empty-addsanction"></li> 
         </ul>
@@ -184,7 +184,7 @@
 
         <ul>
         {% for item in sanctions %}
-        {% ifequal team.id item.team_id.id %}
+
          <li>                          
             <span class="event-player"> 
                 {% for player in teamplayers %}
@@ -192,7 +192,7 @@
                 {% endfor %}         
              </span>      
           </li>    
-         {% endifequal %}
+
          {% endfor %} 
 
         </ul>

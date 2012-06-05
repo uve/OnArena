@@ -222,6 +222,14 @@ $(function () {
 
 
     'use strict';
+    
+    
+   $(".add-sanction").click(function() {       
+   
+   $(this).parent().find(".dynamic-sanction").clone(true).insertBefore($(this).parent().find(".empty-addsanction")).removeClass("dynamic-sanction");  
+ 
+  });           
+    
 
     // Initialize the jQuery File Upload widget:
     
@@ -332,13 +340,7 @@ $(function () {
         
                 
         /************************************************************/       
-        
-        $(".add-sanction").click(function() {       
-    
-           $(this).parent().find(".dynamic-sanction").clone(true).insertBefore($(this).parent().find(".empty-addsanction")).removeClass("dynamic-sanction")
-  
-          });           
-          
+              
         /************************************************************/   
         
         $('input[type=checkbox]#player_team_active').bind('click', function() {        
@@ -469,6 +471,7 @@ $(document).ready(function () {
 </script>
 -->
 
+<!--
 <div id="fb-root"></div>
        <script>(function(d){
   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
@@ -478,7 +481,7 @@ $(document).ready(function () {
 }(document));</script> 
 
 
-<!-- Place this tag after the last plusone tag -->
+
 <script type="text/javascript">
   (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -486,7 +489,7 @@ $(document).ready(function () {
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 </script>
-
+-->
 
 {% endifequal %}
 
@@ -499,9 +502,11 @@ $(document).ready(function () {
 
 {% if not DEBUG %}
 {% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
-<div id="vk_api_transport"></div>
+
+<script src="http://userapi.com/js/api/openapi.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-  window.vkAsyncInit = function() {
+ 
     VK.init({apiId: {{ VKONTAKE_ID }}, onlyWidgets: true});
     
         
@@ -514,16 +519,7 @@ $(document).ready(function () {
     VK.Widgets.Like("vk_like", {type: "button"});  
     VK.Widgets.Comments("vk_comments", {limit: 15, width: "600", attach: "*"});
     
-    
-  };
 
-  setTimeout(function() {
-    var el = document.createElement("script");
-    el.type = "text/javascript";
-    el.src = "http://userapi.com/js/api/openapi.js?45";
-    el.async = true;
-    document.getElementById("vk_api_transport").appendChild(el);
-  }, 0);
 </script>
 
 {% endifequal %}

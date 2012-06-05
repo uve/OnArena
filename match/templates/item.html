@@ -70,10 +70,12 @@
 <div class="default-block"> 
   <div class="block-8">
     {% with team0 as team %}
-      {% with match.teams.0.players as teamplayers %}
-      
-           {% include 'match/templates/block_players.html'%}
-           
+      {% with match.teams.0.players as teamplayers %}      
+          	{% with match.teams.0.sanctions as sanctions %}                
+              
+               {% include 'match/templates/block_players.html'%}
+               
+            {% endwith %}             
       {% endwith %}
     {% endwith %}
   </div>
@@ -83,10 +85,12 @@
    <div class="block-8-last">
 
     {% with team1 as team %}
-      {% with match.teams.1.players as teamplayers %}
-
-             {% include 'match/templates/block_players.html'%}
-             
+      {% with match.teams.1.players as teamplayers %}      
+          	{% with match.teams.1.sanctions as sanctions%}                
+              
+      	       {% include 'match/templates/block_players.html'%}
+      	       
+            {% endwith %}             
       {% endwith %}
     {% endwith %}
   </div>

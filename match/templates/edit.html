@@ -89,10 +89,14 @@
 
     {% with team0 as team %}
       {% with match.teams.0.players as teamplayers %}
-          {% with team0_players_active as teamplayers_active %}                
+          {% with team0_players_active as teamplayers_active %}
+          
+          	{% with match.teams.0.sanctions as sanctions %}                
               
-             {% include 'match/templates/block_players.html'%}
-             
+               {% include 'match/templates/block_players.html'%}
+               
+            {% endwith %}    
+            
           {% endwith %}         
       {% endwith %}
     {% endwith %}
@@ -108,7 +112,11 @@
       {% with match.teams.1.players as teamplayers %}
           {% with team1_players_active as teamplayers_active %}                
               
-             {% include 'match/templates/block_players.html'%}
+          	{% with match.teams.1.sanctions as sanctions %}                
+              
+               {% include 'match/templates/block_players.html'%}
+               
+            {% endwith %}    
              
           {% endwith %}             
       {% endwith %}
