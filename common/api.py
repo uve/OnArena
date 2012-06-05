@@ -1680,7 +1680,9 @@ def match_create_complete(league_id = None, team1_id = None, team2_id = None, fu
     
     for team_ref in team_refs: 
         team_id = team_ref.id
-        deferred.defer(match_browse, team_id = team_id, is_reload = True)          
+        deferred.defer(match_browse, team_id = team_id, is_reload = True)
+        deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)
+        deferred.defer(team_get_players_active, team_id = team_id, is_reload = True)          
         
     return True
 
@@ -2048,9 +2050,14 @@ def match_edit(post_data, limit=5000):
                         }
         
                 score_ref = models.Score(**params)
-                new_scores.append(score_ref)
+                #new_scores.append(score_ref)
+                #score_ref
+                all_results.append(db.put_async(score_ref))
+                
+                logging.info("Async score % ", res)
+                
         else:
-
+            
                 params = {'match_id': match_ref.key(),
                           'team_id' : team_ref.key(),
                           'league_id': match_ref.league_id,
@@ -2063,10 +2070,10 @@ def match_edit(post_data, limit=5000):
                         }
         
                 score_ref = models.Score(**params)
-                new_scores.append(score_ref)         
-                
+                #new_scores.append(score_ref)         
+                all_results.append(db.put_async(score_ref))
        
-    all_results.append(db.put_async(new_scores))   
+    #all_results.append(db.put_async(new_scores))   
 
     ########################   PlayerMatch  #############################################
 
@@ -2091,7 +2098,7 @@ def match_edit(post_data, limit=5000):
             
             
                 for item in team_refs:
-                      # 1001 = None    1002 = Wine    1003 = Lose   1004 = Draw
+                    # 1001 = None    1002 = Wine    1003 = Lose   1004 = Draw
                     if value[0] ==  item.id:
                         if not item.ranking:
                             item.ranking = 1
@@ -2121,17 +2128,14 @@ def match_edit(post_data, limit=5000):
                      }
                      
                 playermatch_ref = models.PlayerMatch(**params)
-                new_playermatches.append(playermatch_ref) 
                 
-                player.put()
-                models.Player.update(player.id)
+                all_results.append(db.put_async(playermatch_ref))   
+                all_results.append(db.put_async(player))   
             
             except:
                 logging.error("Error Save Match %s \t is_played %s", match_ref.id, value)
                 pass 
-    
-    all_results.append(db.put_async(new_playermatches))   
-    
+
         
     if "sanction_player_id" in all_events:
         for item in all_events["sanction_player_id"]:
@@ -2157,15 +2161,16 @@ def match_edit(post_data, limit=5000):
                           'team_id'      : team,    
                           'player_id'    : player,
                      }
-                sanction_ref = models.Sanction(**params)
-                new_sanctions.append(sanction_ref) 
+                sanction_ref = models.Sanction(**params)                
+                
+                all_results.append(db.put_async(sanction_ref))                                   
             
             except:
                 logging.error("Error Save Match %s \t Sanction: %s", match_ref.id, value)
                 pass            
 
 
-    all_results.append(db.put_async(new_sanctions))   
+    
 
     #####################################################################
 
@@ -2208,15 +2213,12 @@ def match_edit(post_data, limit=5000):
                             }
                             
                     event_ref = models.Event(**params)
-                    new_events.append(event_ref)  
+                    all_results.append(db.put_async(event_ref))     
                     
                 except:
                     logging.error("Error Save Match %s \t Event: %s", match_ref.id, value)
                     pass             
-     
-
-    all_results.append(db.put_async(new_events))   
-
+         
   
     for item in all_results:
         try:
@@ -2231,7 +2233,9 @@ def match_edit(post_data, limit=5000):
 
     deferred.defer(match_get, match_id = match_id, is_reload = True)
 
-    league_update_task(league_id = league_id)
+    #league_update_task(league_id = league_id)
+    league_update(league_id = league_id)
+    
 
     for team_ref in team_refs:   
         team_id = team_ref.id    
@@ -2241,7 +2245,8 @@ def match_edit(post_data, limit=5000):
         deferred.defer(match_browse, team_id = team_id, is_reload = True) 
         
         deferred.defer(team_get, team_id = team_id, is_reload = True)  
-        deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)        
+        deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)
+        deferred.defer(team_get_players_active, team_id = team_id, is_reload = True)        
         
 
     logging.info("League Update Complete.")
@@ -2250,7 +2255,7 @@ def match_edit(post_data, limit=5000):
     for player_id in players:        
         deferred.defer(player_get, player_id = player_id, is_reload = True)
         deferred.defer(player_stat_get, player_id = player_id, is_reload = True)
-            
+                     
             
     if referee_id:            
         deferred.defer(referee_get,  referee_id = referee_id, is_reload = True)                   
@@ -2296,6 +2301,8 @@ def match_get(match_id = None, limit = 1000,
                 
             elif value.competitor_scores[1].scoretype_id.id == "1001":
                 team.scored = int(value.competitor_scores[1].value)
+                
+            logging.info("Team scored: %s", team.scored)
                 
             #logging.info("competitor_scores[0] %s: %s",value.competitor_scores[0].scoretype_id.id, int(value.competitor_scores[0].value))
             #logging.info("competitor_scores[1] %s: %s",value.competitor_scores[1].scoretype_id.id, 
