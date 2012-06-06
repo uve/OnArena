@@ -96,7 +96,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django import http
 
-from google.appengine.api import memcache
+#from google.appengine.api import memcache
 
 _TASKQUEUE_HEADERS = {"Content-Type": "application/octet-stream"}
 _DEFAULT_URL = "/service/deferred/"
@@ -141,7 +141,7 @@ def run(data):
 
       logging.info("Unpickled key_name: %s", key_name)  
         
-      memcache.delete(key_name)         
+      #memcache.delete(key_name)         
     
   except Exception, e:
       raise PermanentTaskFailure(e)

@@ -544,6 +544,12 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
 
                     elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
                         replace = True
+                        
+                    elif (t1.diff == t2.diff and t1.won == t2.won and t1.place < t2.place and t1.scored < t2.scored):            
+                        replace = True
+                        
+                    elif (t1.diff == t2.diff and t1.won == t2.won and t1.place > t2.place and t1.scored > t2.scored):            
+                        replace = True                                                
 
                 if replace:
                     k = results[i].place
@@ -1874,7 +1880,7 @@ def match_edit(post_data, limit=5000):
             update_players.append(item.player_id)    
             models.Player.update(item.player_id.id)              
         except:
-            logging.error("No Player Ranking")
+            logging.warning("No Player Ranking")
                   
             
 
