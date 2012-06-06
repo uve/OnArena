@@ -4458,7 +4458,20 @@ def get_class( kls ):
     
 def test(league_id = "1004", limit = 5000):
 
+    return True
 
+
+    test_create(league_id = "1156", name=u'Группа А',
+                 group_teams=["1556", "1682", "1684", "1686",])
+
+
+    test_create(league_id = "1156", name=u'Группа Б',
+                 group_teams=["1681", "1682", "1683", "1687"])
+
+    group_browse(league_id = "1156", is_reload = True)
+    
+    
+    return True
 
     tournament = models.Tournament.get_item("1008")
         
