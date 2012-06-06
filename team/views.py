@@ -39,8 +39,11 @@ CONTACTS_PER_PAGE = 24
 
 def team_create(request, format='html'):
 
-    league_id = request.REQUEST.get('league_id', '')
+    league_id = request.REQUEST.get('league_id', '')    
     league = api.league_get(league_id = league_id) 
+    
+    group_id = request.REQUEST.get('group_id', '')
+     
         
     
     if request.POST and request.is_owner:

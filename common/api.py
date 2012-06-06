@@ -303,18 +303,19 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     group = None
     group_key = None    
     
+    
+    group = models.Group.get_item(group_id)
+    all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
+    
     if group_id:
-        group = models.Group.get_item(group_id)
-        group_key = group.key()
         
-        all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
+        group_key = group.key()                
  
         all_scores_group = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
                                         league, scoretype, group).fetch(limit)   
                                         
         all_scores.extend(all_scores_group)                                 
-    else:
-        all_seasons = models.Season.gql("WHERE league_id = :1", league).fetch(limit)
+    
              
     
  
@@ -1339,10 +1340,7 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     group  = models.Group.get_item(group_id)
     team   = models.Team.get_item(team_id) 
     
-    if group is None:
-        season = models.Season.gql("WHERE league_id = :1 and team_id = :2", league, team).get()
-    else:
-        season = models.Season.gql("WHERE league_id = :1 and team_id = :2 and group_id = :3", league, team, group).get()
+    season = models.Season.gql("WHERE league_id = :1 and team_id = :2 and group_id = :3", league, team, group).get()
         
 
     #return True        
@@ -4140,7 +4138,9 @@ def team_create(request, **kw):
     
     league_id      = request.POST.get("league_id")
     league_ref     = models.League.get_item(league_id)
-  
+    
+    group_id      = request.POST.get("group_id")
+    group_ref = models.Group.get_item(group_id)
     
     if not league_ref:
         return None
@@ -4157,17 +4157,19 @@ def team_create(request, **kw):
     if is_add:
         team_ref = models.Team.get_item(is_add)
         
+        
+        
         if team_ref.tournament_id.id != tournament_id:
             logging.error("No Access: %s",is_add)
             return False 
             
         tournament = models.Tournament.get_item(tournament_id)  
         
-        is_exist = models.Season.gql("WHERE league_id = :1 AND team_id = :2",
-                                                    league_ref, team_ref).get()    
+        is_exist = models.Season.gql("WHERE league_id = :1 AND group_id = :2 AND team_id = :3",
+                                                    league_ref, group_ref, team_ref).get()    
         if is_exist:
-            logging.error("Team '%s' is alredy exists in league: %s", 
-                                                team_ref.name, league_ref.id)        
+            logging.error("Team '%s' is alredy exists in league: %s, group: %s", 
+                                                team_ref.name, league_id, group_id)        
             return False           
     
     else:    
@@ -4184,6 +4186,7 @@ def team_create(request, **kw):
     
     params_season = {'tournament_id': tournament,
                      'league_id':     league_ref.key(),
+                     'group_id':      group_ref,
                      'team_id':       team_ref.key(),
             }
 
@@ -4392,7 +4395,9 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
-    league_browse(tournament_id = "1001", is_reload=True)
+
+    #test_create(league_id = "1005", name = "Group A", group_teams=[])
+    league_browse(tournament_id = "1005", is_reload=True)
 
     return True
 
