@@ -1,4 +1,3 @@
-total_storage_limit: 100M
 queue:
 - name: default
   rate: 10/s

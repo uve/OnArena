@@ -136,14 +136,9 @@ def cache_set(key_name, value, include = [], commit = False):
     try:
         
         logging.info("Start encoding: %s", key_name)            
-        
-        logging.info("memory usage: %s",runtime.memory_usage().current())           
+           
         value = jsonloader.encode(input = value, include = include)
-        
-        logging.info("Save to Cache: %s", key_name)            
-        
-        logging.info("memory usage: %s",runtime.memory_usage().current())           
-        
+            
         content = models.StaticContent( key_name = key_name, name = key_name, 
                             content = value, content_type = 'application/json')
                             
@@ -152,11 +147,7 @@ def cache_set(key_name, value, include = [], commit = False):
         logging.info("Cache saved")             
 
         last_modified = content.last_modified.strftime(HTTP_DATE_FMT)
-        #memcache.set(key_name, last_modified)             
-        
-        logging.info("memcache saved")                     
-                                    
-        logging.info("memory usage: %s",runtime.memory_usage().current())                                       
+                                 
         
         if commit:
             del value
@@ -1103,9 +1094,12 @@ def league_table(league_id = None, group_id = None, limit=1000,
 
 def league_update(league_id = None, limit = 1000):
 
+    league_id = str(league_id)
     league = models.League.get_item(league_id)
-    tournament = league.tournament_id   
-    tournament_id = tournament.id       
+    tournament = league.tournament_id  
+    tournament_id = str(tournament.id)       
+    
+    logging.info("League_update League_id: %s  \t  Tournament_id: %s", league_id, tournament_id)
     
     deferred.defer(group_browse, league_id = league_id, is_reload = True)
     
@@ -1395,7 +1389,8 @@ def match_browse(tournament_id = None, league_id = None, team_id = None, referee
                  is_reload=None, memcache_delete=None, key_name=""):
 
     results = None
-
+    
+        
     if league_id and tournament_id:
         
         today =  datetime.date.today()
@@ -2244,7 +2239,7 @@ def match_edit(post_data, limit=5000):
 
 
     for team_ref in team_refs:   
-        team_id = team_ref.id    
+        team_id = team_ref.id
        
         #stat_update(league_id = league_id, team_id = team_ref.id)
         #deferred.defer(stat_update, league_id = league_id, team_id = team_id)

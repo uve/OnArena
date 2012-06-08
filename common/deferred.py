@@ -83,24 +83,29 @@ Example usage:
   deferred.defer(do_something_later, 20, _queue="foo", countdown=60)
 """
 
+
+
+
+
+
+
+
+
 import logging
 import os
 import pickle
 import types
 
-import random
-
 from google.appengine.api import taskqueue
 from google.appengine.ext import db
-from django.views.decorators.csrf import csrf_exempt
+
 
 from django import http
-
-#from google.appengine.api import memcache
+import random
 
 _TASKQUEUE_HEADERS = {"Content-Type": "application/octet-stream"}
 _DEFAULT_URL = "/service/deferred/"
-_DEFAULT_QUEUE = "deferred"
+_DEFAULT_QUEUE = "default"
 
 
 queue_buckets = ["default1", 
@@ -122,6 +127,10 @@ class PermanentTaskFailure(Error):
   """Indicates that a task failed, and will never succeed."""
 
 
+class SingularTaskFailure(Error):
+  """Indicates that a task failed once."""
+
+
 def run(data):
   """Unpickles and executes a task.
 
@@ -131,22 +140,18 @@ def run(data):
     The return value of the function invocation.
   """
   try:
-      func, args, kwds = pickle.loads(data)   
-              
-      key_name = 'deferred_' + func.__name__      
-         
-      for k,v in kwds.items():
-          if not k in ["is_reload", "memcache_delete", "get_key_name"]:
-              key_name += '_' + k + '_' + unicode(v)
+    func, args, kwds = pickle.loads(data)
+    key_name = 'deferred_' + func.__name__      
+    	 
+    for k,v in kwds.items():
+      if not k in ["is_reload", "memcache_delete", "get_key_name"]:
+        key_name += '_' + k + '_' + unicode(v)
 
-      logging.info("Unpickled key_name: %s", key_name)  
-        
-      #memcache.delete(key_name)         
-    
+    logging.info("Unpickled key_name: %s", key_name)  
   except Exception, e:
-      raise PermanentTaskFailure(e)
+    raise PermanentTaskFailure(e)
   else:
-      return func(*args, **kwds)
+    return func(*args, **kwds)
 
 
 class _DeferredTaskEntity(db.Model):
@@ -249,34 +254,28 @@ def defer(obj, *args, **kwargs):
 
   Args:
     obj: The callable to execute. See module docstring for restrictions.
-    _countdown, _eta, _name, _transactional, _url, _queue: Passed through to
-    the task queue - see the task queue documentation for details.
+        _countdown, _eta, _headers, _name, _target, _transactional, _url,
+        _retry_options, _queue: Passed through to the task queue - see the
+        task queue documentation for details.
     args: Positional arguments to call the callable with.
     kwargs: Any other keyword arguments are passed through to the callable.
   Returns:
     A taskqueue.Task object which represents an enqueued callable.
   """
- 
-  
   taskargs = dict((x, kwargs.pop(("_%s" % x), None))
-                  for x in ("countdown", "eta", "name", "target"))
-                  
-
-                      
+                  for x in ("countdown", "eta", "name", "target",
+                            "retry_options"))
   taskargs["url"] = kwargs.pop("_url", _DEFAULT_URL)
   transactional = kwargs.pop("_transactional", False)
-  taskargs["headers"] = _TASKQUEUE_HEADERS 
+  taskargs["headers"] = dict(_TASKQUEUE_HEADERS)
+  taskargs["headers"].update(kwargs.pop("_headers", {}))
+  queue = kwargs.pop("_queue", _DEFAULT_QUEUE)
+  pickled = serialize(obj, *args, **kwargs)
   
   if not os.environ['SERVER_SOFTWARE'].startswith('Dev'): 
     taskargs["target"] = "defworker"
-  
-  queue = kwargs.pop("_queue", _DEFAULT_QUEUE)    
   queue = random.choice(queue_buckets)
-  
-      
-  pickled = serialize(obj, *args, **kwargs)
-    
-  
+
   try:
     task = taskqueue.Task(payload=pickled, **taskargs)
     return task.add(queue, transactional=transactional)
@@ -286,27 +285,47 @@ def defer(obj, *args, **kwargs):
     pickled = serialize(run_from_datastore, str(key))
     task = taskqueue.Task(payload=pickled, **taskargs)
     return task.add(queue)
-   
-@csrf_exempt
+
+
+
 def deferred(request):
-    
-    #logging.info("_raw_post_data: %s", request._raw_post_data)     
+
+    if 'HTTP_X_APPENGINE_TASKNAME' not in request.META:
+      logging.critical('Detected an attempted XSRF attack. The header '
+                       '"X-AppEngine-Taskname" was not set.')
+      return http.HttpResponse(status=403)
+
+
+
+    in_prod = (
+        not request.environ.get("SERVER_SOFTWARE").startswith("Devel"))
+    if in_prod and request.environ.get("REMOTE_ADDR") != "0.1.0.2":
+      logging.critical('Detected an attempted XSRF attack. This request did '
+                       'not originate from Task Queue.')
+      return http.HttpResponse(status=403)
+
+
+    headers = ["%s:%s" % (k, v) for k, v in request.META.items()
+               if k.lower().startswith("x-appengine-")]
+    logging.info(", ".join(headers))
 
     for i,v in request.POST.items():
         pass
         #logging.info("i: %s", i)    
-        #logging.info("v: %s", v)            
-    
+        #logging.info("v: %s", v)    
+
     try:
-        run(request._raw_post_data)       
-        status_code = 200        
+      run(request._raw_post_data)
+      return http.HttpResponse(status=200)
+    except SingularTaskFailure:
 
+
+      logging.debug("Failure executing task, task retry forced")
+      return http.HttpResponse(status=408)
+      return
     except PermanentTaskFailure, e:
-        status_code = 304
-        logging.exception("Permanent failure attempting to execute task")       
-    
-    return http.HttpResponse(status = status_code)
 
+      logging.exception("Permanent failure attempting to execute task")
 
 def group(obj, *args, **kw):
 
