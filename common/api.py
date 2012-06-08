@@ -152,7 +152,7 @@ def cache_set(key_name, value, include = [], commit = False):
         logging.info("Cache saved")             
 
         last_modified = content.last_modified.strftime(HTTP_DATE_FMT)
-        memcache.set(key_name, last_modified)             
+        #memcache.set(key_name, last_modified)             
         
         logging.info("memcache saved")                     
                                     
@@ -2236,19 +2236,25 @@ def match_edit(post_data, limit=5000):
     deferred.defer(match_get, match_id = match_id, is_reload = True)
 
     #league_update_task(league_id = league_id)
+
+    for team_ref in team_refs:   
+        stat_update(league_id = league_id, team_id = team_ref.id)
+
     league_update(league_id = league_id)
-    
+
 
     for team_ref in team_refs:   
         team_id = team_ref.id    
-        
+       
         #stat_update(league_id = league_id, team_id = team_ref.id)
-        deferred.defer(stat_update, league_id = league_id, team_id = team_id)        
+        #deferred.defer(stat_update, league_id = league_id, team_id = team_id)
         deferred.defer(match_browse, team_id = team_id, is_reload = True) 
         
         deferred.defer(team_get, team_id = team_id, is_reload = True)  
         deferred.defer(team_get_players, team_id = team_id, stat = True, is_reload = True)
         deferred.defer(team_get_players_active, team_id = team_id, is_reload = True)        
+    
+    
         
 
     logging.info("League Update Complete.")
