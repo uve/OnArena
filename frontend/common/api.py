@@ -4459,7 +4459,43 @@ def get_class( kls ):
 def test(league_id = "1004", limit = 5000):
 
 
+    del_mas = []
+    
+    #team1 = models.Team.get_item("1656")
+    team2 = models.Team.get_item("1661")
+    
+    all_teams = [team2]
 
+       
+    for team in all_teams:    
+        all_players = models.PlayerTeam.gql("WHERE team_id = :1", team).fetch(limit)
+        
+        for i, v in enumerate(all_players):
+            del_mas.append(v.player_id.key())
+        '''
+        for i, v in enumerate(all_players):
+            for i2, v2 in enumerate(all_players): 
+                if v.player_id.id == v2.player_id.id and i < i2:
+                    logging.info("team: %s \t player: %s",
+                                   team.name, v.player_id.full_name)
+                                   
+                    del_mas.append(v2)
+        '''
+
+    models.db.delete(del_mas)   
+    
+    
+    for team in all_teams:
+        deferred.defer(team_get_players, team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
+
+
+    
+    
+    
+                 
+    return True
     
     
     
@@ -4707,27 +4743,6 @@ def test(league_id = "1004", limit = 5000):
 
     return True    
     
-    for team in all_teams:
-        deferred.defer(team_get_players, team_id = team.id, is_reload = True)
-        deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
-        deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
-
-
-        
-    for team in all_teams:    
-        all_players = models.PlayerTeam.gql("WHERE team_id = :1", team).fetch(limit)
-        for i, v in enumerate(all_players):
-            for i2, v2 in enumerate(all_players): 
-                if v.player_id.id == v2.player_id.id and i < i2:
-                    logging.info("team: %s \t player: %s",
-                                   team.name, v.player_id.full_name)
-                                   
-                    del_mas.append(v2)
-    
-    models.db.delete(del_mas)       
-    
-                 
-    return True
             
     deferred.defer(statistics, league_id = "1085", is_reload=True)
     deferred.defer(statistics, league_id = "1085", limit = 1000, is_reload=True)
