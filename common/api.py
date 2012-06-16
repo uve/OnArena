@@ -4304,8 +4304,18 @@ def team_get_players(team_id = None, stat = None, limit=1000, offset=None,
     red_card    = models.EventType.get_item("1003").key()
     
     results = []
+    rv = []
+    
     if playerteams: 
-        rv = [x.player_id.key() for x in playerteams]
+        #rv = [x.player_id.key() for x in playerteams]
+        
+        for item in playerteams:
+            try:
+                rv.append(item.player_id.key())
+            except:
+                logging.warning("PlayerTeam not found: %s", item.key())
+                pass    
+        
         results = models.Player.get(rv)
         
         results = sorted(results, key=lambda student: student.full_name, reverse=False)
@@ -4402,9 +4412,11 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
+    player_remove(player_id = "6605")
+    player_remove(player_id = "6606")
 
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
-    league_browse(tournament_id = "1005", is_reload=True)
+    #league_browse(tournament_id = "1005", is_reload=True)
 
     return True
 
