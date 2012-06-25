@@ -3899,6 +3899,8 @@ def stat_update(league_id = None, team_id = None, limit = 1000):
     return
 
 
+
+
 @check_cache              
 def statistics(league_id=None, limit = 10,
                  is_reload=None, memcache_delete=None, key_name=""):
@@ -3915,16 +3917,10 @@ def statistics(league_id=None, limit = 10,
                                           ORDER BY score DESC",
                                           league, goal).fetch(limit)
                 
-    results = []
-    mas = []
-    last_score = None
+    results = []      
 
-    s = len(all_stat) - 1 
-
-    for i,item in enumerate(all_stat):
-        
-        try:
-            
+    for item in all_stat:        
+        try:                        
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
                                                         league_id = :3 AND \
@@ -3938,29 +3934,26 @@ def statistics(league_id=None, limit = 10,
                                                      eventtype_id = :4",
                      item.player_id, item.team_id, league, red_card).count()
 
-                                                                
-            if item.score != last_score or i >= s:
-                
-                if i >= s:
-                    if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                        mas.append(item)
-
-                if mas:
-                    mas = sorted(mas, key=lambda lv: lv.player_id.full_name,
-                                                     reverse=False)
-                    results.extend(mas)
-                last_score = item.score
-                mas = []
-
+            #logging.info("%s: %s", item.player_id.full_name, item.score)
+            
+            
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                mas.append(item)
-
+                results.append(item)
+                            
         except:
             continue
+        
+    results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
+    results = sorted(results, key=lambda lv: lv.score, reverse=True)
+
+    logging.info("Result lenght: %s", len(results))                
                 
     include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "player_id"]
         
     return cache_set(key_name, results, include)
+
+
+
  
 
 @check_cache  
