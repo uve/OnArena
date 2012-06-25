@@ -1105,9 +1105,6 @@ def league_update(league_id = None, limit = 1000):
     
     deferred.defer(stat_league, league_id = league_id, is_reload = True)
 
-    deferred.defer(statistics, league_id = league_id, is_reload = True)
-    deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
-
     deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
     deferred.defer(match_browse, league_id = league_id, is_reload = True)
     deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)        
@@ -1121,6 +1118,9 @@ def league_update(league_id = None, limit = 1000):
     deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
     
     deferred.defer(referees_browse, tournament_id = tournament_id, stat = True, is_reload = True)    
+    
+    deferred.defer(statistics, league_id = league_id, is_reload = True)
+    deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
     
     return True
 
