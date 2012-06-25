@@ -47,10 +47,10 @@ handlers:
   secure: optional
   expiration: "1m"
   
-- url: /js
-  static_dir: js
-  secure: optional
-  expiration: "1m"
+#- url: /js
+#  static_dir: js
+#  secure: optional
+#  expiration: "1m"
 
 - url: /static
   static_dir: static

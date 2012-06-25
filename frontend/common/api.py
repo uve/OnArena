@@ -3867,17 +3867,12 @@ def statistics(league_id=None, limit = 10,
                                           ORDER BY score DESC",
                                           league, goal).fetch(limit)
                 
-    results = []
-    mas = []
-    last_score = None
-
-    s = len(all_stat) - 1 
-    
-    logging.info("Total strikers: %s", s)
+    results = []      
 
     for i,item in enumerate(all_stat):
         
         try:
+            
             
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
@@ -3892,27 +3887,17 @@ def statistics(league_id=None, limit = 10,
                                                      eventtype_id = :4",
                      item.player_id, item.team_id, league, red_card).count()
 
-                                                                
-            if item.score != last_score or i >= s:
-                
-                if i >= s:
-                    if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                        mas.append(item)
-
-                if mas:
-                    mas = sorted(mas, key=lambda lv: lv.player_id.full_name,
-                                                     reverse=False)
-                    results.extend(mas)
-                last_score = item.score
-                mas = []
-
+            #logging.info("%s: %s", item.player_id.full_name, item.score)
+            
+            
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                mas.append(item)
-                logging.info("Append: %s", item.score)
-
+                results.append(item)
+                            
         except:
             continue
-                
+        
+    results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
+    results = sorted(results, key=lambda lv: lv.score, reverse=True)
 
     logging.info("Result lenght: %s", len(results))                
                 
@@ -4458,6 +4443,24 @@ def get_class( kls ):
     
 def test(league_id = "1004", limit = 5000):
 
+
+    statistics(league_id = "1144", is_reload = True)
+    statistics(league_id = "1144", limit = 1000, is_reload = True)
+    
+    return True
+            
+    team_ref = models.Team.get_item('1125')
+    team_competitors = models.Competitor.gql("WHERE team_id = :1 ORDER BY created DESC", team_ref).fetch(3, 0)
+    
+    for item in team_competitors:
+        try:
+            logging.info("Match_id: %s", item.match_id.id)
+        except:
+            logging.error("Match_id: %s", item.match_id)
+                         
+    
+    match_browse(team_id = "1133", is_reload = True)
+    
     return True
 
 
