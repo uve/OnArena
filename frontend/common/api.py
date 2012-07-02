@@ -1092,17 +1092,18 @@ def league_update(league_id = None, limit = 1000):
     
     deferred.defer(group_browse, league_id = league_id, is_reload = True)
     
+    deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
+    deferred.defer(match_browse, league_id = league_id, is_reload = True)
+    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)       
+
+    deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
+    
     deferred.defer(stat_league, league_id = league_id, is_reload = True)
 
     deferred.defer(statistics, league_id = league_id, is_reload = True)
     deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
 
-    deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
-    deferred.defer(match_browse, league_id = league_id, is_reload = True)
-    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)     
-    
 
-    deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
     
     deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
     
@@ -2426,7 +2427,9 @@ def match_remove(match_id, limit=100):
         db.delete(rem)                        
         db.delete(match)
                
-    league_update_task(league_id = league_id)
+    #league_update_task(league_id = league_id)
+    
+    league_update(league_id = league_id)
     
     for team_id in teams:
         deferred.defer(match_browse, team_id = team_id, is_reload = True)   
@@ -4442,7 +4445,13 @@ def get_class( kls ):
     
     
 def test(league_id = "1004", limit = 5000):
-
+    
+    #playoff_remove(playoff_id = '1080')
+        
+    #deferred.defer(playoff_browse, league_id = '1139', is_reload = True)
+    league_update(league_id = '1139')
+    
+    return True
 
     statistics(league_id = "1144", is_reload = True)
     statistics(league_id = "1144", limit = 1000, is_reload = True)
