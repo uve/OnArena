@@ -176,7 +176,7 @@ def check_cache(handler):
             return key_name
         
         if kw.has_key("memcache_delete"):
-            memcache.delete(key = key_name)
+            #memcache.delete(key = key_name)
             cache_delete(key_name) 
             logging.info("Remove Memcache Key: %s", key_name)
             return None
@@ -869,258 +869,32 @@ def league_cross_table(league, limit=1000):
     return c
 
 
-def replace_items(value1, value2):
-    value1 = k
-    value1 = value2
-    value2 - k
-    
-
-    
-'''
-@check_cache
-def league_table(league_id = None, group_id = None, limit=1000,
-                 is_reload=None, memcache_delete=None, key_name=""):
-
-    league = models.League.get_item(league_id)
-
-    if not league.league_seasons:
-        return None
-
-    c = {}     
-        
-    scoretype = models.ScoreType.get_item("1001")
-
-    #rv = [season.team_id.key() for season in league.league_seasons]                        
-    #results = models.Team.get(rv)
-    
-    if group_id:
-        group = models.Group.get_item(group_id)
-        all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league).fetch(limit)
-        all_scores = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id IN :3 ORDER BY created", 
-                                        league, scoretype, [None, group]).fetch(limit)   
-    else:
-        all_seasons = models.Season.gql("WHERE league_id = :1", league).fetch(limit)
-        all_scores = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id IN :3 ORDER BY created", 
-                                        league, scoretype, [None]).fetch(limit)   
-    
-    
-    
-    for item in all_seasons:
-        results.append(item.team_id)
-
-    # 1001 = None    1002 = Wine    1003 = Lose   1004 = Draw   
-
-    for team in results: 
-        c[team.id] = {}
-
-        for team2 in results: 
-            if team.id == team2.id:
-                c[team.id][team2.id] = None
-            else:
-                c[team.id][team2.id] = [None,None,0, 0, 0]
-
-    new_scores = []
-    for_del = []
-
-    start = time.time()      
-    
-    
-    for c1 in all_scores:
-        for c2 in all_scores:
-            if not c[c1.team_id.id][c2.team_id.id]:
-                continue
-            
-            if c1.key() == c2.key():
-                continue         
-            if not c1.created or not c2.created:      
-                continue
-                
-            if c1.match_id.playoff_id or c2.match_id.playoff_id:     
-                #logging.info("Skip Playoff Match: %s\t%s",c1.match_id.id, c2.match_id.id)
-                continue           
-                
-            #if c1.created > c2.created:
-            #    continue
-
-            
-            gametype = None
-
-            try:
-                value1 = int(c1.value)
-                value2 = int(c2.value)   
-                gametype = 2
-            
-                if value1 > value2:
-                    game_result = 1
-                elif value1 < value2:
-                    game_result = 2
-                else:
-                    game_result = 0
-            except:
-                value1 = 0
-                value2 = 0
-                gametype = 1
-                game_result = 0
-
-            if c1.match_id.key() == c2.match_id.key():                                     
-                c[c1.team_id.id][c2.team_id.id] = [c1.match_id.id, gametype, value1, value2, game_result]
-                
-    for item in results:
-        allp = ""
-        for item2 in results:
-            try:              
-                #item_table.append(c[item.id][item2.id])
-                allp += c[item.id][item2.id][0] + '\t'
-            except:
-                allp += '\t'
-
-
-        #logging.info("%s", allp)
-
-
-    #logging.info("##################################", )
-
-    scored_key   = models.ScoreType.get_item("1001").key()
-    conceded_key = models.ScoreType.get_item("1002").key()
-
-    won_key  = models.ResultType.get_item("1002").key()
-    loss_key = models.ResultType.get_item("1003").key()
-    drew_key = models.ResultType.get_item("1004").key()
-    
-        
-    for team in results: 
-        
-        team.won  = team_results(league.key(), team.key(), won_key)
-        team.loss = team_results(league.key(), team.key(), loss_key)
-        team.drew = team_results(league.key(), team.key(), drew_key)    
-        team.match_played = team.won + team.loss + team.drew
-        team.points = (team.won * 3) + team.drew           
-        
-        team.scored   = score_results(league.key(), team.key(), scored_key)
-        team.conceded = score_results(league, team.key(), conceded_key)   
-        team.diff = team.scored - team.conceded
-    
-    results = sorted(results, key=lambda student: student.points, reverse=True)   
-
-    for i, v in enumerate(results):           
-        v.place = i + 1
-        
-    for i, team1 in enumerate(results):           
-        for j, team2 in enumerate(results): 
-            t1 = results[i]
-            t2 = results[j] 
-
-            if t1.key() == t2.key():
-                continue
-
-            if t1.points == t2.points:
-                team_score1 = 0
-                team_score2 = 0
-
-                
-                team_score1 = 0#c[t1.id][t2.id][2] + c[t2.id][t1.id][3]
-                team_score2 = 0#c[t1.id][t2.id][3] + c[t2.id][t1.id][2]
-    
-
-
-                try:
-                    team_score1 += c[t1.id][t2.id][2]
-                except:
-                    pass
-
-                try:
-                    team_score1 += c[t2.id][t1.id][3]
-                except:
-                    pass
-
-                try:
-                    team_score2 += c[t1.id][t2.id][3]
-                except:
-                    pass
-
-                try:
-                    team_score2 += c[t2.id][t1.id][2]
-                except:
-                    pass
-       
-
-                replace = False
-    
-                if (team_score1 < team_score2 and t1.place < t2.place) or (team_score1 > team_score2 and t1.place > t2.place):
-                    replace = True                 
-
-                if team_score1 == team_score2:
-                    if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place):                       
-                        replace = True
-
-                    elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
-                        replace = True
-
-                if replace:
-                    k = results[i].place
-                    results[i].place = results[j].place
-                    results[j].place = k       
-                
-    results = sorted(results, key=lambda student: student.place, reverse=False)              
-            
-    cross_table = []
-    
-    for item in results:
-        item_table = [item]
-        allp = ""
-        for item2 in results:
-            try:              
-                item_table.append(c[item.id][item2.id])
-
-                #allp += c[item.id][item2.id][0] + '\t'
-                t = 0
-            except:
-                t = 0
-                allp += '\t'
-
-
-        #logging.info("%s", allp)
-        #logging.info("%s.\t%s", item.place, item.name)
-        cross_table.append(item_table)
-
-    end3 = round(time.time() - start, 6)  
-
-    logging.info("Cross Table  all_scores  time: %s", end3)
-        
-    results = cross_table
-                  
-    return cache_set(key_name , results)
-'''
-
 def league_update(league_id = None, limit = 1000):
 
-    league_id = str(league_id)
     league = models.League.get_item(league_id)
-    tournament = league.tournament_id  
-    tournament_id = str(tournament.id)       
+    tournament = league.tournament_id   
+    tournament_id = tournament.id       
     
     logging.info("League_update League_id: %s  \t  Tournament_id: %s", league_id, tournament_id)
     
     deferred.defer(group_browse, league_id = league_id, is_reload = True)
     
-    deferred.defer(stat_league, league_id = league_id, is_reload = True)
-
     deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
     deferred.defer(match_browse, league_id = league_id, is_reload = True)
-    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)        
+    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)       
 
     deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
+    
+    deferred.defer(stat_league, league_id = league_id, is_reload = True)
 
-    deferred.defer(rating_player_update, tournament_id = tournament_id)    
-    deferred.defer(rating_team_update, tournament_id = tournament_id)        
-   
+    deferred.defer(statistics, league_id = league_id, is_reload = True)
+    deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
+
+
     
     deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
     
     deferred.defer(referees_browse, tournament_id = tournament_id, stat = True, is_reload = True)    
-    
-    deferred.defer(statistics, league_id = league_id, is_reload = True)
-    deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
     
     return True
 
@@ -3358,7 +3132,7 @@ def rating_team_update(tournament_id = None, limit = 5000):
 def referees_browse(tournament_id = None, stat = None, limit = 1000,
                  is_reload=None, memcache_delete=None, key_name=""):
     if tournament_id == None:
-        return none
+        return None
 
     tournament = models.Tournament.get_item(tournament_id)    
     
@@ -3611,7 +3385,7 @@ def response_get(request, locals, template_path, tournament_id = None, defers = 
     if "referee_id" in locals:
         cached_values.update({ 'match_browse_referee_id_': locals["referee_id"] })            
 
-    
+    '''
     memcached_values = memcache.get_multi([(k+v) for k, v in cached_values.iteritems()])
         
     for k, v in cached_values.iteritems():
@@ -3619,7 +3393,7 @@ def response_get(request, locals, template_path, tournament_id = None, defers = 
             setattr(request, k, memcached_values[k+v])
         except:
             pass            
-
+    '''
 
   
     logging.info("caching complete")
@@ -4797,7 +4571,7 @@ def test(league_id = "1004", limit = 1000):
     return True
 
     memcache_name = 'person_start_cursor21'
-    start = [memcache.get(memcache_name) or 0]      
+    #start = [memcache.get(memcache_name) or 0]      
     logging.info("Start: %s", start)
 
     new_events = []
@@ -4828,7 +4602,9 @@ def test(league_id = "1004", limit = 1000):
         return True    
     
     last = all_items[-1].created
-    memcache.set(memcache_name, last, 360)   
+   
+     
+    #memcache.set(memcache_name, last, 360)   
 
 
             
@@ -5035,7 +4811,7 @@ def test(league_id = "1004", limit = 1000):
     
     
     memcache_name = 'person_start_cursor13'
-    start = [memcache.get(memcache_name) or 0]      
+    start = 0#[memcache.get(memcache_name) or 0]      
     logging.info("Start: %s", start)
 
     new_events = []
@@ -5068,7 +4844,7 @@ def test(league_id = "1004", limit = 1000):
         return True    
     
     last = all_items[-1].created
-    memcache.set(memcache_name, last, 360)   
+    #memcache.set(memcache_name, last, 360)   
 
 
             
@@ -5095,7 +4871,7 @@ def test(league_id = "1004", limit = 1000):
     
     key_name = "last_competitor_id57"
 
-    last = memcache.get(key = key_name)                     
+    last = 0#memcache.get(key = key_name)                     
     
     type_goal = models.EventType.get_item("1001").key()        
         
@@ -5132,7 +4908,7 @@ def test(league_id = "1004", limit = 1000):
               
 
     logging.info("Count items: %s", len(all_items))        
-    memcache.set(key = key_name, value = last)
+    #memcache.set(key = key_name, value = last)
     
     
 
@@ -5244,9 +5020,7 @@ def test(league_id = "1004", limit = 1000):
     logging.info(t.decode('utf-8'))
 
     return    
-    t = memcache.flush_all()
-    logging.info("Flush ALL: %s",t)
-    return
+    
 
     # Start a query for all Person entities.
     #people = models.PlayerTeam.all().count()
@@ -5255,7 +5029,7 @@ def test(league_id = "1004", limit = 1000):
     # If the app stored cursors during a previous request, use them.
     return True
     
-    start = [memcache.get('person_start_cursor') or 0]
+    start = 0#[memcache.get('person_start_cursor') or 0]
     all_competitors = models.Competitor.gql("WHERE created > :1", start).fetch(100)
         
     #last = all_competitors[-1].created
@@ -5291,7 +5065,7 @@ def test(league_id = "1004", limit = 1000):
             new_playermatches.append(playermatch_ref) 
 
     last = all_competitors[-1].created
-    memcache.set('person_start_cursor', last, 360)
+    #memcache.set('person_start_cursor', last, 360)
 
     logging.info("Active Last:  %s", last)
     db.put(new_playermatches)
