@@ -169,7 +169,9 @@ def tournament_item(request, tournament_id = None, format='html'):
     #tournament = api.tournament_get(tournament_id)
     #all_leagues = api.league_browse(tournament_id = tournament_id)   
     
-    defers = {  "tournament": deferred.group(api.tournament_get, tournament_id = tournament_id),
+    tournament = api.tournament_get(tournament_id = tournament_id)
+    
+    defers = {  #"tournament": deferred.group(api.tournament_get, tournament_id = tournament_id),
                 #"all_leagues": deferred.group(api.league_browse,  tournament_id = tournament_id)  
                 }
     
