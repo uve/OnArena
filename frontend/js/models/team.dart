@@ -42,8 +42,9 @@ class Team extends Base {
 
     read(TeamInterface data) {
 
+         var is_owner = false;
 
-         TeamView team_item = new TeamView(data);
+         TeamView team_item = new TeamView(data, is_owner);
 
 
          document.query('#main-content').nodes.clear();

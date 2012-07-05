@@ -1,4 +1,4 @@
-template TeamView(TeamInterface data) {
+template TeamView(TeamInterface data, var is_owner) {
     
     <div id="caption">
         <div id="edit" class="aw-link"></div>
@@ -12,6 +12,9 @@ template TeamView(TeamInterface data) {
   				
                 <li><a href='/team/${data["id"]}/edit/'>Edit</a></li>
               
+              <li>${is_owner}</li>
+              
+			 
             </ul>
     </div>  
     

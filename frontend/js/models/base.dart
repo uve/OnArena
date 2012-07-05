@@ -13,15 +13,20 @@ interface BaseInterface extends Object{
 
 class Base {
 
+  String class_name;
+
   Base() {
 
   }
+
 
   abstract void read(var data);
 
   void get(String id) {
 
-      var url = "/api/" + class_name + "/$id/";
+      var url = "/api/$class_name/$id/";
+
+      print(url);
 
       XMLHttpRequest request = new XMLHttpRequest();
 

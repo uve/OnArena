@@ -788,7 +788,7 @@ def league_browse(tournament_id = None, limit = 100,
 
     if tournament_id == "1007":       
         for item in results:
-            if int(item.id) >= int("1111"):
+            if int(item.id) >= int("1162"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
@@ -4449,7 +4449,10 @@ def test(league_id = "1004", limit = 5000):
     #playoff_remove(playoff_id = '1080')
         
     #deferred.defer(playoff_browse, league_id = '1139', is_reload = True)
-    league_update(league_id = '1139')
+    
+    #league_browse(tournament_id = "1007", is_reload=True)
+    tournament_browse(limit = 1000, is_reload = True) 
+    #league_update(league_id = '1139')
     
     return True
 

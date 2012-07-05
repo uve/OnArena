@@ -1,12 +1,9 @@
-  template FriendEntry(var age) {
-    <li>
-      
-        
-        ${#if (age<18)}
-          <span class=”left-space”>child</span>
-        ${#else}
-          <span class=”left-space”>adult</span>
-        ${/if}
-      
-    </li>
+  template HTML FriendList(List<Friend> friends) {
+    <div>Friends:
+      <ul>
+        ${#each friends}          // Iterates over each friend
+          <li>${name}</li>        // Scope of block is Friend type
+        ${/each}
+      </ul>
+    </div>
   }
