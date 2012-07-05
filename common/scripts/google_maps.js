@@ -319,15 +319,15 @@
         var location_finded = false;
     
         {% if request.location %}
-           initialLocation = new google.maps.LatLng({{ request.location.0 }},{{ request.location.1 }});
+           initialLocation = new google.maps.LatLng({{ request.location }});
            map.setCenter(initialLocation);
            tournament_browse(map);   
            
            location_finded = true;
            
         {% else %}
-           handleNoGeolocation(true);
-        {% endif %}           
+          // handleNoGeolocation(true);
+             
        
   
        // Try W3C Geolocation (Preferred)
@@ -409,7 +409,10 @@
             
 
 
-        }              
+        }      
+        
+        
+        {% endif %}      
                       
                     
     }

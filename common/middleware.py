@@ -44,7 +44,20 @@ def ip2int(ip):
 
     return result
 
+
 class UserLocation(object):
+    def process_view(self, request, view_func, args, kw):
+
+        if request.META["PATH_INFO"] == "/":
+            
+            logging.info("HTTP_X_APPENGINE_CITY: %s", request.META["HTTP_X_APPENGINE_CITY"] )
+            logging.info("HTTP_X_APPENGINE_CITYLATLONG: %s", request.META["HTTP_X_APPENGINE_CITYLATLONG"] )    
+               
+            request.location = request.META["HTTP_X_APPENGINE_CITYLATLONG"]
+  
+
+
+class UserLocation2(object):
     def process_view(self, request, view_func, args, kw):
 
         if request.META["PATH_INFO"] == "/":
@@ -151,7 +164,11 @@ class UserAccess(object):
                 elif tournament_ref.user_id.id == request.user.id:
                     tournament_ref.user_id = request.user.id
                     tournament_ref.put()
-                    request.is_owner = True                         
+                    
+                    request.is_owner = True
+                    
+                elif request.user.name == "anatoly.petukhov@gmail.com" and tournament_ref.id in ["1004", "1007"]:
+                    request.is_owner = True
         
         
 

@@ -304,12 +304,9 @@
             setMarkers(map, beaches);
         }            
 
-     
+
  
- 
- 
- 
-        google.maps.event.addListener(map, 'bounds_changed', function(event) {         
+        google.maps.event.addListener(map, 'bounds_changed', function(event){         
            tournament_browse(map);
         });        
 
@@ -317,53 +314,66 @@
            placeMarker(event.latLng);           
         });        
     
+        var defzoom = map.getZoom();
+        
+        var location_finded = false;
+    
+        {% if request.location %}
+           initialLocation = new google.maps.LatLng({{ request.location.0 }},{{ request.location.1 }});
+           map.setCenter(initialLocation);
+           tournament_browse(map);   
+           
+           location_finded = true;
+           
+        {% else %}
+           handleNoGeolocation(true);
+        {% endif %}           
+       
   
        // Try W3C Geolocation (Preferred)
        if(navigator.geolocation) {
+           
+           if (location_finded == false){
+              handleNoGeolocation(true);
+           }
+       
            browserSupportFlag = true;
-           navigator.geolocation.getCurrentPosition(function(position) {
-           initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                      
-           map.setCenter(initialLocation);
-            
-           tournament_browse(map);
-                                    
-           zoom = map.getZoom();  
 
-           //console.log(zoom);                      
-           map.setZoom(zoom - 2); 
-         
+           navigator.geolocation.getCurrentPosition(function(position) {
+           
+           location_finded = true;
+           
+           initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                                 
+           map.setCenter(initialLocation);            
+           tournament_browse(map);                                    
+           //zoom = map.getZoom();  
+                    
+           map.setZoom(defzoom - 1); 
 
        }, function() {
             handleNoGeolocation(browserSupportFlag);
         });
          // Try Google Gears Geolocation
-       } else if (google.gears) {
-            browserSupportFlag = true;
-            var geo = google.gears.factory.create('beta.geolocation');
-            geo.getCurrentPosition(function(position) {
-            initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
-            map.setCenter(initialLocation);
-            
-            zoom = map.getZoom();            
-            map.setZoom(zoom - 4);             
-            
-        }, function() {
-              handleNoGeoLocation(browserSupportFlag);
-        });
-        // Browser doesn't support Geolocation
-        } else {
+       } else {
             browserSupportFlag = false;
             handleNoGeolocation(browserSupportFlag);
         }
   
+
+  
         function handleNoGeolocation(errorFlag) 
         {
-                       
-            geocoder.geocode( { 'address': '{{ request.country_code }}' }, function(results, status)
+                                
+            geocoder.geocode( { 'address': '{{ request.country_code }}' }, 
+                             function(results, status)
              {
                   if (status == google.maps.GeocoderStatus.OK)
                   {
+                         if (location_finded == true){
+                            return;
+                         }           
+           
                         map.setCenter(results[0].geometry.location);
                         
                         tournament_browse(map);
@@ -393,9 +403,11 @@
                   } 
                   else 
                   {
-                        alert("Geocode was not successful for the following reason: " + status);
+        alert("Geocode was not successful for the following reason: " + status);
                   }
             });
+            
+
 
         }              
                       
