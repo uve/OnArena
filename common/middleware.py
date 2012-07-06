@@ -49,11 +49,14 @@ class UserLocation(object):
     def process_view(self, request, view_func, args, kw):
 
         if request.META["PATH_INFO"] == "/":
+            try:
             
-            logging.info("HTTP_X_APPENGINE_CITY: %s", request.META["HTTP_X_APPENGINE_CITY"] )
-            logging.info("HTTP_X_APPENGINE_CITYLATLONG: %s", request.META["HTTP_X_APPENGINE_CITYLATLONG"] )    
-               
-            request.location = request.META["HTTP_X_APPENGINE_CITYLATLONG"]
+                logging.info("HTTP_X_APPENGINE_CITY: %s", request.META["HTTP_X_APPENGINE_CITY"] )
+                logging.info("HTTP_X_APPENGINE_CITYLATLONG: %s", request.META["HTTP_X_APPENGINE_CITYLATLONG"] )    
+                   
+                request.location = request.META["HTTP_X_APPENGINE_CITYLATLONG"]
+            except Exception, err:
+                logging.warning("ERROR: %s", str(err))
   
 
 

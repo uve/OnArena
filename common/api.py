@@ -3674,7 +3674,6 @@ def stat_update(league_id = None, team_id = None, limit = 1000):
 
 
 
-
 @check_cache              
 def statistics(league_id=None, limit = 10,
                  is_reload=None, memcache_delete=None, key_name=""):
@@ -3694,7 +3693,10 @@ def statistics(league_id=None, limit = 10,
     results = []      
 
     for item in all_stat:        
-        try:                        
+        try:           
+            
+            
+                         
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
                                                         league_id = :3 AND \
@@ -3712,20 +3714,37 @@ def statistics(league_id=None, limit = 10,
             
             
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                results.append(item)
+                                                                
+                if not hasattr(item, 'teams'):
+                    item.teams = []
+                                                                        
+                is_new = True
+                
+                for value in results:
+                    if value.player_id.id == item.player_id.id:
+                        is_new = False
+                        
+                        value.score        += item.score
+                        value.yellow_cards += item.yellow_cards
+                        value.red_cards    += item.red_cards
+                        
+                        value.teams.append(item.team_id)
+                                                                                        
+                if is_new:
+                    item.teams.append(item.team_id)
+                    results.append(item)
                             
-        except:
-            continue
+        except Exception, err:
+                logging.warning("ERROR: %s", str(err))
         
     results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
     results = sorted(results, key=lambda lv: lv.score, reverse=True)
 
     logging.info("Result lenght: %s", len(results))                
                 
-    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "player_id"]
+    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "teams", "player_id"]
         
     return cache_set(key_name, results, include)
-
 
 
  
@@ -4179,8 +4198,12 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
-    player_remove(player_id = "6605")
-    player_remove(player_id = "6606")
+    #yer_remove(player_id = "6605")
+    #player_remove(player_id = "6606")
+    
+    
+    statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    
 
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
     #league_browse(tournament_id = "1005", is_reload=True)

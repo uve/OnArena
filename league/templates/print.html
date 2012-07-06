@@ -104,7 +104,20 @@ td {
             <tr>
                 <td align="center"><div><b>{{ player.score }}</b></div></td>
                 <td><div class="events-left">{{ player.player_id.full_name }}</div></td>
-                <td><div class="events-left">{{ player.team_id.name }}</div></td>
+                
+                <td>
+                	<div class="events-left">
+	                {% if player.teams|length %}	                	
+	                		{% for team in player.teams %}                		
+	                		 	{% if forloop.counter > 1 %},&nbsp;{% endif %}
+		                		{{ team.name }}
+		                	{% endfor %}	                	
+	                {% else %}
+	                	{{ player.team_id.name }}
+	                {% endif %}
+	                </div>
+                </td>
+                
                 <td width="200"><div class="events-left">{% if player.yellow_cards %}{% trans "Yellow Cards" %}: {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}{% trans "Red Cards" %}:{{ player.red_cards }}{% endif %}</div></td>
             </tr>
         {% endfor %}

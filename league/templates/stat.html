@@ -39,9 +39,21 @@
         {% for player in all_goals %}
             <tr>
                 <td><b>{{ player.score }}</b></td>
-                <td><a class="sw-link" href="/player/{{ player.player_id.id }}/?team_id={{ player.team_id.id }}">{{ player.player_id.full_name }}</a></div></td>
-                <td><a class="sw-link" href="/team/{{ player.team_id.id }}/">{{ player.team_id.name }}</a></div></td>
-                <td><div>{% if player.yellow_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="24"> {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="24"> {{ player.red_cards }}{% endif %}</div></td>
+                <td><a class="sw-link" href="/player/{{ player.player_id.id }}/">{{ player.player_id.full_name }}</a></td>
+                
+                <td>
+	                {% if player.teams|length %}                	
+	               		{% for team in player.teams %}                		
+	               		 	{% if forloop.counter > 1 %},&nbsp;{% endif %}
+	                		<a class="sw-link" href="/team/{{ team.id }}/">{{ team.name }}</a>
+	                	{% endfor %}
+	                	
+	                {% else %}
+	                	<a class="sw-link" href="/team/{{ player.team_id.id }}/">{{ player.team_id.name }}</a>
+	                {% endif %}
+                </td>
+                
+                <td>{% if player.yellow_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="24"> {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="24"> {{ player.red_cards }}{% endif %}</td>
             </tr>
         {% endfor %}
     {% endif %}
