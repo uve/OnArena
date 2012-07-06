@@ -73,7 +73,7 @@ from django.core.context_processors import csrf
 from google.appengine.api import runtime
 
 
-
+import pipeline
 
 #######
 #######
@@ -87,6 +87,7 @@ DATETIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
 
 import common.dateutil.parser
+
 
 
 
@@ -1083,6 +1084,10 @@ def league_table(league_id = None, group_id = None, limit=1000,
                   
     return cache_set(key_name , results)
 '''
+    
+
+
+
 
 def league_update(league_id = None, limit = 1000):
 
@@ -1110,6 +1115,8 @@ def league_update(league_id = None, limit = 1000):
     deferred.defer(referees_browse, tournament_id = tournament_id, stat = True, is_reload = True)    
     
     return True
+
+
 
 
 def league_update_task(league_id = None):
@@ -4464,12 +4471,80 @@ def get_class( kls ):
     
 
 
+
+
+class LogMessage(pipeline.Pipeline):
+
+  def run(self, message, *args):
+    logging.error(message, *args)
+
+
+
+class AddOne(pipeline.Pipeline):
+  
+  def run(self, number):
+      logging.info('Current value: %s', number)
+      
+      league_browse(tournament_id = "1001")
+      
+      return number + 1
+      
+
+class Sum(pipeline.Pipeline):
+  def run(self, *values):
+    return sum(values)
+
+
     
+    
+
+class AddTwoAndLog(pipeline.Pipeline):
+
+  def run(self, number):
+    #result = yield AddOne(number)
+    #final_result = yield AddOne(result)
+    #yield LogMessage('The value is: %d', final_result)  # Works
+    
+    urls =  [1, 2] 
+            
+    results = []
+    for u in urls:
+      results.append( (yield AddOne(u)) )
+    final_result = yield Sum(*results) # Barrier waits
+    
+    yield LogMessage('The value is: %d', final_result)  # Works    
+    
+    
+    
+  def finalized(self):
+      if not self.was_aborted:
+          logging.info('All done')
+          
+              
+              
     
 def test(league_id = "1004", limit = 5000):
     
     
-    statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    #team_ref = models.Team.get_item("1554")
+    #team_ref.name = "LA2"
+    #team_ref.put()
+    
+    
+    stage = LeagueUpdate("1004")#1104
+    stage.start()
+    my_pipeline = stage.pipeline_id
+
+    
+    '''
+    # Later on, see if it's done.
+    stage = AddOne.from_id(my_pipeline)
+    if stage.has_finalized:
+        print stage.outputs.default.value  # Prints 16
+        logging.info(stage.outputs.default.value)  # Prints 16
+    '''
+    
+    #statistics(league_id = '1145', limit = 1000, is_reload = True)    
     
     
     #playoff_remove(playoff_id = '1080')
@@ -6367,6 +6442,67 @@ def weather_update():
         
 
 
+
+
+
+class MatchBrowse(pipeline.Pipeline):
+    def run(self, tournament_id, league_id):        
+        match_browse(league_id = league_id, is_reload = True)        
+        match_browse(tournament_id = tournament_id, is_reload = True) 
+        match_browse(tournament_id = tournament_id, league_id = league_id, is_reload = True)         
+        
+
+class GroupBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        group_browse(league_id = league_id, is_reload = True)
+        
+
+
+class PlayoffBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        playoff_browse(league_id = league_id, is_reload = True)
+
+
+class Statistics(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        statistics(league_id = league_id, is_reload = True)
+        stat_league(league_id = league_id, is_reload = True)            
+        statistics(league_id = league_id, limit = 1000, is_reload = True)        
+        
+
+class TeamRating(pipeline.Pipeline):
+    def run(self, tournament_id):
+        
+        team_browse_rating(tournament_id = tournament_id, is_reload = True)   
+        
+        
+class RefereeBrowse(pipeline.Pipeline):
+    def run(self, tournament_id):
+        referees_browse(tournament_id = tournament_id, stat = True, is_reload = True)
+                
+                
+                
+
+class LeagueUpdate(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        league = models.League.get_item(league_id)
+        tournament = league.tournament_id   
+        tournament_id = tournament.id       
+        
+        logging.info("League Update")
+        
+        yield GroupBrowse(league_id)        
+        yield PlayoffBrowse(league_id)
+        
+        '''
+        yield MatchBrowse(tournament_id = tournament_id, league_id = league_id)                
+        yield Statistics(league_id)
+        
+        yield RefereeBrowse(tournament_id)
+        
+        '''        
 
 
 

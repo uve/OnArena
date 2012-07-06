@@ -44,6 +44,12 @@ libraries:
 
 handlers:
 
+
+- url: /_ah/pipeline(/.*)?
+  script: pipeline/handlers.py
+
+
+
 - url: /css
   static_dir: css
   secure: optional
