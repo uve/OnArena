@@ -1471,6 +1471,8 @@ def match_create(request):
    
     match_date     = request.POST["datepicker"]
     match_time     = request.POST["timepicker"]
+    
+    
     referee_id        = request.POST["referee"]
 
     place        = request.POST["place"]
@@ -1482,6 +1484,12 @@ def match_create(request):
     match_time = match_time.replace(",",":")    
     
     full_datetime  = str(match_date) + " " + str(match_time)
+    
+    if str(match_time) == "":       
+        logging.error("No Match time: %s", full_datetime)
+        return False
+    
+    
     #match_datetime = datetime.datetime.strptime(full_datetime, DATETIME_FORMAT)
     
     deferred.defer(match_create_complete, league_id = league_id, team1_id = team1_id, team2_id = team2_id, full_datetime = full_datetime,
