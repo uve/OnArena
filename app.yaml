@@ -1,5 +1,5 @@
 application: cometiphrd
-version: 17
+version: 15
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -39,6 +39,9 @@ libraries:
 
   
 handlers:
+
+- url: /_ah/pipeline(/.*)?
+  script: pipeline/handlers.py
 
 - url: /css
   static_dir: css

@@ -70,6 +70,10 @@ from django.core.context_processors import csrf
 from google.appengine.api import runtime
 
 
+
+import pipeline
+
+
 #######
 #######
 #######
@@ -867,6 +871,65 @@ def league_cross_table(league, limit=1000):
                 c[c1.team_id.id][c2.team_id.id] = c1.match_id
 
     return c
+
+
+
+
+class MatchBrowse(pipeline.Pipeline):
+    def run(self, tournament_id, league_id):        
+        match_browse(league_id = league_id, is_reload = True)        
+        match_browse(tournament_id = tournament_id, is_reload = True) 
+        match_browse(tournament_id = tournament_id, league_id = league_id, is_reload = True)         
+        
+
+class GroupBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        group_browse(league_id = league_id, is_reload = True)
+        
+
+
+class PlayoffBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        playoff_browse(league_id = league_id, is_reload = True)
+
+
+class Statistics(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        statistics(league_id = league_id, is_reload = True)
+        stat_league(league_id = league_id, is_reload = True)            
+        statistics(league_id = league_id, limit = 1000, is_reload = True)        
+        
+
+class TeamRating(pipeline.Pipeline):
+    def run(self, tournament_id):
+        
+        team_browse_rating(tournament_id = tournament_id, is_reload = True)   
+        
+        
+class RefereeBrowse(pipeline.Pipeline):
+    def run(self, tournament_id):
+        
+        referees_browse(tournament_id = tournament_id, stat = True, is_reload = True)
+                
+                
+                
+
+class LeagueUpdate(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        league = models.League.get_item(league_id)
+        tournament = league.tournament_id   
+        tournament_id = tournament.id       
+        
+        yield GroupBrowse(league_id)
+        yield PlayoffBrowse(league_id)
+        yield MatchBrowse(tournament_id = tournament_id, league_id = league_id)                
+        yield Statistics(league_id)
+        
+        yield RefereeBrowse(tournament_id)        
+
+
 
 
 def league_update(league_id = None, limit = 1000):
@@ -4210,7 +4273,12 @@ def test(league_id = "1004", limit = 1000):
     #player_remove(player_id = "6606")
     
     
-    statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    stage = LeagueUpdate("1145")
+    stage.start()
+    my_pipeline = stage.pipeline_id
+    
+    
+    #statistics(league_id = '1145', limit = 1000, is_reload = True)    
     
 
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
