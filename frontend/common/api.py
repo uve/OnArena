@@ -3854,6 +3854,7 @@ def stat_update(league_id = None, team_id = None, limit = 1000):
     return True
 
 
+
 @check_cache              
 def statistics(league_id=None, limit = 10,
                  is_reload=None, memcache_delete=None, key_name=""):
@@ -3872,11 +3873,11 @@ def statistics(league_id=None, limit = 10,
                 
     results = []      
 
-    for i,item in enumerate(all_stat):
-        
-        try:
+    for item in all_stat:        
+        try:           
             
             
+                         
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
                                                         league_id = :3 AND \
@@ -3894,19 +3895,40 @@ def statistics(league_id=None, limit = 10,
             
             
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                results.append(item)
+                                                                
+                if not hasattr(item, 'teams'):
+                    item.teams = []
+                                                                        
+                is_new = True
+                
+                for value in results:
+                    if value.player_id.id == item.player_id.id:
+                        is_new = False
+                        
+                        value.score        += item.score
+                        value.yellow_cards += item.yellow_cards
+                        value.red_cards    += item.red_cards
+                        
+                        value.teams.append(item.team_id)
+                                                                                        
+                if is_new:
+                    item.teams.append(item.team_id)
+                    results.append(item)
                             
-        except:
-            continue
+        except Exception, err:
+                logging.warning("ERROR: %s", str(err))
         
     results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
     results = sorted(results, key=lambda lv: lv.score, reverse=True)
 
     logging.info("Result lenght: %s", len(results))                
                 
-    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "player_id"]
+    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "teams", "player_id"]
         
     return cache_set(key_name, results, include)
+
+
+
  
 '''      
 @check_cache              
@@ -4446,12 +4468,16 @@ def get_class( kls ):
     
 def test(league_id = "1004", limit = 5000):
     
+    
+    statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    
+    
     #playoff_remove(playoff_id = '1080')
         
     #deferred.defer(playoff_browse, league_id = '1139', is_reload = True)
     
     #league_browse(tournament_id = "1007", is_reload=True)
-    tournament_browse(limit = 1000, is_reload = True) 
+    #tournament_browse(limit = 1000, is_reload = True) 
     #league_update(league_id = '1139')
     
     return True
