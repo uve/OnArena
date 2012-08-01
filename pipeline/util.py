@@ -22,6 +22,13 @@ __all__ = ["for_name", "is_generator_function"]
 import inspect
 import logging
 
+'''
+import os, sys
+
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0,parentdir) 
+sys.path.append("..")
+'''
 
 def for_name(fq_name, recursive=False):
   """Find class/function/method specified by its fully qualified name.
@@ -54,8 +61,17 @@ def for_name(fq_name, recursive=False):
     (module_name, short_name) = (fq_name[:fq_name.rfind(".")],
                                  fq_name[fq_name.rfind(".") + 1:])
 
+
+  logging.info("fq_name: %s" % fq_name)
+  logging.info("module_name: %s" % module_name)
+  logging.info("short_name: %s" % short_name)
+ 
+  
   try:
-    result = __import__(module_name, None, None, [short_name])
+    
+    #del sys.modules[module_name]
+    result = __import__(module_name, None, None, ["common"], 1)
+    logging.info("finded: %s" % result.__dict__)
     return result.__dict__[short_name]
   except KeyError:
     # If we're recursively inside a for_name() chain, then we want to raise
@@ -73,6 +89,7 @@ def for_name(fq_name, recursive=False):
     # out what's this.
     try:
       module = for_name(module_name, recursive=True)
+      logging.info("module: %s" % module)
       if hasattr(module, short_name):
         return getattr(module, short_name)
       else:
@@ -107,4 +124,3 @@ def is_generator_function(obj):
   CO_GENERATOR = 0x20
   return bool(((inspect.isfunction(obj) or inspect.ismethod(obj)) and
                obj.func_code.co_flags & CO_GENERATOR))
-

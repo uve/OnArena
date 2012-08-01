@@ -7,6 +7,10 @@ import django.core.signals
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings' 
 
+
+import fix_path
+
+
 def log_exception(*args, **kwds):
     """Django signal handler to log an exception."""
     cls, err = sys.exc_info()[:2]

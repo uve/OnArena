@@ -1,5 +1,5 @@
 application: cometiphrd
-version: 15
+version: 17
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -22,8 +22,14 @@ skip_files: |
 builtins:
 - remote_api: off
 - appstats: off
-- deferred: off
 - django_wsgi: off
+- deferred: on
+
+
+inbound_services:
+- mail
+- warmup
+
 
 libraries:
 - name: django

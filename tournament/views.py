@@ -19,6 +19,9 @@ from django.template import loader
 from common import fix_path
 
 from common import api
+
+#import api as api2
+
 from common import decorator
 from common import user
 from common import util

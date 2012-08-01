@@ -24,6 +24,22 @@ urlpatterns = patterns('',
 )
 
 
+urlpatterns += patterns('pipeline.pipeline',
+    (r'^_ah/pipeline/output$', '_BarrierHandler'),
+    (r'^_ah/pipeline/run$', '_PipelineHandler'),
+    (r'^_ah/pipeline/finalized$', '_PipelineHandler'),
+    (r'^_ah/pipeline/cleanup$', '_CleanupHandler'),
+    (r'^_ah/pipeline/abort$', '_PipelineHandler'),
+    (r'^_ah/pipeline/fanout$', '_FanoutHandler'),
+    (r'^_ah/pipeline/fanout_abort$', '_FanoutAbortHandler'),
+    (r'^_ah/pipeline/callback$', '_CallbackHandler'),
+    (r'^_ah/pipeline/rpc/tree$', 'status_ui._TreeStatusHandler'),
+    (r'^_ah/pipeline/rpc/class_paths$', 'status_ui._ClassPathListHandler'),
+    (r'^_ah/pipeline/rpc/list$', 'status_ui._RootListHandler'),
+    (r'^_ah/pipeline/(/.+)', 'status_ui._StatusUiHandler')    
+    
+     )
+
 urlpatterns += patterns('',
     (r'^i18n/', include('django.conf.urls.i18n'))
     )

@@ -14,6 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+#import fix_path
+import os, sys
+base = os.path.dirname(os.path.dirname(__file__))
+base_parent = os.path.dirname(base)
+sys.path.append(base)
+sys.path.append(base_parent)
+
 try:
   from pipeline import *
 except ImportError, e:

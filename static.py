@@ -64,7 +64,7 @@ class StaticContentHandler(webapp2.RequestHandler):
     
     logging.info("key_name: %s", key_name)    
 
-    last_seen = memcache.get(key_name)   
+    last_seen = None#memcache.get(key_name)   
     #logging.info("last_seen: %s",last_seen)    
         
     if last_seen and 'If-Modified-Since' in self.request.headers:

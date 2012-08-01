@@ -1918,6 +1918,7 @@ class _PipelineContext(object):
          purpose == _BarrierRecord.FINALIZE) or abort_signal)
 
     try:
+      logging.info("record: %s." % pipeline_record.class_path)
       pipeline_func_class = mr_util.for_name(pipeline_record.class_path)
     except ImportError, e:
       # This means something is wrong with the deployed code. Rely on the
