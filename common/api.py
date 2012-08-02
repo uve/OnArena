@@ -3846,7 +3846,12 @@ def statistics(league_id=None, limit = 10,
                         value.yellow_cards += item.yellow_cards
                         value.red_cards    += item.red_cards
                         
-                        value.teams.append(item.team_id)
+                        if not item.team_id.id in [x.id for x in value.teams]:
+                            value.teams.append(item.team_id)                            
+                            logging.info('Another team detected: %s', item.team_id.id)
+                            logging.info('For player: %s', item.player_id.id)
+                        else:                            
+                            logging.info('Double team detected: %s', item.team_id.name)            
                                                                                         
                 if is_new:
                     item.teams.append(item.team_id)
