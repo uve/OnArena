@@ -44,11 +44,8 @@ libraries:
 
 handlers:
 
-
 - url: /_ah/pipeline(/.*)?
   script: pipeline/handlers.py
-
-
 
 - url: /css
   static_dir: css
@@ -60,20 +57,21 @@ handlers:
 #  secure: optional
 #  expiration: "1m"
   
-- url: /js/main.dart
-  static_files: js/main.dart
-  upload: js/main.dart
-  secure: optional
-
-- url: /js/main.dart.js
-  static_files: js/main.dart.js
-  upload: js/main.dart.js
-  secure: optional
   
-- url: /js/index.html
-  static_files: js/index.html
-  upload: js/index.html
-  secure: optional    
+#- url: /js/main.dart
+#  static_files: js/main.dart
+#  upload: js/main.dart
+#  secure: optional
+
+#- url: /js/main.dart.js
+#  static_files: js/main.dart.js
+#  upload: js/main.dart.js
+#  secure: optional
+  
+#- url: /js/index.html
+#  static_files: js/index.html
+#  upload: js/index.html
+#  secure: optional    
     
 
 - url: /static
