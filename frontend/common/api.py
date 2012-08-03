@@ -3908,6 +3908,8 @@ def statistics(league_id=None, limit = 10,
 
     leagues = [league_id]
     
+    league_ref = models.League.get_item(league_id)
+    
     #### Few leagues stats ###
     
     if league_id == "1164" or league_id == "1165":
@@ -3926,14 +3928,25 @@ def statistics(league_id=None, limit = 10,
     all_stat = models.StatPlayer.gql("WHERE league_id IN :1 AND \
                                           eventtype_id = :2 \
                                           ORDER BY score DESC",
-                                          all_leagues, goal).fetch(limit)
+                                          all_leagues, goal).fetch(5000)
                 
     results = []      
 
     for item in all_stat:        
-        try:           
+        try:            
             
-            
+            if len(all_leagues) > 1:                
+                                          
+                total_goals = models.Event.gql("WHERE player_id = :1 AND \
+                                                              team_id = :2 AND \
+                                                            league_id = :3 AND \
+                                                         eventtype_id = :4",
+                         item.player_id, item.team_id, league_ref, goal).count()                                          
+                
+                #logging.info("Player id: %s, goals: %s", item.player_id.id, total_goals)
+                
+                if total_goals <= 0:
+                    continue
                          
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
@@ -3982,6 +3995,8 @@ def statistics(league_id=None, limit = 10,
         
     results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
     results = sorted(results, key=lambda lv: lv.score, reverse=True)
+    
+    results = results[:limit]
 
     logging.info("Result lenght: %s", len(results))                
                 
@@ -4592,7 +4607,8 @@ def test(league_id = "1004", limit = 5000):
         logging.info(item.eventtype_id.name)
     
     
-    statistics(league_id = '1164', is_reload = True)    
+    statistics(league_id = '1164', is_reload = True)
+    #statistics(league_id = '1164', limit = 1000, is_reload = True)       
     
     
     return True
