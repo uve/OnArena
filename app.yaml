@@ -26,9 +26,9 @@ builtins:
 - deferred: on
 
 
-inbound_services:
-- mail
-- warmup
+#inbound_services:
+#- mail
+#- warmup
 
 
 libraries:
