@@ -73,7 +73,7 @@ from django.core.context_processors import csrf
 from google.appengine.api import runtime
 
 
-
+import pipeline
 
 #######
 #######
@@ -87,6 +87,7 @@ DATETIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
 
 import common.dateutil.parser
+
 
 
 
@@ -788,10 +789,19 @@ def league_browse(tournament_id = None, limit = 100,
 
     if tournament_id == "1007":       
         for item in results:
-            if int(item.id) >= int("1111"):
+            if int(item.id) >= int("1162"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
+    
+    
+    if tournament_id == "1008":       
+        for item in results:
+            if int(item.id) >= int("1170"):
+                new_res.append(item)    
+                
+        return cache_set(key_name, new_res, include)
+        
     
     if tournament_id in ["1001", "1003","1008"]:       
         for item in results:
@@ -1083,6 +1093,10 @@ def league_table(league_id = None, group_id = None, limit=1000,
                   
     return cache_set(key_name , results)
 '''
+    
+
+
+
 
 def league_update(league_id = None, limit = 1000):
 
@@ -1092,23 +1106,26 @@ def league_update(league_id = None, limit = 1000):
     
     deferred.defer(group_browse, league_id = league_id, is_reload = True)
     
+    deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
+    deferred.defer(match_browse, league_id = league_id, is_reload = True)
+    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)       
+
+    deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
+    
     deferred.defer(stat_league, league_id = league_id, is_reload = True)
 
     deferred.defer(statistics, league_id = league_id, is_reload = True)
     deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
 
-    deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
-    deferred.defer(match_browse, league_id = league_id, is_reload = True)
-    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)     
-    
 
-    deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
     
     deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
     
     deferred.defer(referees_browse, tournament_id = tournament_id, stat = True, is_reload = True)    
     
     return True
+
+
 
 
 def league_update_task(league_id = None):
@@ -1510,10 +1527,41 @@ def match_browse(tournament_id = None, league_id = None, team_id = None, referee
 
  
     
+ 
+ 
+ 
     
-def match_create_complete(league_id = None, team1_id = None, team2_id = None, full_datetime = None,
-                                     referee_id = None, place = None, playoffnode_id = None, group_id = None,limit = 1000):    
+#def match_create_complete(league_id = None, team1_id = None, team2_id = None, full_datetime = None,
+#                                     referee_id = None, place = None, playoffnode_id = None, group_id = None,limit = 1000):    
 
+
+def match_create_complete(post = None):
+
+
+    league_id  = post["league_id"]
+    playoffnode_id = post["playoffnode_id"]    
+    group_id = post["group_id"]       
+
+    team1_id = post["team1"]
+    team2_id = post["team2"]
+   
+    match_date = post["datepicker"]
+    match_time = post["timepicker"]
+    referee_id = post["referee"]
+
+    place = post["place"]
+    
+    match_date = match_date.replace("-",".")    
+    
+    match_time = match_time.replace(".",":")
+    match_time = match_time.replace("-",":")    
+    match_time = match_time.replace(",",":")    
+    
+    full_datetime  = str(match_date) + " " + str(match_time)
+    
+        
+    #################################  old
+   
    
     match_datetime = datetime.datetime.strptime(full_datetime, DATETIME_FORMAT)
     
@@ -1570,8 +1618,6 @@ def match_create_complete(league_id = None, team1_id = None, team2_id = None, fu
     values = []
     for team_ref in team_refs:
 
-
-
         params = {'match_id': match_ref,
                   'team_id' : team_ref,
 
@@ -1608,7 +1654,6 @@ def match_create_complete(league_id = None, team1_id = None, team2_id = None, fu
                 }
         score_ref = models.Score(**params)
         score_ref.put()
-
 
     
     new_playermatches = []
@@ -1666,6 +1711,10 @@ def match_create_complete(league_id = None, team1_id = None, team2_id = None, fu
 
 
 def match_create(request):
+
+    deferred.defer(match_create_complete, post = request.POST)  
+    return True
+
 
     league_id  = request.POST["league_id"]
     playoffnode_id = request.POST["playoffnode_id"]    
@@ -1752,18 +1801,10 @@ def match_edit(post_data, limit=1000):
     match_ref.datetime = match_datetime
     match_ref.put()
     match_ref.update(match_ref.id)
-       
-
-
-    playoff      = None
-    playoffstage = None                   
-    playoffnode  = None    
     
-    if match.playoff_id:
-        playoff      = match.playoff_id
-        playoffnode  = match.playoffnode_id        
-        playoffstage = match.playoffstage_id    
-        
+    match = match_ref
+       
+       
     group  = None    
     
     if match.group_id:
@@ -1989,9 +2030,9 @@ def match_edit(post_data, limit=1000):
                   
                   'resulttype_id': team_ref.result,
                   
-                  'playoff_id':       playoff,         
-                  'playoffstage_id':  playoffstage,                         
-                  'playoffnode_id':   playoffnode,  
+                  'playoff_id':       match.playoff,         
+                  'playoffstage_id':  match.playoffstage,                         
+                  'playoffnode_id':   match.playoffnode,  
                   
                   'group_id':         group,                  
                 }
@@ -2426,7 +2467,9 @@ def match_remove(match_id, limit=100):
         db.delete(rem)                        
         db.delete(match)
                
-    league_update_task(league_id = league_id)
+    #league_update_task(league_id = league_id)
+    
+    league_update(league_id = league_id)
     
     for team_id in teams:
         deferred.defer(match_browse, team_id = team_id, is_reload = True)   
@@ -3851,74 +3894,119 @@ def stat_update(league_id = None, team_id = None, limit = 1000):
     return True
 
 
+
+
 @check_cache              
 def statistics(league_id=None, limit = 10,
                  is_reload=None, memcache_delete=None, key_name=""):
     
         
-    league  = models.League.get_item(league_id).key()
+    #league  = models.League.get_item(league_id).key()
     goal        = models.EventType.get_item("1001").key() 
     yellow_card = models.EventType.get_item("1002").key() 
     red_card    = models.EventType.get_item("1003").key() 
 
+    leagues = [league_id]
     
-    all_stat = models.StatPlayer.gql("WHERE league_id = :1 AND \
+    league_ref = models.League.get_item(league_id)
+    
+    #### Few leagues stats ###
+    
+    if league_id == "1164" or league_id == "1165":
+        leagues.extend(["1146", "1147", "1148", "1149"])
+
+
+    if league_id == "1166":
+        leagues.extend(["1143", "1144", "1145", "1150"])
+        
+    
+    all_leagues = [models.League.get_item(item).key() for item in leagues]
+    
+            
+    #all_leagues = models.db.GqlQuery("SELECT __key__ FROM League WHERE id IN :1", leagues).fetch(limit)
+    
+    all_stat = models.StatPlayer.gql("WHERE league_id IN :1 AND \
                                           eventtype_id = :2 \
                                           ORDER BY score DESC",
-                                          league, goal).fetch(limit)
+                                          all_leagues, goal).fetch(5000)
                 
-    results = []
-    mas = []
-    last_score = None
+    results = []      
 
-    s = len(all_stat) - 1 
-    
-    logging.info("Total strikers: %s", s)
-
-    for i,item in enumerate(all_stat):
-        
-        try:
+    for item in all_stat:        
+        try:            
             
+            if len(all_leagues) > 1:                
+                                          
+                total_goals = models.Event.gql("WHERE player_id = :1 AND \
+                                                              team_id = :2 AND \
+                                                            league_id = :3 AND \
+                                                         eventtype_id = :4",
+                         item.player_id, item.team_id, league_ref, goal).count()                                          
+                
+                #logging.info("Player id: %s, goals: %s", item.player_id.id, total_goals)
+                
+                if total_goals <= 0:
+                    continue
+                         
             item.yellow_cards = models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
-                                                        league_id = :3 AND \
+                                                        league_id IN :3 AND \
                                                      eventtype_id = :4",
-                     item.player_id, item.team_id, league, yellow_card).count()
+                     item.player_id, item.team_id, all_leagues, yellow_card).count()
 
 
             item.red_cards =    models.Event.gql("WHERE player_id = :1 AND \
                                                           team_id = :2 AND \
-                                                        league_id = :3 AND \
+                                                        league_id IN :3 AND \
                                                      eventtype_id = :4",
-                     item.player_id, item.team_id, league, red_card).count()
+                     item.player_id, item.team_id, all_leagues, red_card).count()
 
-                                                                
-            if item.score != last_score or i >= s:
-                
-                if i >= s:
-                    if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                        mas.append(item)
-
-                if mas:
-                    mas = sorted(mas, key=lambda lv: lv.player_id.full_name,
-                                                     reverse=False)
-                    results.extend(mas)
-                last_score = item.score
-                mas = []
-
+            #logging.info("%s: %s", item.player_id.full_name, item.score)
+            
+            
             if item.score > 0 or item.yellow_cards > 0 or item.red_cards > 0:
-                mas.append(item)
-                logging.info("Append: %s", item.score)
-
-        except:
-            continue
+                                                                
+                if not hasattr(item, 'teams'):
+                    item.teams = []
+                                                                        
+                is_new = True
                 
+                for value in results:
+                    if value.player_id.id == item.player_id.id:
+                        is_new = False
+                        
+                        value.score        += item.score
+                        value.yellow_cards += item.yellow_cards
+                        value.red_cards    += item.red_cards
+                        
+                        if not item.team_id.id in [x.id for x in value.teams]:
+                            value.teams.append(item.team_id)                            
+                            logging.info('Another team detected: %s', item.team_id.id)
+                            logging.info('For player: %s', item.player_id.id)
+                        else:                            
+                            logging.info('Double team detected: %s', item.team_id.name)            
+                                                                                        
+                if is_new:
+                    item.teams.append(item.team_id)
+                    results.append(item)
+                            
+        except Exception, err:
+                logging.warning("ERROR: %s", str(err))
+        
+    results = sorted(results, key=lambda lv: lv.player_id.full_name, reverse=False)    
+    results = sorted(results, key=lambda lv: lv.score, reverse=True)
+    
+    results = results[:limit]
 
     logging.info("Result lenght: %s", len(results))                
                 
-    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "player_id"]
+    include = ["id", "name", "full_name", "score", "yellow_cards", "red_cards", "team_id", "teams", "player_id"]
         
     return cache_set(key_name, results, include)
+
+
+
+
  
 '''      
 @check_cache              
@@ -4454,10 +4542,136 @@ def get_class( kls ):
     
 
 
+
+
+class LogMessage(pipeline.Pipeline):
+
+  def run(self, message, *args):
+    logging.error(message, *args)
+
+
+
+class AddOne(pipeline.Pipeline):
+  
+  def run(self, number):
+      logging.info('Current value: %s', number)
+      
+      league_browse(tournament_id = "1001")
+      
+      return number + 1
+      
+
+class Sum(pipeline.Pipeline):
+  def run(self, *values):
+    return sum(values)
+
+
     
+    
+
+class AddTwoAndLog(pipeline.Pipeline):
+
+  def run(self, number):
+    #result = yield AddOne(number)
+    #final_result = yield AddOne(result)
+    #yield LogMessage('The value is: %d', final_result)  # Works
+    
+    urls =  [1, 2] 
+            
+    results = []
+    for u in urls:
+      results.append( (yield AddOne(u)) )
+    final_result = yield Sum(*results) # Barrier waits
+    
+    yield LogMessage('The value is: %d', final_result)  # Works    
+    
+    
+    
+  def finalized(self):
+      if not self.was_aborted:
+          logging.info('All done')
+          
+              
+              
     
 def test(league_id = "1004", limit = 5000):
+    
+    
+    player = models.Player.get_item("3281")
+    league = models.League.get_item("1164")
+    
+    
+    all_stat = models.Event.gql("WHERE player_id = :1 and league_id =:2", player, league).fetch(limit)
+    
+    for item in all_stat:
+        logging.info(item.eventtype_id.name)
+    
+    
+    statistics(league_id = '1164', is_reload = True)
+    #statistics(league_id = '1164', limit = 1000, is_reload = True)       
+    
+    
+    return True
+    #team_ref = models.Team.get_item("1554")
+    #team_ref.name = "LA2"
+    #team_ref.put()
+    
+    '''
+    value = models.PlayoffNode.get_item("1628")
+        
+    competitors = models.PlayoffCompetitor.gql("WHERE playoffnode_id = :1 ORDER BY created ASC", value).fetch(limit)
+        
+    matches = models.Match.gql("WHERE playoffnode_id = :1 ORDER BY created ASC", value).fetch(limit)
+        
+    for item in matches:
+        logging.info(item.id)
+            
+            
+    '''
+    #league_browse(tournament_id = "1008", is_reload=True)
+    #stage = LeagueUpdate("1008")#1104
+    #stage.start()
+    #my_pipeline = stage.pipeline_id
 
+    
+    '''
+    # Later on, see if it's done.
+    stage = AddOne.from_id(my_pipeline)
+    if stage.has_finalized:
+        print stage.outputs.default.value  # Prints 16
+        logging.info(stage.outputs.default.value)  # Prints 16
+    '''
+    
+    #statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    
+    
+    #playoff_remove(playoff_id = '1080')
+        
+    #deferred.defer(playoff_browse, league_id = '1139', is_reload = True)
+    
+    #league_browse(tournament_id = "1007", is_reload=True)
+    #tournament_browse(limit = 1000, is_reload = True) 
+    #league_update(league_id = '1139')
+    
+    return True
+
+    statistics(league_id = "1144", is_reload = True)
+    statistics(league_id = "1144", limit = 1000, is_reload = True)
+    
+    return True
+            
+    team_ref = models.Team.get_item('1125')
+    team_competitors = models.Competitor.gql("WHERE team_id = :1 ORDER BY created DESC", team_ref).fetch(3, 0)
+    
+    for item in team_competitors:
+        try:
+            logging.info("Match_id: %s", item.match_id.id)
+        except:
+            logging.error("Match_id: %s", item.match_id)
+                         
+    
+    match_browse(team_id = "1133", is_reload = True)
+    
     return True
 
 
@@ -6366,6 +6580,67 @@ def weather_update():
         
 
 
+
+
+
+class MatchBrowse(pipeline.Pipeline):
+    def run(self, tournament_id, league_id):        
+        match_browse(league_id = league_id, is_reload = True)        
+        match_browse(tournament_id = tournament_id, is_reload = True) 
+        match_browse(tournament_id = tournament_id, league_id = league_id, is_reload = True)         
+        
+
+class GroupBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        group_browse(league_id = league_id, is_reload = True)
+        
+
+
+class PlayoffBrowse(pipeline.Pipeline):
+    def run(self, league_id):
+        playoff_browse(league_id = league_id, is_reload = True)
+
+
+class Statistics(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        statistics(league_id = league_id, is_reload = True)
+        stat_league(league_id = league_id, is_reload = True)            
+        statistics(league_id = league_id, limit = 1000, is_reload = True)        
+        
+
+class TeamRating(pipeline.Pipeline):
+    def run(self, tournament_id):
+        
+        team_browse_rating(tournament_id = tournament_id, is_reload = True)   
+        
+        
+class RefereeBrowse(pipeline.Pipeline):
+    def run(self, tournament_id):
+        referees_browse(tournament_id = tournament_id, stat = True, is_reload = True)
+                
+                
+                
+
+class LeagueUpdate(pipeline.Pipeline):
+    def run(self, league_id):
+        
+        league = models.League.get_item(league_id)
+        tournament = league.tournament_id   
+        tournament_id = tournament.id       
+        
+        logging.info("League Update")
+        
+        yield GroupBrowse(league_id)        
+        yield PlayoffBrowse(league_id)
+        
+        '''
+        yield MatchBrowse(tournament_id = tournament_id, league_id = league_id)                
+        yield Statistics(league_id)
+        
+        yield RefereeBrowse(tournament_id)
+        
+        '''        
 
 
 
