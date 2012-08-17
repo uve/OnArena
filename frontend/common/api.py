@@ -4597,6 +4597,28 @@ class AddTwoAndLog(pipeline.Pipeline):
 def test(league_id = "1004", limit = 5000):
     
     
+    '''
+    
+    test_create(league_id = "1153", name=u'Группа А',
+                 group_teams=["1373", "1565", "1370", "1634", "1667", "1483"])
+
+
+    test_create(league_id = "1153", name=u'Группа Б',
+                 group_teams=["1179", "1666", "1180", "1326"])
+    
+    '''
+    
+    group_browse(league_id = "1153", is_reload = True)
+    
+    
+    return True
+
+
+    league_get(league_id = "1177", is_reload = True)
+    league_browse(tournament_id = "1021", is_reload = True)
+    
+    return True
+    
     player = models.Player.get_item("3281")
     league = models.League.get_item("1164")
     
