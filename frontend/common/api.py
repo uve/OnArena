@@ -774,7 +774,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1002":       
         for item in results:
-            if int(item.id) >= int("1100"):
+            if int(item.id) >= int("1146"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
@@ -4701,6 +4701,39 @@ def test(league_id = "1004", limit = 5000):
                  group_teams=["1556", "1682", "1684", "1686",])
 
 
+<<<<<<< HEAD
+    del_mas = []
+    
+    #team1 = models.Team.get_item("1656")
+    team2 = models.Team.get_item("1661")
+    
+    all_teams = [team2]
+
+       
+    for team in all_teams:    
+        all_players = models.PlayerTeam.gql("WHERE team_id = :1", team).fetch(limit)
+        
+        for i, v in enumerate(all_players):
+            del_mas.append(v.player_id.key())
+        '''
+        for i, v in enumerate(all_players):
+            for i2, v2 in enumerate(all_players): 
+                if v.player_id.id == v2.player_id.id and i < i2:
+                    logging.info("team: %s \t player: %s",
+                                   team.name, v.player_id.full_name)
+                                   
+                    del_mas.append(v2)
+        '''
+
+    models.db.delete(del_mas)   
+    
+    
+    for team in all_teams:
+        deferred.defer(team_get_players, team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
+        deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
+
+=======
     test_create(league_id = "1156", name=u'Группа Б',
                  group_teams=["1681", "1682", "1683", "1687"])
 
@@ -4708,7 +4741,35 @@ def test(league_id = "1004", limit = 5000):
     
     
     return True
+>>>>>>> 2d7ff6777d8b343e35ea83c30bf9b1a4e4528ed7
 
+    
+    
+    
+                 
+    return True
+    
+    
+    
+    league = models.League.get_item("1147")
+    league.name = u"Летний Кубок. Группа B"
+    league.put()
+    
+    league = models.League.get_item("1148")
+    league.name = u"Летний Кубок. Группа C"
+    league.put()
+    
+    league = models.League.get_item("1149")
+    league.name = u"Летний Кубок. Группа D"
+    league.put()
+    
+    
+    league_browse(tournament_id = "1002", is_reload = True)
+    
+    return True
+    
+    
+    
     tournament = models.Tournament.get_item("1008")
         
     check_mas = []    
@@ -4934,27 +4995,6 @@ def test(league_id = "1004", limit = 5000):
 
     return True    
     
-    for team in all_teams:
-        deferred.defer(team_get_players, team_id = team.id, is_reload = True)
-        deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
-        deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
-
-
-        
-    for team in all_teams:    
-        all_players = models.PlayerTeam.gql("WHERE team_id = :1", team).fetch(limit)
-        for i, v in enumerate(all_players):
-            for i2, v2 in enumerate(all_players): 
-                if v.player_id.id == v2.player_id.id and i < i2:
-                    logging.info("team: %s \t player: %s",
-                                   team.name, v.player_id.full_name)
-                                   
-                    del_mas.append(v2)
-    
-    models.db.delete(del_mas)       
-    
-                 
-    return True
             
     deferred.defer(statistics, league_id = "1085", is_reload=True)
     deferred.defer(statistics, league_id = "1085", limit = 1000, is_reload=True)
