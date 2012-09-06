@@ -796,7 +796,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1001":       
         for item in results:
-            if int(item.id) >= int("1143"):
+            if int(item.id) >= int("1180"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -4343,16 +4343,16 @@ def test(league_id = "1004", limit = 1000):
     #deferred.defer(league_browse, tournament_id = "1001", is_reload = True)
     
     #stage = LeagueUpdate(league_id = "1152")
-    stage = LeagueUpdate(league_id = "1164")
-    stage.start()
-    my_pipeline = stage.pipeline_id
+    #stage = LeagueUpdate(league_id = "1164")
+    #stage.start()
+    #my_pipeline = stage.pipeline_id
     
     
     #statistics(league_id = '1145', limit = 1000, is_reload = True)    
     
 
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
-    #league_browse(tournament_id = "1005", is_reload=True)
+    league_browse(tournament_id = "1001", is_reload=True)
 
     return True
 
