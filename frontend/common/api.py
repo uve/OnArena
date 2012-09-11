@@ -4596,19 +4596,12 @@ class AddTwoAndLog(pipeline.Pipeline):
     
 def test(league_id = "1004", limit = 5000):
     
+    team1   = models.Team.get_item("1759")    
+    player1 = models.Player.get_item("1887")
     
-    '''
+    player_team = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player1, team1).fetch(limit)
     
-    test_create(league_id = "1153", name=u'Группа А',
-                 group_teams=["1373", "1565", "1370", "1634", "1667", "1483"])
-
-
-    test_create(league_id = "1153", name=u'Группа Б',
-                 group_teams=["1179", "1666", "1180", "1326"])
-    
-    '''
-    
-    group_browse(league_id = "1153", is_reload = True)
+    models.db.delete(player_team)
     
     
     return True
@@ -4700,8 +4693,6 @@ def test(league_id = "1004", limit = 5000):
     test_create(league_id = "1156", name=u'Группа А',
                  group_teams=["1556", "1682", "1684", "1686",])
 
-
-<<<<<<< HEAD
     del_mas = []
     
     #team1 = models.Team.get_item("1656")
@@ -4733,7 +4724,6 @@ def test(league_id = "1004", limit = 5000):
         deferred.defer(team_get_players_active,  team_id = team.id, is_reload = True)
         deferred.defer(team_get_players, team_id = team.id, stat=True, is_reload = True)
 
-=======
     test_create(league_id = "1156", name=u'Группа Б',
                  group_teams=["1681", "1682", "1683", "1687"])
 
@@ -4741,9 +4731,6 @@ def test(league_id = "1004", limit = 5000):
     
     
     return True
->>>>>>> 2d7ff6777d8b343e35ea83c30bf9b1a4e4528ed7
-
-    
     
     
                  
