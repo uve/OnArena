@@ -150,8 +150,11 @@ def cache_set(key_name, value, include = [], commit = False):
         #logging.info("memory usage: %s",runtime.memory_usage().current())           
         
         content = models.StaticContent( key_name = key_name, name = key_name, 
-                            content = value, content_type = 'application/json')
-                            
+                                        content_type = 'application/json')
+            
+        logging.info("Content len: %s", len(value))            
+             
+        content.content = value
         content.put()       
         
         #logging.info("Cache saved")             
@@ -170,8 +173,8 @@ def cache_set(key_name, value, include = [], commit = False):
         #logging.info("json.loads: %s", key_name)
     
         return json.loads(value, object_hook=decode_datetime) 
-    except:
-        logging.warning("Warning Cache Set!!   Json encode: %s", key_name)   
+    except Exception, err:
+        logging.warning("Warning Cache Set!!   Json encode: %s \t %s", key_name, err)   
         return value     
 
 
@@ -2915,8 +2918,9 @@ def player_browse(tournament_id = None, limit=5000,
 
     logging.info("cpu usage: %s",runtime.cpu_usage().total())   	    
    	           
-    include = ["id", "name", "full_name", "rating", "ranking", "teams"]
+    #include = ["id", "name", "full_name", "rating", "ranking", "teams"]
     
+    include = ["id", "name", "full_name", "teams"]
                         
     return cache_set(key_name, results, include, commit = True)   
 
@@ -4596,13 +4600,16 @@ class AddTwoAndLog(pipeline.Pipeline):
     
 def test(league_id = "1004", limit = 5000):
     
-    team1   = models.Team.get_item("1759")    
-    player1 = models.Player.get_item("1887")
     
-    player_team = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player1, team1).fetch(limit)
+    tournament1 = models.Tournament.get_item("1001")
     
-    models.db.delete(player_team)
+    cnt = models.Player.gql("WHERE tournament_id = :1", tournament1).fetch(limit)
     
+    logging.info("All total players: %s", len(cnt))
+    
+    #player_browse(tournament_id = "1001", is_reload = True)
+    
+    deferred.defer(player_browse, tournament_id = "1001", is_reload = True)
     
     return True
 
@@ -5084,7 +5091,7 @@ def test(league_id = "1004", limit = 5000):
                  
     return True
 
-    deferred.defer(player_browse, tournament_id = "1001", is_reload = True)  
+      
     
     return True
     news_browse(tournament_id = "1003", is_reload = True)
