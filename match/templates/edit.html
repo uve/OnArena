@@ -47,7 +47,7 @@
 	</div>
 
 	<div class="block-5-5">
-		  <select id="teams0" name="teams0" class="rfloat">
+		  <select id="teams0" name="teams0" class="lfloat">
         {% for team in all_teams %}
             <option {% ifequal team.id match.teams.0.id %}selected="selected"{% endifequal %}
                value="{{ team.id }}">{{ team.name }}</option>

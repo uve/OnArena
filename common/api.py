@@ -781,7 +781,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1003":       
         for item in results:
-            if int(item.id) >= int("1143"):
+            if int(item.id) >= int("1198"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -2738,9 +2738,12 @@ def player_browse(tournament_id = None, limit=5000,
 
     logging.info("cpu usage: %s",runtime.cpu_usage().total())   	    
    	           
-    include = ["id", "name", "full_name", "rating", "ranking", "teams"]
+                  
+    #include = ["id", "name", "full_name", "rating", "ranking", "teams"]
     
-                        
+    include = ["id", "name", "full_name", "teams"]
+    
+    
     return cache_set(key_name, results, include, commit = True)   
 
         
