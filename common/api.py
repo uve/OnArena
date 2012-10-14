@@ -4359,7 +4359,7 @@ def test(league_id = "1004", limit = 1000):
     
 
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
-    league_browse(tournament_id = "1008", is_reload=True)
+    deferred.defer(league_browse, tournament_id = "1001", is_reload=True)
 
     return True
 

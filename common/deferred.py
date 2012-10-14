@@ -315,7 +315,15 @@ def deferred(request):
         #logging.info("v: %s", v)    
 
     try:
-      run(request._raw_post_data)
+      logging.info('request')    
+      #logging.info(request)
+      logging.info(request.raw_post_data)
+      #logging.info(request.POST)
+      #run(request._raw_post_data)
+      #run(request.POST)
+      
+      run(request.raw_post_data)
+
       return http.HttpResponse(status=200)
     except SingularTaskFailure:
 
