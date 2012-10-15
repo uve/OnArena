@@ -309,13 +309,19 @@ def deferred(request):
                if k.lower().startswith("x-appengine-")]
     logging.info(", ".join(headers))
 
-    for i,v in request.POST.items():
-        pass
-        #logging.info("i: %s", i)    
-        #logging.info("v: %s", v)    
 
     try:
-      run(request._raw_post_data)
+      logging.info('request3')
+      
+      raw_post_data = request.read()
+      
+      logging.info(raw_post_data)        
+      #logging.info(request.POST)
+      #run(request._raw_post_data)
+      #run(request.POST)
+      
+      run(raw_post_data)
+
       return http.HttpResponse(status=200)
     except SingularTaskFailure:
 
