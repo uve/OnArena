@@ -129,8 +129,10 @@ def match_item(request, match_id = None, format='html'):
         #    logging.info("i: %s", i)    
         #    logging.info("v: %s", v) 
 
-        s = request._raw_post_data
-        taskqueue.add(url='/match/complete/', method = 'POST', params={ 'post_data': s })        
+        
+        raw_post_data = request.read()
+        
+        taskqueue.add(url='/match/complete/', method = 'POST', params={ 'post_data': raw_post_data })        
         return http.HttpResponseRedirect("/league/" + str(league_id) + "/")
 
      
