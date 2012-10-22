@@ -2737,8 +2737,7 @@ def player_browse(tournament_id = None, limit=5000,
     logging.info("memory usage: %s",runtime.memory_usage().current())   	
 
     logging.info("cpu usage: %s",runtime.cpu_usage().total())   	    
-   	           
-                  
+              
     #include = ["id", "name", "full_name", "rating", "ranking", "teams"]
     
     include = ["id", "name", "full_name", "teams"]
