@@ -28,7 +28,7 @@
                 </time>
             </td>
            {{ if teams.length > 1 }}
-            <td class="block-align-center">
+            <td class="block-align-center" style="max-width: 50px !important;">
                     <a class="sw-link" href="/team/${teams[0].id}/" title="${teams[0].name}">${teams[0].name}</a>
                 </td>
                 <td class="block-align-center">
@@ -36,7 +36,7 @@
                   {{if teams[0].played}}${teams[0].score}{{else}}?{{/if}} - {{if teams[1].played}}${teams[1].score}{{else}}?{{/if}}
                   </b></a>
                 </td>
-                <td class="block-align-center">
+                <td class="block-align-center" style="max-width: 50px !important;">
                     <a class="sw-link" href="/team/${teams[1].id}/" title="${teams[1].name}">${teams[1].name}</a>
                 </td>
             {{ else }}
