@@ -2858,8 +2858,12 @@ def player_create(request, **kw):
     team_get_players(team_id = team_id, stat = True, is_reload = True)         
     team_get_players(team_id = team_id, is_reload = True) 
     team_get_players_active(team_id = team_id, is_reload = True)     
+    
+    target = "defworker"
+    if tournament_id == "1001":
+        target = "hardworker"
 
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target="defworker")   
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)   
     deferred.defer( player_get, player_id = player.id,  is_reload = True )       
     deferred.defer( player_stat_get, player_id = player.id,  is_reload = True )   
                         
@@ -2981,7 +2985,12 @@ def player_edit(request, player_id, **kw):
 
     player = player_get(player_id = player_id, is_reload = True)
     
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target="defworker")   
+    target = "defworker"
+    if tournament_id == "1001":
+        target = "hardworker"
+
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)  
+       
     deferred.defer( player_stat_get, player_id = player_id,  is_reload = True )  
         
 
