@@ -963,9 +963,11 @@ def league_update(league_id = None, limit = 1000):
     deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
 
 
+
+    deferred.defer(rating_player_update, tournament_id = tournament_id)
+    deferred.defer(rating_team_update, tournament_id = tournament_id)
     
-    deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
-    
+        
     deferred.defer(referees_browse, tournament_id = tournament_id, stat = True, is_reload = True)    
     
     return True
@@ -3212,7 +3214,15 @@ def rating_player_update(tournament_id = None, limit = 5000):
 
     
     end3 = round(time.time() - start, 6)  
-    logging.info("Rating Players update time: %s", end3)    
+    logging.info("Rating Players update time: %s", end3)
+    
+    
+    target = "defworker"
+    if tournament_id == "1001":
+        target = "hardworker"
+
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)
+          
     
     return True
 
@@ -3240,7 +3250,11 @@ def rating_team_update(tournament_id = None, limit = 5000):
     db.put(newlist)
     
     end3 = round(time.time() - start, 6)   
-    logging.info("Rating Teams update time: %s", end3)     
+    logging.info("Rating Teams update time: %s", end3)    
+    
+    
+    deferred.defer(team_browse, tournament_id = tournament_id, is_reload = True)  
+    deferred.defer(team_browse_rating, tournament_id = tournament_id, is_reload = True)
 
     return True
 
@@ -4142,9 +4156,7 @@ def team_create(request, **kw):
     season_ref.put()
 
 
-    deferred.defer(group_browse, league_id = league_id, is_reload = True)
-    deferred.defer(team_browse, league_id = league_id, is_reload = True)
-    deferred.defer(team_browse, tournament_id = tournament_id, is_reload = True)
+    deferred.defer(league_update, league_id = league_id)
 
 
     return team_ref.id

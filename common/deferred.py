@@ -272,8 +272,11 @@ def defer(obj, *args, **kwargs):
   queue = kwargs.pop("_queue", _DEFAULT_QUEUE)
   pickled = serialize(obj, *args, **kwargs)
   
-  #if not os.environ['SERVER_SOFTWARE'].startswith('Dev'): 
-  #  taskargs["target"] = "defworker"
+  #if not os.environ['SERVER_SOFTWARE'].startswith('Dev'):
+  
+  if taskargs["target"] != "hardworker": 
+    taskargs["target"] = "defworker"
+      
   queue = random.choice(queue_buckets)
 
   try:
