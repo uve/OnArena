@@ -3405,7 +3405,10 @@ def rating_update(tournament_id = None, limit = 5000,
     db.put(newlist)
     
     end3 = round(time.time() - start, 6)   
-    logging.info("Rating Teams update time: %s", end3)     
+    logging.info("Rating Teams update time: %s", end3)
+    
+    
+    deferred.defer(team_browse, tournament_id = tournament_id, is_reload = True)     
 
     return True
 
@@ -4601,21 +4604,11 @@ class AddTwoAndLog(pipeline.Pipeline):
 def test(league_id = "1004", limit = 5000):
     
     
-    tournament1 = models.Tournament.get_item("1001")
-    
-    cnt = models.Player.gql("WHERE tournament_id = :1", tournament1).fetch(limit)
-    
-    logging.info("All total players: %s", len(cnt))
-    
-    #player_browse(tournament_id = "1001", is_reload = True)
-    
-    deferred.defer(player_browse, tournament_id = "1001", is_reload = True)
-    
-    return True
 
-
-    league_get(league_id = "1177", is_reload = True)
-    league_browse(tournament_id = "1021", is_reload = True)
+    rating_update(tournament_id = "1003")    
+    #league_get(league_id = "1211", is_reload = True)
+    #league_get(league_id = "1216", is_reload = True)
+    #league_browse(tournament_id = "1033", is_reload = True)
     
     return True
     
