@@ -104,8 +104,8 @@ def match_item(request, match_id = None, format='html'):
     if not match:
         raise Http404
 
-    team0 = api.team_get(team_id = match["teams"][0]["id"])    
-    team1 = api.team_get(team_id = match["teams"][1]["id"])    
+    team0 = api.team_get(team_id = match["teams"][0]["id"], is_reload = True)    
+    team1 = api.team_get(team_id = match["teams"][1]["id"], is_reload = True)    
     
     
     league    = match["league_id"]

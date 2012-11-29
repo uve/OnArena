@@ -279,7 +279,6 @@ def group_browse(league_id = None, limit=1000,
     
     
     
-    
 def group_reload(league_id = None, group_id = None, limit = 1000):
 
     scoretype = models.ScoreType.get_item("1001").key()       
@@ -302,19 +301,18 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     group = None
     group_key = None    
     
-    
-    group = models.Group.get_item(group_id)
-    all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
-    
     if group_id:
+        group = models.Group.get_item(group_id)
+        group_key = group.key()
         
-        group_key = group.key()                
+        all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
  
         all_scores_group = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
                                         league, scoretype, group).fetch(limit)   
                                         
         all_scores.extend(all_scores_group)                                 
-    
+    else:
+        all_seasons = models.Season.gql("WHERE league_id = :1", league).fetch(limit)
              
     
  
@@ -398,7 +396,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 pass                
                     
             #if c1.match_id.playoff_id or c2.match_id.playoff_id:     
-            #    continue           
+            #    continue         
             
             gametype = None
 
@@ -418,7 +416,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 value2 = 0
                 gametype = 1
                 game_result = 0
-
+            
             try:
                 if c1.match_id.id == c2.match_id.id:
                     c[c1.team_id.id][c2.team_id.id].append(
@@ -446,30 +444,12 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     for team in results: 
         team_key   = team.key()
         
-        '''
-        team.won  = team_results(league_key, team_key, won_key,  
-                                 group_key = group_key)
-                                 
-        team.loss = team_results(league_key, team_key, loss_key,  
-                                 group_key = group_key)
-                                 
-        team.drew = team_results(league_key, team_key, drew_key,  
-                                 group_key = group_key)    
-        '''
         team.won  = team_data[team.id]["won"]
         team.loss = team_data[team.id]["loss"]
         team.drew = team_data[team.id]["drew"]
         
         team.match_played = team.won + team.loss + team.drew
         team.points = (team.won * 3) + team.drew           
-        
-        '''
-        team.scored   = score_results(league_key, team_key, 
-                                      scored_key, group_key = group_key)
-                                      
-        team.conceded = score_results(league_key, team_key, 
-                                      conceded_key, group_key = group_key)   
-        '''
         
         team.scored   = team_data[team.id]["scored"]
         team.conceded = team_data[team.id]["conceded"]
@@ -479,11 +459,15 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
 
     for i, v in enumerate(results):           
         v.place = i + 1
-        
-    for i, team1 in enumerate(results):           
-        for j, team2 in enumerate(results): 
-            t1 = results[i]
-            t2 = results[j] 
+        v.equal_score = 0
+
+    
+    i = len(results)
+    while i > 1: 
+        for j in xrange(i - 1):
+            
+            t1 = results[j]
+            t2 = results[j+1] 
 
             if t1.key() == t2.key():
                 continue
@@ -491,32 +475,9 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
             if t1.points == t2.points:
                 team_score1 = 0
                 team_score2 = 0
-
                 
                 team_score1 = 0
                 team_score2 = 0
-
-                '''
-                try:                
-                    team_score1 += c[t1.id][t2.id][2]
-                except:
-                    pass
-
-                try:
-                    team_score1 += c[t2.id][t1.id][3]
-                except:
-                    pass
-
-                try:
-                    team_score2 += c[t1.id][t2.id][3]
-                except:
-                    pass
-
-                try:
-                    team_score2 += c[t2.id][t1.id][2]
-                except:
-                    pass
-                '''
                 
                 try:
                     for matches in c[t1.id][t2.id]:
@@ -525,15 +486,26 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 except:
                     pass                                    
                 
+                '''
                 try:
                     for matches in c[t2.id][t1.id]:
                         team_score1 += matches[3]    
                         team_score2 += matches[2]                          
                 except:
                     pass                   
+                '''
+
+                results[j].equal_score   += team_score1 - team_score2
+                results[j+1].equal_score += team_score2 - team_score1
+                
+                
+                team_score1 = results[j].equal_score
+                team_score2 = results[j+1].equal_score
+                
 
                 replace = False
-    
+                
+                    
                 if (team_score1 < team_score2 and t1.place < t2.place) or (team_score1 > team_score2 and t1.place > t2.place):
                     replace = True                 
 
@@ -543,17 +515,14 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
 
                     elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
                         replace = True
-                        
-                    elif (t1.diff == t2.diff and t1.won == t2.won and t1.place < t2.place and t1.scored < t2.scored):            
-                        replace = True
-                        
-                    elif (t1.diff == t2.diff and t1.won == t2.won and t1.place > t2.place and t1.scored > t2.scored):            
-                        replace = True                                                
+                               
+                logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+                
+                # Change team places in the table
+                if replace:                                         
+                    results[j].place, results[j+1].place = results[j+1].place, results[j].place
 
-                if replace:
-                    k = results[i].place
-                    results[i].place = results[j].place
-                    results[j].place = k       
+        i -= 1
                 
     results = sorted(results, key=lambda student: student.place, reverse=False)              
             
@@ -584,6 +553,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     logging.info("Cross Table  all_scores  time: %s", end3)
                   
     return cross_table  
+
 
 
 def group_create(league_id = None, size = 8, name = "PlayOff", limit = 1000):
