@@ -305,26 +305,61 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     logging.info("League_id: %s",league_id)
     logging.info("Group_id: %s",group_id)    
     
-    all_scores = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                        league, scoretype, None).fetch(limit)   
-
-    group = None
-    group_key = None    
+    all_leagues = [league.key()]
     
+    
+    if league_id == "1220":
+        all_leagues.append( models.League.get_item("1198").key() )
+        all_leagues.append( models.League.get_item("1199").key() )
+        
+
+
+    
+    group = None
+    group_key = None
     if group_id:
         group = models.Group.get_item(group_id)
         group_key = group.key()
         
-        all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
- 
-        all_scores_group = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                        league, scoretype, group).fetch(limit)   
-                                        
-        all_scores.extend(all_scores_group)                                 
-    else:
-        all_seasons = models.Season.gql("WHERE league_id = :1", league).fetch(limit)
-             
+           
+        
+    if len(all_leagues) <= 1:  
     
+        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
+                                            all_leagues, scoretype, None).fetch(limit)   
+         
+        if group_id:
+
+            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group).fetch(limit)
+            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 ORDER BY created", 
+                                        all_leagues, scoretype, group).fetch(limit)               
+                                            
+            all_scores.extend(all_scores_group)                                 
+        else:
+            all_seasons = models.Season.gql("WHERE league_id IN :1", all_leagues).fetch(limit)
+                 
+    
+    else:
+
+        logging.info("all_seasons_pre. starting...")
+        
+        all_seasons = models.Season.gql("WHERE league_id = :1", all_leagues[0]).fetch(limit)
+        all_teams = []
+        
+        for item in all_seasons:
+            all_teams.append(item.team_id.key())         
+        
+        
+        logging.info("len all_teams: %s", len(all_teams) )
+        
+        all_scores = models.Score.gql("WHERE league_id IN :1 and team_id IN :2 and scoretype_id = :3 ORDER BY created", 
+                                            all_leagues, all_teams, scoretype).fetch(limit)   
+        
+        
+        logging.info("len all_scores: %s", len(all_scores) )
+
+
+                     
  
     # 1001 = None    1002 = Wine    1003 = Lose   1004 = Draw   
     results = []
@@ -4485,8 +4520,19 @@ def test_create(league_id = None, name = None, group_teams=[]):
     for team_id in group_teams:
         team = models.Team.get_item(team_id)
         item = models.Season.gql("WHERE team_id = :1 and league_id = :2", team, league).get()
-        item.group_id = new_group
-        all_seasons.append(item)
+    
+        if item:    
+            item.group_id = new_group
+            all_seasons.append(item)
+        else:               
+            params_season = {'tournament_id': tournament,
+                             'league_id':     league,
+                             'team_id':       team,
+                             'group_id':      new_group
+            }
+        
+            item = models.Season(**params_season)
+            item.put()        
     
     models.db.put(all_seasons)   
 
@@ -4581,7 +4627,11 @@ class AddTwoAndLog(pipeline.Pipeline):
 def test(league_id = "1188", limit = 5000):
     
     
-    group_browse(league_id = "1183", is_reload = True)  
+    #test_create(league_id = "1220", name=u'Ветераны. 1-я Лига. Места 1-10',
+    #             group_teams=["1120", "1636", "1157", "1117", "1614", "1782", "1544", "1095", "1111", "1118"])
+    
+    group_browse(league_id = "1220", is_reload = True)
+      
     #playoff_browse(league_id = "1183", is_reload = True)     
 
     #rating_update(tournament_id = "1003")    
