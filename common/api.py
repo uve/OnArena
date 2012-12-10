@@ -279,6 +279,7 @@ def group_browse(league_id = None, limit=1000,
     
     
     
+    
 def group_reload(league_id = None, group_id = None, limit = 1000):
 
     scoretype = models.ScoreType.get_item("1001").key()       
@@ -295,26 +296,59 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     logging.info("League_id: %s",league_id)
     logging.info("Group_id: %s",group_id)    
     
-    all_scores = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                        league, scoretype, None).fetch(limit)   
-
-    group = None
-    group_key = None    
+    all_leagues = [league.key()]
     
+    
+    if league_id in ["1220", "1221"]:
+        all_leagues.append( models.League.get_item("1198").key() )
+        all_leagues.append( models.League.get_item("1199").key() )
+        
+    
+    group = None
+    group_key = None
     if group_id:
         group = models.Group.get_item(group_id)
         group_key = group.key()
         
-        all_seasons = models.Season.gql("WHERE league_id = :1 and group_id = :2", league, group).fetch(limit)
- 
-        all_scores_group = models.Score.gql("WHERE league_id = :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                        league, scoretype, group).fetch(limit)   
-                                        
-        all_scores.extend(all_scores_group)                                 
-    else:
-        all_seasons = models.Season.gql("WHERE league_id = :1", league).fetch(limit)
-             
+           
+        
+    if len(all_leagues) <= 1:  
     
+        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
+                                            all_leagues, scoretype, None).fetch(limit)   
+         
+        if group_id:
+
+            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group).fetch(limit)
+            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 ORDER BY created", 
+                                        all_leagues, scoretype, group).fetch(limit)               
+                                            
+            all_scores.extend(all_scores_group)                                 
+        else:
+            all_seasons = models.Season.gql("WHERE league_id IN :1", all_leagues).fetch(limit)
+                 
+    
+    else:
+
+        logging.info("all_seasons_pre. starting...")
+        
+        all_seasons = models.Season.gql("WHERE league_id = :1", all_leagues[0]).fetch(limit)
+        all_teams = []
+        
+        for item in all_seasons:
+            all_teams.append(item.team_id.key())         
+        
+        
+        logging.info("len all_teams: %s", len(all_teams) )
+        
+        all_scores = models.Score.gql("WHERE league_id IN :1 and team_id IN :2 and scoretype_id = :3 ORDER BY created", 
+                                            all_leagues, all_teams, scoretype).fetch(limit)   
+        
+        
+        logging.info("len all_scores: %s", len(all_scores) )
+
+
+                     
  
     # 1001 = None    1002 = Wine    1003 = Lose   1004 = Draw   
     results = []
