@@ -308,12 +308,10 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     all_leagues = [league.key()]
     
     
-    if league_id == "1220":
+    if league_id in ["1220", "1221"]:
         all_leagues.append( models.League.get_item("1198").key() )
         all_leagues.append( models.League.get_item("1199").key() )
         
-
-
     
     group = None
     group_key = None
@@ -1393,7 +1391,7 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
  
     logging.info("TeamSeason Deleted")         
 
-    league_update_task(league_id = league.id)
+    league_update_task(league_id = league_id)
 
     return True
 
@@ -4627,10 +4625,15 @@ class AddTwoAndLog(pipeline.Pipeline):
 def test(league_id = "1188", limit = 5000):
     
     
-    #test_create(league_id = "1220", name=u'Ветераны. 1-я Лига. Места 1-10',
+    #test_create(league_id = "1221", name=u'Ветераны. 1-я Лига. Места 11-18',
     #             group_teams=["1120", "1636", "1157", "1117", "1614", "1782", "1544", "1095", "1111", "1118"])
     
-    group_browse(league_id = "1220", is_reload = True)
+    #group_browse(league_id = "1205", is_reload = True)
+    
+    #group_browse(league_id = "1220", is_reload = True)
+    #group_browse(league_id = "1221", is_reload = True)
+    
+    match_browse(league_id = "1220", is_reload = True)
       
     #playoff_browse(league_id = "1183", is_reload = True)     
 
