@@ -215,7 +215,7 @@ def league_playoff_set(request, league_id = None, format='html'):
         team_id       = request.POST["team_id"]
         competitor_id = request.POST["competitor_id"]                   
         
-        deferred.defer( api.playoff_set, league_id = league_id, team_id = team_id, competitor_id = competitor_id)    
+        api.playoff_set( league_id = league_id, team_id = team_id, competitor_id = competitor_id )    
         
     return http.HttpResponse()
 
