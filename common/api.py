@@ -280,6 +280,7 @@ def group_browse(league_id = None, limit=1000,
     
     
     
+    
 def group_reload(league_id = None, group_id = None, limit = 1000):
 
     scoretype = models.ScoreType.get_item("1001").key()       
@@ -314,14 +315,14 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         
     if len(all_leagues) <= 1:  
     
-        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                            all_leagues, scoretype, None).fetch(limit)   
+        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = NULL ORDER BY created", 
+                                            all_leagues, scoretype).fetch(limit)   
          
         if group_id:
 
-            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group).fetch(limit)
-            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 ORDER BY created", 
-                                        all_leagues, scoretype, group).fetch(limit)               
+            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group_key).fetch(limit)
+            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
+                                        all_leagues, scoretype, group_key).fetch(limit)               
                                             
             all_scores.extend(all_scores_group)                                 
         else:
@@ -453,6 +454,14 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
             
             try:
                 if c1.match_id.id == c2.match_id.id:
+                    
+                    all_mas = [ v[0] for v in c[c1.team_id.id][c2.team_id.id] ]
+                    
+                    logging.info( all_mas )
+                    
+                    if c1.match_id.id in all_mas:
+                        continue
+                    
                     c[c1.team_id.id][c2.team_id.id].append(
                         [c1.match_id.id, gametype, value1, value2, game_result])
                     
@@ -570,8 +579,13 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         item_table["matches"] = []
         
         for item2 in results:        
-            try:                              
-                item_table["matches"].append(c[item.id][item2.id])
+            try:                    
+                #all_mas = list(set(c[item.id][item2.id]))
+                
+                #logging.info(all_mas )
+                
+                #if not c[item.id][item2.id][0] in all_mas:
+                item_table["matches"].append( c[item.id][item2.id] )
             except:  
                 try:
                     item_table["matches"].append([])
