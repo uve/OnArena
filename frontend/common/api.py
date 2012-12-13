@@ -323,14 +323,14 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         
     if len(all_leagues) <= 1:  
     
-        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
-                                            all_leagues, scoretype, None).fetch(limit)   
+        all_scores = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = NULL ORDER BY created", 
+                                            all_leagues, scoretype).fetch(limit)   
          
         if group_id:
 
-            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group).fetch(limit)
-            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 ORDER BY created", 
-                                        all_leagues, scoretype, group).fetch(limit)               
+            all_seasons = models.Season.gql("WHERE league_id IN :1 and group_id = :2", all_leagues, group_key).fetch(limit)
+            all_scores_group = models.Score.gql("WHERE league_id IN :1 and scoretype_id = :2 and group_id = :3 ORDER BY created", 
+                                        all_leagues, scoretype, group_key).fetch(limit)               
                                             
             all_scores.extend(all_scores_group)                                 
         else:
@@ -462,6 +462,14 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
             
             try:
                 if c1.match_id.id == c2.match_id.id:
+                    
+                    all_mas = [ v[0] for v in c[c1.team_id.id][c2.team_id.id] ]
+                    
+                    logging.info( all_mas )
+                    
+                    if c1.match_id.id in all_mas:
+                        continue
+                    
                     c[c1.team_id.id][c2.team_id.id].append(
                         [c1.match_id.id, gametype, value1, value2, game_result])
                     
@@ -579,8 +587,13 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         item_table["matches"] = []
         
         for item2 in results:        
-            try:                              
-                item_table["matches"].append(c[item.id][item2.id])
+            try:                    
+                #all_mas = list(set(c[item.id][item2.id]))
+                
+                #logging.info(all_mas )
+                
+                #if not c[item.id][item2.id][0] in all_mas:
+                item_table["matches"].append( c[item.id][item2.id] )
             except:  
                 try:
                     item_table["matches"].append([])
@@ -4625,15 +4638,23 @@ class AddTwoAndLog(pipeline.Pipeline):
 def test(league_id = "1188", limit = 5000):
     
     
-    #test_create(league_id = "1221", name=u'Ветераны. 1-я Лига. Места 11-18',
-    #             group_teams=["1120", "1636", "1157", "1117", "1614", "1782", "1544", "1095", "1111", "1118"])
+    group_browse(league_id = "1203", is_reload = True)
     
-    #group_browse(league_id = "1205", is_reload = True)
+    return True
+    
+    '''
+    test_create(league_id = "1203", name=u'Третья лига. Места 1-6',
+                 group_teams=["1678", "1500", "1374", "1677", "1473", "1680"])
+
+    test_create(league_id = "1203", name=u'Третья лига. Места 7-10',
+                 group_teams=["1481", "1326", "1675", "1792"])
+    '''    
+    group_browse(league_id = "1203", is_reload = True)
     
     #group_browse(league_id = "1220", is_reload = True)
     #group_browse(league_id = "1221", is_reload = True)
     
-    match_browse(league_id = "1220", is_reload = True)
+    #match_browse(league_id = "1220", is_reload = True)
       
     #playoff_browse(league_id = "1183", is_reload = True)     
 
