@@ -279,8 +279,6 @@ def group_browse(league_id = None, limit=1000,
     
     
     
-    
-    
 def group_reload(league_id = None, group_id = None, limit = 1000):
 
     scoretype = models.ScoreType.get_item("1001").key()       
@@ -457,7 +455,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                     
                     all_mas = [ v[0] for v in c[c1.team_id.id][c2.team_id.id] ]
                     
-                    logging.info( all_mas )
+                    #logging.info( all_mas )
                     
                     if c1.match_id.id in all_mas:
                         continue
@@ -485,7 +483,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     league_key = league.key()
         
     for team in results: 
-        team_key   = team.key()
+        team.key   = team.key()
         
         team.won  = team_data[team.id]["won"]
         team.loss = team_data[team.id]["loss"]
@@ -506,13 +504,17 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
 
     
     i = len(results)
-    while i > 1: 
+    while i > 0: 
         for j in xrange(i - 1):
             
+            replace = False    
+            
             t1 = results[j]
-            t2 = results[j+1] 
+            t2 = results[j+1]
+            
+            logging.info("Compare ... team %s: %s \t team %s: %s", t1.place, t1.name, t2.place, t2.name) 
 
-            if t1.key() == t2.key():
+            if t1.key == t2.key:
                 continue
 
             if t1.points == t2.points:
@@ -546,7 +548,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 team_score2 = results[j+1].equal_score
                 
 
-                replace = False
+                
                 
                     
                 if (team_score1 < team_score2 and t1.place < t2.place) or (team_score1 > team_score2 and t1.place > t2.place):
@@ -564,6 +566,10 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 # Change team places in the table
                 if replace:                                         
                     results[j].place, results[j+1].place = results[j+1].place, results[j].place
+                    
+                    t = results[j]
+                    results[j] = results[j+1]
+                    results[j+1] = t
 
         i -= 1
                 
