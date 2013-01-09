@@ -4645,8 +4645,57 @@ class AddTwoAndLog(pipeline.Pipeline):
     
 def test(league_id = "1188", limit = 5000):
     
+         
+    player = models.Player.get_item("8112")
+    team   = models.Team.get_item("1538")
+        
+    res = models.PlayerTeam.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(1)
     
-    group_browse(league_id = "1221", is_reload = True)
+    db.delete(res) 
+    
+    
+    
+    
+    return True
+    
+
+    player_original = models.Player.get_item("8112")
+    
+    player = models.Player.get_item("2265")
+    team   = models.Team.get_item("1538")
+    
+    
+       
+    
+
+    all_refs = []
+    
+    res = pyclbr.readmodule('common.models')   
+    for name, obj in res.items():        
+        D = get_class("common.models." + name)
+        try:
+            if getattr(D, "player_id") and getattr(D, "team_id"):
+                all_refs.append(D)
+        except:
+            pass             
+
+    
+    logging.info(all_refs)    
+    
+    for item in all_refs:
+        res = item.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(limit)
+        for value in res:
+            value.player_id = player_original
+        db.put(res) 
+        
+        logging.info("modules: %s", res)  
+          
+    
+      
+    #logging.info("modules: %s", res)  
+    
+    
+    #group_browse(league_id = "1221", is_reload = True)
     
     return True
     
@@ -5177,36 +5226,6 @@ def test(league_id = "1188", limit = 5000):
     return True
     
     
-    player_original = models.Player.get_item("1328")
-    player = models.Player.get_item("2681")
-    
-    
-       
-    
-
-    all_refs = []
-    
-    res = pyclbr.readmodule('common.models')   
-    for name, obj in res.items():        
-        D = get_class("common.models." + name)
-        try:
-            if getattr(D, "player_id"):
-                all_refs.append(D)
-        except:
-            pass             
-
-    
-    logging.info(all_refs)    
-    
-    for item in all_refs:
-        res = item.gql("WHERE player_id = :1", player).fetch(limit)
-        for value in res:
-            value.player_id = player_original
-        db.put(res) 
-          
-    
-      
-    #logging.info("modules: %s", res)  
       
     return True
     
@@ -5549,12 +5568,7 @@ def test(league_id = "1188", limit = 5000):
     deferred.defer(group_browse, league_id = '1039', is_reload = True)    
     return True    
         
-    
-    player = models.Player.get_item("2064")
-    team   = models.Team.get_item("1360")    
-    
-    all_players = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player, team).fetch(limit)
-    models.db.delete(all_players)
+   
 
 
     return True
