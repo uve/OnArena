@@ -59,7 +59,7 @@ def match_create(request, format='html'):
     tournament_id = tournament.id
 
    
-    all_teams = api.team_browse(league_id = league_id)#, is_reload = True)
+    all_teams = api.team_browse(league_id = league_id, is_reload = True)
     #all_teams = api.team_browse(tournament_id = tournament_id)#, is_reload = True)
     
     if playoffnode_id:

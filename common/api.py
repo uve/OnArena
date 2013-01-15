@@ -143,9 +143,11 @@ def cache_set(key_name, value, include = [], commit = False):
     
     try:
         
-        logging.info("Start encoding: %s", key_name)            
-           
+        logging.info("Start encoding: %s", key_name)
+                                       
         value = jsonloader.encode(input = value, include = include)
+        
+        logging.info("Content len: %s", len(value))
             
         content = models.StaticContent( key_name = key_name, name = key_name, 
                             content = value, content_type = 'application/json')
@@ -164,8 +166,9 @@ def cache_set(key_name, value, include = [], commit = False):
         logging.info("json.loads: %s", key_name)
     
         return json.loads(value, object_hook=decode_datetime) 
-    except:
-        logging.warning("Warning Cache Set!!   Json encode: %s", key_name)   
+    except Exception as e:
+        logging.warning("Warning Cache Set!!  Json encode: %s", key_name)
+        logging.warning("Exception: %s", e)   
         return value     
 
 
@@ -820,7 +823,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1001":       
         for item in results:
-            if int(item.id) >= int("1180"):
+            if int(item.id) >= int("1222"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -977,7 +980,9 @@ def league_update(league_id = None, limit = 1000):
     
     deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
     deferred.defer(match_browse, league_id = league_id, is_reload = True)
-    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)       
+    deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)  
+        
+    deferred.defer(team_browse, league_id = league_id, is_reload = True)     
 
     deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
     
@@ -999,7 +1004,8 @@ def league_update(league_id = None, limit = 1000):
 
 def league_update_task(league_id = None):
 
-    deferred.defer(league_update, league_id = league_id)
+    #deferred.defer(league_update, league_id = league_id)
+    league_update(league_id = league_id)
     
     return True
     #return taskqueue.add(url='/league/update/', method = 'POST', params=dict(league_id = league_id))
@@ -1397,11 +1403,6 @@ def match_browse(tournament_id = None, league_id = None, team_id = None, referee
     
     return cache_set(key_name, results, include, commit = True)
 
- 
-    
-#def match_create_complete(league_id = None, team1_id = None, team2_id = None, full_datetime = None,
-#                                     referee_id = None, place = None, playoffnode_id = None, group_id = None,limit = 1000):    
-
 
 def match_create_complete(post = None, limit = 5000):
 
@@ -1466,13 +1467,15 @@ def match_create_complete(post = None, limit = 5000):
     playoff      = None
     playoffstage = None                   
     playoffnode  = None    
+    group        = None
     
     if playoffnode_id:
         playoffnode  = models.PlayoffNode.get_item(playoffnode_id)
         playoff      = playoffnode.playoff_id
         playoffstage = playoffnode.playoffstage_id      
         
-    group  = models.Group.get_item(group_id)              
+    if group_id:        
+        group  = models.Group.get_item(group_id)              
 
     params = {'datetime' : match_datetime,
               'tournament_id': tournament_ref,
@@ -1780,9 +1783,10 @@ def match_edit(post_data, limit=5000):
                                      
             item.player_id.ranking -= item.ranking           
             update_players.append(item.player_id)    
-            models.Player.update(item.player_id.id)              
+            #models.Player.update(item.player_id.id)              
         except:
-            logging.warning("No Player Ranking")
+            #logging.warning("No Player Ranking")
+            pass
                   
             
 
@@ -2990,12 +2994,15 @@ def player_edit(request, player_id, **kw):
 
     number  = request.POST.get("player_number", "")
     team_id = request.POST.get("team_id", "")
+    team = models.Team.get_item(team_id)
 
-    if number and team_id:
-        team = team_get(team_id = team_id)
+    if number and team:
+        logging.info("Number: %s", number)
+        logging.info("Player_id: %s", player.id)
+        logging.info("Team_id: %s", team.id)        
         playerteam = models.PlayerTeam.gql("WHERE team_id = :1 AND player_id = :2", team, player).get()
             
-        logging.info("Number: %s", number)
+        
         if playerteam:
             playerteam.number = int(number)
             playerteam.put()

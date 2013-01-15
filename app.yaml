@@ -19,13 +19,6 @@ skip_files: |
  (.sass-cache/.*)|
  )$
 
-builtins:
-- remote_api: off
-- appstats: off
-- django_wsgi: off
-- deferred: on
-
-
 #inbound_services:
 #- mail
 #- warmup
@@ -43,6 +36,13 @@ libraries:
   version: latest
 - name: PIL
   version: latest
+  
+  
+builtins:
+- remote_api: on
+- django_wsgi: on
+- deferred: off
+- appstats: off  
 
   
 handlers:

@@ -108,6 +108,7 @@ def player_edit(request,player_id=None,  format='html'):
         player = api.player_get(player_id = player_id, team_id = team_id)
     else:
         player = api.player_get(player_id = player_id)
+        team_id = None
                 
                         
     if not player:
@@ -135,9 +136,12 @@ def player_edit(request,player_id=None,  format='html'):
         return api.response_get(request, locals(), 'player/templates/edit.html')     
 
 
+
 def player_item(request, player_id = None, format='html'):
 
     player = api.player_get(player_id = player_id)
+    
+    team_id = request.REQUEST.get('team_id', '')
     
     if not player:
         return http.HttpResponse()
@@ -148,6 +152,7 @@ def player_item(request, player_id = None, format='html'):
 
     if format == 'html':
         return api.response_get(request, locals(), 'player/templates/item.html') 
+
 
 
 def player_remove(request, player_id=None, format='html'):
