@@ -117,6 +117,16 @@ queue_buckets = ["default1",
                  "default7",
                  "default8",
                  "default9",
+                 "default10",
+                 "default11", 
+                 "default12",
+                 "default13",
+                 "default14",
+                 "default15",
+                 "default16",
+                 "default17",
+                 "default18",
+                 "default19",
                 ]
 
 class Error(Exception):

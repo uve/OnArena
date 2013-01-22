@@ -62,4 +62,53 @@ queue:
 - name: default9
   rate: 10/s
   bucket_size: 100
+
+
+- name: default10
+  rate: 10/s
+  bucket_size: 100
+
+
+- name: default11
+  rate: 10/s
+  bucket_size: 100
+
     
+- name: default12
+  rate: 10/s
+  bucket_size: 100
+
+    
+- name: default13
+  rate: 10/s
+  bucket_size: 100
+
+
+- name: default14
+  rate: 10/s
+  bucket_size: 100
+
+
+- name: default15
+  rate: 10/s
+  bucket_size: 100
+                    
+
+- name: default16
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default17
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default18
+  rate: 10/s
+  bucket_size: 100
+    
+    
+- name: default19
+  rate: 10/s
+  bucket_size: 100    
