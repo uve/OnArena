@@ -92,6 +92,11 @@ US_FORMAT = "%m/%d/%Y" + " " + TIME_FORMAT
 
 import dateutil.parser
 
+import hashlib
+import aetycoon
+
+import zlib
+COMPRESSION_LEVEL = 1
 
 
 
@@ -110,7 +115,7 @@ def decode_datetime(obj):
             obj['created'] = dt
         except:	        
             pass
-	    
+
     return obj
 
 
@@ -130,11 +135,16 @@ def cache_get(key_name):
             
     if results and results.name:
     
-        logging.info("Get from Cache: %s", key_name)       
-    
-        results = json.loads(results.content, object_hook=decode_datetime)       
-         
-    
+        logging.info("Get from Cache: %s", key_name)                                        
+        
+        content = results.content
+        
+        if hasattr(results, 'compressed') and results.compressed:
+            logging.info("is_compressed: %s", True)            
+            content = zlib.decompress(results.compressed).decode('utf-8')        
+
+        results = json.loads(content, object_hook=decode_datetime)       
+
         return results
     else:
         return None
@@ -144,13 +154,29 @@ def cache_set(key_name, value, include = [], commit = False):
     try:
         
         logging.info("Start encoding: %s", key_name)
-                                       
-        value = jsonloader.encode(input = value, include = include)
         
+           
+        #value = jsonloader.encode(input = value, include = include)
+                  
+        
+        e1 = jsonloader.encode(input = value, include = include)
+        
+        etag = hashlib.sha1(e1).hexdigest()
+        logging.info("etag: %s", etag)
+        #logging.info("e1: %s", e1)
+        e2 = e1.encode('utf-8')
+        #logging.info("e2: %s", e2)
+        e3 = zlib.compress( e2, COMPRESSION_LEVEL)
+        #logging.info("e3: %s", e3)
+        
+        value = e3                           
+        #value = zlib.compress( jsonloader.encode(input = value, include = include).encode('utf-8'), COMPRESSION_LEVEL)
+                
         logging.info("Content len: %s", len(value))
+                     
             
         content = models.StaticContent( key_name = key_name, name = key_name, 
-                            content = value, content_type = 'application/json')
+                            compressed = value, content_type = 'application/json', etag = etag)
                             
         content.put()       
         
@@ -160,12 +186,13 @@ def cache_set(key_name, value, include = [], commit = False):
                                  
         
         if commit:
-            del value
+            #del value
             return True
         
         logging.info("json.loads: %s", key_name)
     
-        return json.loads(value, object_hook=decode_datetime) 
+        return cache_get(key_name)
+     
     except Exception as e:
         logging.warning("Warning Cache Set!!  Json encode: %s", key_name)
         logging.warning("Exception: %s", e)   
@@ -2758,7 +2785,8 @@ def player_browse(tournament_id = None, limit=5000,
         #all_teams = models.PlayerTeam.gql("WHERE player_id = :1 ORDER BY created DESC", item).fetch(limit)   
         qq.bind(item) 
 
-        all_teams = qq.fetch(limit)      
+        #all_teams = qq.fetch(limit)      
+        all_teams = qq.fetch(1)
      
         for value in all_teams:            
             item.teams.append(value.team_id)
@@ -2769,6 +2797,7 @@ def player_browse(tournament_id = None, limit=5000,
     logging.info("cpu usage: %s",runtime.cpu_usage().total())   	    
               
     #include = ["id", "name", "full_name", "rating", "ranking", "teams"]
+    #include = ["id", "name", "full_name", "teams"]
     
     include = ["id", "name", "full_name", "teams"]
     
@@ -3574,13 +3603,14 @@ def response_get(request, locals, template_path, tournament_id = None, defers = 
             try:
                 func, args, kwds = pickle.loads(value["pickled"])    
     
-            except Exception, e:
-                raise PermanentTaskFailure(e)
+            except Exception, err:
+                logging.warning("ERROR: %s", str(err))
             else:
                 locals[item] = func(*args, **kwds)
         
         else:
-            locals[item] = json.loads(all_static[i].content, object_hook=decode_datetime)      
+            #locals[item] = json.loads(all_static[i].content, object_hook=decode_datetime)
+            locals[item] = cache_get(value["key_name"])      
 
     start = time.time()   
     
@@ -3589,8 +3619,6 @@ def response_get(request, locals, template_path, tournament_id = None, defers = 
     #c.update(csrf(request))
     t = loader.get_template(template_path)            
     result = http.HttpResponse(t.render(c))
-    
-    
     
     stop = round(time.time() - start, 6)       
     logging.info("HttpResponse \t time: %s", stop)         
@@ -4395,10 +4423,57 @@ def test_create_confirm(league_id = None, group_id = None, name = None, group_te
 
 def test(league_id = "1004", limit = 1000):
 
+
+    #test_create(league_id = "1204", name=u'Четвертая лига 9-12 места',  
+    #                    group_teams=["1596", "1793", "1796", "1794"])
+    
+    #query = db.Query(MyModel)
+    #query = query.filter('intProp', None) 
+    #data = query.fetch(limit=100)
+
+    query = models.StaticContent.all().filter('compressed', None)
+    data = query.fetch(limit=100)
+    
+    logging.info("Len: %s", len(data))
+    if data:
+        logging.info("1 key: %s", data[0].name)
+    
+    return True 
+
+    '''
+
+    e1 = jsonloader.encode(input = value, include = include)
+    
+    etag = hashlib.sha1(e1).hexdigest()
+    logging.info("etag: %s", etag)
+    #logging.info("e1: %s", e1)
+    e2 = e1.encode('utf-8')
+    #logging.info("e2: %s", e2)
+    e3 = zlib.compress( e2, COMPRESSION_LEVEL)
+    #logging.info("e3: %s", e3)
+    
+    value = e3                           
+    #value = zlib.compress( jsonloader.encode(input = value, include = include).encode('utf-8'), COMPRESSION_LEVEL)
+            
+    logging.info("Content len: %s", len(value))
+                 
+        
+    content = models.StaticContent( key_name = key_name, name = key_name, 
+                        compressed = value, content_type = 'application/json', etag = etag)
+                            
+    content.put()       
+    
+    
+    return True
+    
+    '''
     #yer_remove(player_id = "6605")
     #player_remove(player_id = "6606")
     
     #deferred.defer(league_browse, tournament_id = "1001", is_reload = True)
+    
+    
+    #league_browse(tournament_id = "1001", is_reload = True)
     
     #stage = LeagueUpdate(league_id = "1152")
     #stage = LeagueUpdate(league_id = "1164")
@@ -4407,10 +4482,36 @@ def test(league_id = "1004", limit = 1000):
     
     
     #statistics(league_id = '1145', limit = 1000, is_reload = True)    
+    '''
+    is_compressed = True
     
+    key_name = 'kuku'
+    
+    
+    t = models.StaticContent.get_by_key_name(key_name)
+    
+    if t.compressed:
+        
+        result = zlib.decompress(t.compressed).decode('utf-8')
+        
+    t.compressed = ''
+    
+    if t.compressed :
+        p = 1        
+    
+    value = u'Привет'
+    value = zlib.compress( value.encode('utf-8'), COMPRESSION_LEVEL)
+        
+    logging.info("Content len: %s", len(value))
+            
+    content = models.StaticContent( key_name = key_name, name = key_name, 
+                            compressed = value, content_type = 'application/json', is_compressed = is_compressed)
 
+    content.put()
+    '''
+    
     #test_create(league_id = "1005", name = "Group A", group_teams=[])
-    deferred.defer(league_browse, tournament_id = "1001", is_reload=True)
+    #deferred.defer(league_browse, tournament_id = "1001", is_reload=True)
 
     return True
 
@@ -5868,6 +5969,7 @@ def weather_update():
         new_weather.put()
             
         
+
 
 
 

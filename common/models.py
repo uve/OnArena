@@ -20,8 +20,8 @@ from google.appengine.api import memcache
 
 from google.appengine.ext import blobstore
 
-import aetycoon
-import hashlib
+#import aetycoon
+#import hashlib
 
 try:
   #from google.appengine.ext.db import djangoforms
@@ -160,12 +160,17 @@ class CustomForm(djangoforms.ModelForm):
                            
 class StaticContent(CustomModel):
     name = db.StringProperty(required=False)
-    content = db.TextProperty()
+    content = db.TextProperty(required=False)
     last_modified = db.DateTimeProperty(required=True, auto_now=True)
     
     content_type = db.StringProperty(required=False)
-    etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.content).hexdigest())
+    #etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.content).hexdigest())
+    #etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.compressed).hexdigest())
     
+    etag = db.StringProperty(required=False)
+
+    compressed = db.BlobProperty(required=False)
+     
 
 class User(CustomModel):
     id = db.StringProperty(required=True)
