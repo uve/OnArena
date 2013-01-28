@@ -526,6 +526,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         team.conceded = team_data[team.id]["conceded"]
         team.diff = team.scored - team.conceded
     
+    results = sorted(results, key=lambda student: student.scored, reverse=True) 
     results = sorted(results, key=lambda student: student.points, reverse=True)   
 
     for i, v in enumerate(results):           
