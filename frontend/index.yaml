@@ -76,13 +76,6 @@ indexes:
   - name: league_id
   - name: scoretype_id
   - name: created
-  
-- kind: Score
-  properties:
-  - name: league_id
-  - name: team_id  
-  - name: scoretype_id
-  - name: created  
 
 - kind: PlayerTeam
   properties:

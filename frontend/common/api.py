@@ -2939,7 +2939,8 @@ def player_browse(tournament_id = None, limit=5000,
         #all_teams = models.PlayerTeam.gql("WHERE player_id = :1 ORDER BY created DESC", item).fetch(limit)   
         qq.bind(item) 
 
-        all_teams = qq.fetch(limit)      
+        #all_teams = qq.fetch(limit)      
+        all_teams = qq.fetch(1)
         
         for value in all_teams:            
             item.teams.append(value.team_id)
@@ -4644,28 +4645,14 @@ class AddTwoAndLog(pipeline.Pipeline):
               
     
 def test(league_id = "1188", limit = 5000):
-    
-         
-    player = models.Player.get_item("8112")
-    team   = models.Team.get_item("1538")
-        
-    res = models.PlayerTeam.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(1)
-    
-    db.delete(res) 
-    
-    
-    
-    
-    return True
-    
+   
 
-    player_original = models.Player.get_item("8112")
+
+    player_original = models.Player.get_item("8006")
     
-    player = models.Player.get_item("2265")
-    team   = models.Team.get_item("1538")
+    player = models.Player.get_item("8115")
+    #team   = models.Team.get_item("1538")
     
-    
-       
     
 
     all_refs = []
@@ -4674,7 +4661,8 @@ def test(league_id = "1188", limit = 5000):
     for name, obj in res.items():        
         D = get_class("common.models." + name)
         try:
-            if getattr(D, "player_id") and getattr(D, "team_id"):
+            #if getattr(D, "player_id") and getattr(D, "team_id"):
+            if getattr(D, "player_id"):
                 all_refs.append(D)
         except:
             pass             
@@ -4683,7 +4671,8 @@ def test(league_id = "1188", limit = 5000):
     logging.info(all_refs)    
     
     for item in all_refs:
-        res = item.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(limit)
+        #res = item.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(limit)
+        res = item.gql("WHERE player_id = :1", player).fetch(limit)
         for value in res:
             value.player_id = player_original
         db.put(res) 
@@ -4698,6 +4687,23 @@ def test(league_id = "1188", limit = 5000):
     #group_browse(league_id = "1221", is_reload = True)
     
     return True
+    
+    
+    
+             
+    player = models.Player.get_item("5522")
+    team   = models.Team.get_item("1019")
+        
+    res = models.PlayerTeam.gql("WHERE player_id = :1 and team_id = :2", player, team).fetch(1)
+    
+    db.delete(res) 
+    
+    
+    
+    
+    return True
+    
+    
     
     '''
     test_create(league_id = "1203", name=u'Третья лига. Места 1-6',

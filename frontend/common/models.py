@@ -20,8 +20,8 @@ from google.appengine.api import memcache
 
 from google.appengine.ext import blobstore
 
-import aetycoon
-import hashlib
+#import aetycoon
+#import hashlib
 
 try:
   #from google.appengine.ext.db import djangoforms
@@ -30,76 +30,63 @@ try:
 except ImportError:
   pass
 
-
-import threading
-
 #from settings import CACHE_EXPIRES
 CACHE_EXPIRES = 0
-
-
-
 
 class CustomModel(db.Model):
     
     created  = db.DateTimeProperty(auto_now_add=True)
     
-    _config_lock = threading.Lock()
-
-    
     @classmethod
     def get_item(self, item):        
 
-        with self._config_lock:
+        if item is None:
+            return None
         
-            if item is None:
-                return None
+        key_name = self.__name__ + "_" + str(item)        
+        value = self.get_by_key_name(key_name)
+                 
+                
+        if value is not None:
+            return value
+        else:
+            value = self.gql("WHERE id = :1", str(item)).get()
+            #logging.info("Value: %s\t%s",value, item)
             
-            key_name = self.__name__ + "_" + str(item)        
-            value = self.get_by_key_name(key_name)
-                                        
-            if value is not None:
-                logging.info("Get by key: %s", key_name)
-
-                return value
-            else:
+            if value is None:
+                logging.warning("Error get DB item: %s", key_name)
+                return None
+        
+            return value           
+            
+            
+        #########  New !!!  CAS
+        ''''
+        def bump_counter(key): 
+            client = memcache.Client() 
+            while True: # Retry loop 
+                counter = client.gets(key) 
+                assert counter is not None, 'Uninitialized counter' 
+                if client.cas(key, counter+1): 
+                    break          
+        '''        
+        '''
+        value = memcache.get(key = key_name)
+        if value is not None:
+            logging.info("Memcache: %s", key_name)
+            return value
+        else:
+            value = self.get_by_key_name(item)
+            if not value:
                 value = self.gql("WHERE id = :1", str(item)).get()
-                            
-                if value is None:
-                    logging.warning("Error get DB item: %s", key_name)
-                    return None
-                    
-                logging.info("Database: %s", key_name)
+            if not value:
+                return None
+            if not memcache.set(key = key_name, value = value):
+                logging.error("Memcache set failed.")
 
-                return value           
-                
-                
-            #########  New !!!  CAS
-            ''''
-            def bump_counter(key): 
-                client = memcache.Client() 
-                while True: # Retry loop 
-                    counter = client.gets(key) 
-                    assert counter is not None, 'Uninitialized counter' 
-                    if client.cas(key, counter+1): 
-                        break          
-            '''        
-            '''
-            value = memcache.get(key = key_name)
-            if value is not None:
-                logging.info("Memcache: %s", key_name)
-                return value
-            else:
-                value = self.get_by_key_name(item)
-                if not value:
-                    value = self.gql("WHERE id = :1", str(item)).get()
-                if not value:
-                    return None
-                if not memcache.set(key = key_name, value = value):
-                    logging.error("Memcache set failed.")
-
-                logging.info("Database: %s", key_name)
-                return value
-            '''
+            logging.info("Database: %s", key_name)
+            return value
+        '''
         
     @classmethod
     def update(self, item):
@@ -116,18 +103,16 @@ class CustomModel(db.Model):
             
         else:
             last = self.all().order('-created').get()
-            try:
+            try:#if last.id:
                 value = int(last.id) + 1
-                logging.warning("Memcache Counter from DataBase for: %s\t%s",
-                                            key_name, value)
-            except:
+                logging.warning("Memcache Counter from DataBase for: %s\t%s", key_name, value)
+            except:#else:
                 if self.__name__ == "Image":
                     value = 1100001
                 else:                
                     value = 1001
-                logging.error("Memcache Counter from DataBase for: %s\t%s", 
-                                            key_name, value)
-            if not memcache.set(key = key_name, value = value, time = 0):
+                logging.error("Memcache Counter from DataBase for: %s\t%s", key_name, value)
+            if not memcache.set(key = key_name, value = value, time = 0):#CACHE_EXPIRES):
                 logging.error("Memcache set failed.")
             
             
@@ -175,12 +160,17 @@ class CustomForm(djangoforms.ModelForm):
                            
 class StaticContent(CustomModel):
     name = db.StringProperty(required=False)
-    content = db.TextProperty()
+    content = db.TextProperty(required=False)
     last_modified = db.DateTimeProperty(required=True, auto_now=True)
     
     content_type = db.StringProperty(required=False)
-    etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.content).hexdigest())
+    #etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.content).hexdigest())
+    #etag = aetycoon.DerivedProperty(lambda x: hashlib.sha1(x.compressed).hexdigest())
     
+    etag = db.StringProperty(required=False)
+
+    compressed = db.BlobProperty(required=False)
+     
 
 class User(CustomModel):
     id = db.StringProperty(required=True)
@@ -337,7 +327,7 @@ class PlayoffNode(CustomModel):
 class PlayoffCompetitor(CustomModel):
 
     id          = db.StringProperty(required=True)
-    team_id  = db.ReferenceProperty(Team,   collection_name='team_playoffcompetitors',    required=False)
+    team_id       = db.ReferenceProperty(Team,   collection_name='team_playoffcompetitors',    required=False)
 
     tournament_id = db.ReferenceProperty(Tournament, collection_name='tournament_playoffcompetitors', required=True)
     league_id     = db.ReferenceProperty(League,     collection_name='league_playoffcompetitors',     required=True)
