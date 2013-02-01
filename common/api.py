@@ -2727,6 +2727,8 @@ def playoff_remove(playoff_id = None, league_id = None, limit = 1000):
     
 def playoff_get_nodeteams(playoffnode_id = None, limit = 1000):
 
+    logging.info("playoff_get_nodeteams id: %s", playoffnode_id)
+    
     playoffnode = models.PlayoffNode.get_item(playoffnode_id)
     
     if not playoffnode:
@@ -2736,11 +2738,14 @@ def playoff_get_nodeteams(playoffnode_id = None, limit = 1000):
     
     results = []
     
-    for item in competitors:
-        try:
+    logging.info("len(competitors) id: %s", len(competitors))
+    
+    for item in competitors:        
+        #try:
+            logging.info("Playoff competitior id: %s", item.team_id.id)
             results.append(item.team_id.id)
-        except:
-            pass
+        #except:
+        #    pass
                
     return results
 
