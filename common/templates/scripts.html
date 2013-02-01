@@ -501,10 +501,12 @@ $(document).ready(function () {
 
 
 {% if not DEBUG %}
+{% if not request.is_owner %}
 {% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
 
 <!-- Put this script tag to the <head> of your page -->
 <script type="text/javascript" src="http://userapi.com/js/api/openapi.js?49"></script>
+
 
 
 
@@ -526,6 +528,7 @@ $(document).ready(function () {
 </script>
 
 {% endifequal %}
+{% endif %} 
 {% endif %} 
 
 

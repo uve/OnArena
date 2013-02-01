@@ -170,7 +170,7 @@ class UserAccess(object):
                     
                     request.is_owner = True
                     
-                elif request.user.name == "anatoly.petukhov@gmail.com" and tournament_ref.id in ["1004", "1007"]:
+                elif request.user.name == "test@onarena.com" and tournament_ref.id in ["1001"]:
                     request.is_owner = True
         
         
