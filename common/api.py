@@ -291,10 +291,11 @@ def group_browse(league_id = None, limit=1000,
         results.append(group)    
 
 
-    all_teams = group_reload(league_id = league_id, group_id = None)        
-    group = {"group": None, "all_teams": all_teams}        
-    results.append(group)       
-
+    # Не выводить общую таблицу    
+    if not league_id in ["1236"]:
+        all_teams = group_reload(league_id = league_id, group_id = None)        
+        group = {"group": None, "all_teams": all_teams}        
+        results.append(group)   
 
 
     include = ["id", "name", "group", "team", "match_played", "won", "drew",
