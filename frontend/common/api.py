@@ -270,9 +270,13 @@ def group_browse(league_id = None, limit=1000,
         results.append(group)    
 
 
-    all_teams = group_reload(league_id = league_id, group_id = None)        
-    group = {"group": None, "all_teams": all_teams}        
-    results.append(group)       
+    
+    # Не выводить общую таблицу
+    
+    if not league_id in ["1236"]:
+        all_teams = group_reload(league_id = league_id, group_id = None)        
+        group = {"group": None, "all_teams": all_teams}        
+        results.append(group)       
 
 
 
@@ -4522,6 +4526,8 @@ def team_photo_remove(team_id = None, limit = 100):
   return True
 ##############
 
+
+
 def test_create(league_id = None, name = None, group_teams=[]):
 
     league = models.League.get_item(league_id)
@@ -4646,7 +4652,31 @@ class AddTwoAndLog(pipeline.Pipeline):
     
 def test(league_id = "1188", limit = 5000):
    
+   
+        
+    
+    group_browse(league_id = "1236", is_reload = True)
+        
 
+    return True
+
+
+    league = models.League.get_item("1204")        
+    tournament = league.tournament_id
+    
+    playoff = models.Playoff.gql("WHERE league_id = :1", league).get()
+    
+    n_max = 1
+           
+    stage_name = "third-place"            
+    playoff_create_nodes(stage_name, tournament, league, playoff, n_max)  
+                       
+                                                                    
+    playoff_browse(league_id = league_id, is_reload = True)   
+    
+    
+    return True
+    ###########################
 
     player_original = models.Player.get_item("8006")
     
