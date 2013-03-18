@@ -4258,6 +4258,14 @@ def team_edit(form = None, team_id = None, limit = 100):
 
     return team
 
+
+def test():
+    
+    league_browse(tournament_id = "1003", is_reload = True)
+    
+    return True
+    
+    
 @check_cache
 def team_get(team_id = None,
                  is_reload=None, memcache_delete=None, key_name=""):
