@@ -4261,15 +4261,16 @@ def team_edit(form = None, team_id = None, limit = 100):
 
 def test():
     
-    league_remove(league_id = "1240")
-    league_remove(league_id = "1244")
+
     
+    team_remove(team_id = "1855")
     team_remove(team_id = "1867")
+    team_remove(team_id = "1862")
+    team_remove(team_id = "1863")
     
-    league_browse(tournament_id = "1003", is_reload = True)
-    
+    league_update(league_id = "1241")
     league_update(league_id = "1243")
-    
+                  
     return True
     
     
