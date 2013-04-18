@@ -530,80 +530,101 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     results = sorted(results, key=lambda student: student.scored, reverse=True) 
     results = sorted(results, key=lambda student: student.points, reverse=True)   
 
+
+
+    total_list = {}
+
     for i, v in enumerate(results):           
         v.place = i + 1
-        v.equal_score = 0
+        v.equal_score = 0        
+        
+        if not v.points in total_list:
+            total_list[v.points] = []
+        else:
+            total_list[v.points].append(v)
+                
+        
+    for points, teams in total_list.items():
+        
+        points = points #To don show errors
+        i = len(teams)
+        
+        if i < 2:
+            continue
 
+        while i > 0: 
+            for j in xrange(i - 1):
+                
+                replace = False    
+                
+                t1 = teams[j]
+                t2 = teams[j+1]
+                
+                logging.info("Compare ... team %s: %s \t team %s: %s", t1.place, t1.name, t2.place, t2.name) 
     
-    i = len(results)
-    while i > 0: 
-        for j in xrange(i - 1):
-            
-            replace = False    
-            
-            t1 = results[j]
-            t2 = results[j+1]
-            
-            logging.info("Compare ... team %s: %s \t team %s: %s", t1.place, t1.name, t2.place, t2.name) 
-
-            if t1.key == t2.key:
-                continue
-
-            if t1.points == t2.points:
-                team_score1 = 0
-                team_score2 = 0
-                
-                team_score1 = 0
-                team_score2 = 0
-                
-                try:
-                    for matches in c[t1.id][t2.id]:
-                        team_score1 += matches[2]    
-                        team_score2 += matches[3]                          
-                except:
-                    pass                                    
-                
-                '''
-                try:
-                    for matches in c[t2.id][t1.id]:
-                        team_score1 += matches[3]    
-                        team_score2 += matches[2]                          
-                except:
-                    pass                   
-                '''
-
-                results[j].equal_score   += team_score1 - team_score2
-                results[j+1].equal_score += team_score2 - team_score1
-                
-                
-                team_score1 = results[j].equal_score
-                team_score2 = results[j+1].equal_score
-                
-
-                
-                
+                if t1.key == t2.key:
+                    continue
+    
+                if t1.points == t2.points:
+                    team_score1 = 0
+                    team_score2 = 0
                     
-                if (team_score1 < team_score2 and t1.place < t2.place) or (team_score1 > team_score2 and t1.place > t2.place):
-                    replace = True                 
-
-                if team_score1 == team_score2:
-                    if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
-                        replace = True
-
-                    elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
-                        replace = True
-                               
-                logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
-                
-                # Change team places in the table
-                if replace:                                         
-                    results[j].place, results[j+1].place = results[j+1].place, results[j].place
+                    team_score1 = 0
+                    team_score2 = 0
                     
-                    t = results[j]
-                    results[j] = results[j+1]
-                    results[j+1] = t
-
-        i -= 1
+                    
+                    try:
+                        for matches in c[t1.id][t2.id]:
+                            team_score1 += matches[2]    
+                            team_score2 += matches[3]                         
+                    except:
+                        pass                                    
+                    
+                    '''
+                    try:
+                        for matches in c[t2.id][t1.id]:
+                            team_score1 += matches[3]    
+                            team_score2 += matches[2]                          
+                    except:
+                        pass                   
+                    '''
+    
+                    teams[j].equal_score   += team_score1 - team_score2
+                    teams[j+1].equal_score += team_score2 - team_score1
+                    
+                    
+                    team_score1 = teams[j].equal_score
+                    team_score2 = teams[j+1].equal_score
+                    
+                        
+                    if (team_score1 < team_score2 and t1.place < t2.place) or (team_score1 > team_score2 and t1.place > t2.place):
+                        replace = True                 
+    
+                    if team_score1 == team_score2:
+                        if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
+                            replace = True
+    
+                        elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
+                            replace = True
+                                   
+                    logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+                    
+                    # Change team places in the table
+                    if replace:                                         
+                        teams[j].place, teams[j+1].place = teams[j+1].place, teams[j].place
+                        
+                        t = teams[j]
+                        teams[j] = teams[j+1]
+                        teams[j+1] = t
+    
+            i -= 1  #Iterate i
+            
+            for item in teams:
+                for v in results:
+                    if item.key == v.key:
+                        v = item
+            
+            
                 
     results = sorted(results, key=lambda student: student.place, reverse=False)              
             
@@ -4262,14 +4283,10 @@ def team_edit(form = None, team_id = None, limit = 100):
 def test():
     
 
+    group_browse(league_id = "1232", is_reload = True)
     
-    team_remove(team_id = "1855")
-    team_remove(team_id = "1867")
-    team_remove(team_id = "1862")
-    team_remove(team_id = "1863")
-    
-    league_update(league_id = "1241")
-    league_update(league_id = "1243")
+    #league_update(league_id = "1241")
+    #league_update(league_id = "1243")
                   
     return True
     
