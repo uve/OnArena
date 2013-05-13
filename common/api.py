@@ -884,18 +884,15 @@ def league_browse(tournament_id = None, limit = 100,
                 new_res.append(item)    
                 
     if tournament_id in ["1008"]:     
-        res2 = ["1191", "1192", "1170", "1139", "1138", "1137"]
+        #res2 = ["1191", "1192", "1170", "1139", "1138", "1137"]
         
-        new_res = [models.League.get_item(item) for item in res2]
-        '''  
+        #new_res = [models.League.get_item(item) for item in res2]
+
         for item in results:
-            if int(item.id) >= int("1137"):
+            if int(item.id) >= int("1245"):
                 new_res.append(item)     
-                
-                logging.info(item.id)               
-               
-                new_res = sorted(new_res, key=lambda student: student.id, reverse=True)  
-        '''
+ 
+
                 
         return cache_set(key_name, new_res, include)                   
                                
@@ -4282,8 +4279,11 @@ def team_edit(form = None, team_id = None, limit = 100):
 
 def test():
     
-
-    group_browse(league_id = "1232", is_reload = True)
+    league_remove(league_id = "1245")
+    
+    league_browse(tournament_id = "1008", is_reload = True)
+    
+    #group_browse(league_id = "1232", is_reload = True)
     
     #league_update(league_id = "1241")
     #league_update(league_id = "1243")
