@@ -1,0 +1,36 @@
+<section>
+<div id="vk_poll"></div>
+</section>
+<div id="like-box">
+
+{% if DEBUG %}
+  <div id="empty-box"></div>
+
+{% else %}
+{% ifequal LANGUAGE_CODE LANGUAGE_CODE_RUS %}
+
+<!-- Put this div tag to the place, where the Poll block will be -->
+
+<!--
+<script type="text/javascript">
+VK.Widgets.Poll("vk_poll", {width: "304"}, "11189699_c3e62fac297e0d6210");
+</script>
+-->
+
+<!-- VK Widget -->
+<div id="vk_groups"></div>
+<!--
+<script type="text/javascript">
+VK.Widgets.Group("vk_groups", {mode: 2, width: "220", height: "390"}, 24970033);
+</script>
+-->
+{% else %}
+
+
+<div class="fb-like-box" data-href="http://www.facebook.com/apps/application.php?id=127142214017014" data-width="220" data-show-faces="true" data-stream="true" data-header="true"></div>
+
+{% endifequal %}
+
+
+{% endif %}
+</div>

@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+
+<script id="template-match-browse" type="text/x-jquery-tmpl">
+
+{% include 'common/templates/block_is_owner.html' %}
+
+ <tr>
+ {% verbatim %}
+     
+     <td>
+       <time datetime='${ChangeDate( datetime, "S" )}' pubdate>
+              ${ChangeDate( datetime, "dd MMM yyyy")}
+       </time>
+     </td>
+     
+     <td>
+       <time datetime='${ChangeDate( datetime, "S" )}' pubdate>
+              ${ChangeDate( datetime, "t")}
+       </time>
+     </td>                
+     {{ if teams.length > 1 }}
+    <td><a href="/team/${teams[0].id}/">${teams[0].name}</a></td>
+
+    <td> 
+      {{if result}}
+        {{if result == 1}}<div class="color-win">{{/if}}
+        {{if result == 2}}<div class="color-loss">{{/if}}
+        {{if result == 0}}<div class="color-draw">{{/if}}
+      {{else}}
+          <div class="color-draw">
+      {{/if}} 
+      
+      <a href="/match/${ id }/">
+          {{if teams[0].played}}
+                ${teams[0].score}
+          {{else}}?{{/if}} : {{if teams[1].played}}
+           ${teams[1].score}{{else}}?{{/if}}
+      </a></div>
+    </td>
+
+    <td><a class="sw-link" href="/team/${teams[1].id}/">${teams[1].name}</a></td>
+        
+      {{ if is_owner == true }}
+      <td><span class="remove-match" id="${ id }" title='${teams[0].name} - ${teams[1].name}'>
+      <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px'/></span></td>
+     {{ /if }}    
+    {{ else }}
+    <td>error</td>
+    <td><a href="/match/${id}/" class="sw-bold sw-link">? - ?</a></td>
+    <td>error</td>
+          {{ if is_owner == true }}
+          <td><span class="remove-match" id="${ id }" title=''>
+          <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span></td>
+         {{ /if }}
+    {{ /if }}
+    </tr>
+    
+            {% endverbatim %}
+</script>

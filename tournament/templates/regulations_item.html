@@ -1,0 +1,27 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Regulations" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a href="/tournament/{{ tournament.id }}/regulations/">{% trans "Regulations" %}</a></li>
+{% endblock %}
+
+{% block edit %}
+    <div class="aw-link">
+        <a class="large red awesome" href="/tournament/{{ tournament.id }}/regulations/edit/">{% trans "Edit Regulations" %} &raquo;</a>
+    </div> 
+{% endblock %}
+
+{% block content %}
+
+  
+  <div class="block-15">
+            {% autoescape off %}
+             {{ regulations.content }}
+            {% endautoescape %}            
+    </div>
+
+
+{% endblock %}

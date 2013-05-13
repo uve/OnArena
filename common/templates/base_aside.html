@@ -1,0 +1,51 @@
+{% load i18n %}
+
+
+   <section>
+    <h2>{{ tournament.name }}</h2> 
+    <nav>  
+        <ul id="list-league">  
+        </ul>  
+    </nav>
+
+  </section>
+   
+ 
+  <section>
+        <ul>
+        <li><a href="/tournament/{{  tournament.id  }}/teams/">{% trans "Teams" %}</a></li>
+        <li><a href="/tournament/{{  tournament.id  }}/referees/">{% trans "Referees" %}</a></li>
+        <li><a href="/tournament/{{  tournament.id  }}/regulations/">{% trans "Regulations" %}</a></li>        
+        </ul>
+  </section>
+   
+ 
+  <section>
+    <h2>{% trans "News" %}</h2>
+     <ul id="list-news">
+     </ul>
+    {% if request.is_owner %}
+        <div class="dotted-link"><a href="/tournament/{{  tournament.id  }}/news/create/">{% trans "Create News" %}</a></div>   
+    {% endif %}
+  </section>
+ 
+
+  <section>
+      <h2>{% trans "Last Matches" %}</h2>
+      <div class="block-table-mini">
+        <table width="100%" style="table-layout: fixed;">
+          <colgroup>
+            <col width="15%">
+            <col width="32.5%">
+            <col width="20%">
+            <col width="32.5%">
+            </colgroup>
+          <tbody id="list-match">
+          </tbody>
+        </table>
+      </div>
+  </section>
+
+  {% include 'common/templates/block_like_box.html' %}
+
+

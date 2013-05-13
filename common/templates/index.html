@@ -1,0 +1,52 @@
+{% extends 'common/templates/base.html' %}
+{% load i18n %}
+{% block containertag %}class="wide"{% endblock %}
+
+
+{% block bodytag %}{% endblock %}
+{% block pageblock %}style="width: 980px;"{% endblock %}
+
+
+{% block container %}
+
+<div id="container">
+    <header role="banner">
+        {% include 'common/templates/base_header.html' %}    
+        {% include 'common/templates/base_search.html' %}        
+    </header>   
+      
+    <div id="content-map2" role="main">    
+            
+        <div class="block-6">
+
+              <div class="section-caption"><h2>{% trans "Tournaments near You" %}:</h2></div>
+                  {% if all_tournaments|length %}
+                    <ul id="tournament-browse" >
+                    </ul>
+                  {% endif %}
+                  
+         </div>     
+
+         <div class="block-14-last"> 
+            <div class="map-canvas-main" id="map_canvas"></div>
+            
+            <br>
+       <!--     <p style="float:right;">
+                <a target="_blank" href="http://commondatastorage.googleapis.com/cometip/">
+                <img src="http://commondatastorage.googleapis.com/cometip/" width="400" height="231"></a>
+            </p>
+          -->
+         </div> 
+         
+    
+         
+
+    </div>
+        
+    
+    
+    {% include 'common/templates/base_footer.html' %}
+</div>
+
+{% endblock %}
+

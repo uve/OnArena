@@ -1,0 +1,85 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>
+<script type="text/javascript">window.location ="{{ DOMAIN }}/ie6/"</script>
+<![endif]-->
+
+<!--[if lt IE 9]> <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <!--<meta name="viewport" content="width=device-width; initial-scale=1.0">  -->
+  <meta property="fb:app_id" content="{{ FACEBOOK_API_KEY }}">
+  <meta name='yandex-verification' content='53c4df3f0f034eae' />  
+  
+{% if request.is_owner %}
+  <meta property="fb:admins" content="{{ request.user.id }}" />
+{% else %}
+  <meta property="fb:admins" content="{{ FB_ADMIN }}" />
+{% endif %}
+  <meta name="description" content="Любительские Турниры по Футболу в Новосибирске. Таблицы и расписание матчей чемпионатов. Подробная статистика игроков и команд, фотографии, рейтинги, голосования." />
+  
+
+  <title>{{SITE_NAME}} {{DEBUG|yesno:"DEBUG ,"}}| {% block title %} {% endblock %}</title>
+
+
+{% if DEBUG %}
+
+  <link rel="stylesheet" href="/css/screen.css?v={{ CSS_VERSION }}">
+{% else %}
+
+  <link rel="stylesheet" href="http://commondatastorage.googleapis.com/cometip/css/{{ CSS_VERSION }}/screen.css">
+{% endif %} 
+
+  <link rel="shortcut icon" href="{{ STORAGE_URL }}/images/favicon.ico">    
+  
+
+
+  {% block head %}
+  {% endblock %}
+  
+  {% block headtag %}
+  {% endblock %}     
+  
+
+
+{% if not DEBUG %}
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-9798363-4']);
+  _gaq.push(['_setDomainName', 'onarena.com']);
+  _gaq.push(['_setAllowHash', false]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+{% endif %} 
+
+
+</head>
+<body>
+
+
+
+
+    {% block container %}  
+    {% endblock %}                          
+    
+    {% include 'common/templates/scripts.html' %}     
+
+
+
+
+
+</body>
+</html>

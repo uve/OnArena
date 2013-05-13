@@ -1,0 +1,67 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ league.name }} - {% trans "Statistics" %}{% endblock %}
+{% block caption%}{{ league.name }} - {% trans "Statistics" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li><a href="/league/{{ league.id }}/">{{ league.name }}</a></li>
+    <li id="current"><a href="/league/{{ league.id }}/stat/">{% trans "Statistics" %}</a></li>    
+{% endblock %}
+
+
+{% block content %}
+
+<div class="block-15">
+  <div class="caption lfloat">{% trans "League Strikers" %}</div>
+  <div class="block-table">
+    <table>
+     
+       <colgroup>
+        <col width="10%">
+        <col width="35%">        
+        <col width="35%">
+        <col width="20%">
+       </colgroup>
+
+      <thead> 
+        <tr>
+        <th><div class="match-overview-icons"  title="{% trans 'Goals' %}">
+                  <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" height="28"></div></th>
+        <th><div title="{% trans 'Player' %}"></div>{% trans "Player" %}</th>
+        <th><div title="{% trans 'Team' %}"></div>{% trans "Team" %}</th>
+        <th><div title="{% trans 'Cards' %}"></div>{% trans "Cards" %}</th>
+        </tr>
+     </thead>
+     <tbody>
+     {% if all_goals|length %}
+        {% for player in all_goals %}
+            <tr>
+                <td><b>{{ player.score }}</b></td>
+                <td><a class="sw-link" href="/player/{{ player.player_id.id }}/">{{ player.player_id.full_name }}</a></td>
+                
+                <td>
+	                {% if player.teams|length %}                	
+	               		{% for team in player.teams %}                		
+	               		 	{% if forloop.counter > 1 %},&nbsp;{% endif %}
+	                		<a class="sw-link" href="/team/{{ team.id }}/">{{ team.name }}</a>
+	                	{% endfor %}
+	                	
+	                {% else %}
+	                	<a class="sw-link" href="/team/{{ player.team_id.id }}/">{{ player.team_id.name }}</a>
+	                {% endif %}
+                </td>
+                
+                <td>{% if player.yellow_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="24"> {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="24"> {{ player.red_cards }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+      </tbody>
+     </table>
+    </div>
+   <!-- <a href="/league/{{ league_id }}/stat/">{% trans "More" %}</a>   -->
+</div>
+
+
+{% endblock %}

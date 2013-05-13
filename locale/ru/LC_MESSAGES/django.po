@@ -1,0 +1,1015 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-05 18:16+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: settings.py:484 common/templates/index_old.html:69
+#: tournament/templates/create.html:33
+#: tournament/templates/create_step1.html:29
+msgid "Soccer"
+msgstr "Футбол"
+
+#: settings.py:485 common/templates/index_old.html:70
+#: tournament/templates/create.html:34
+#: tournament/templates/create_step1.html:30
+msgid "Basketball"
+msgstr "Баскетбол"
+
+#: settings.py:486 common/templates/index_old.html:71
+#: tournament/templates/create.html:35
+#: tournament/templates/create_step1.html:31
+msgid "Volleyball"
+msgstr "Волейбол"
+
+#: settings.py:487 common/templates/index_old.html:72
+#: tournament/templates/create.html:36
+#: tournament/templates/create_step1.html:32
+msgid "Hockey"
+msgstr "Хоккей"
+
+#: settings.py:489
+msgid "Win"
+msgstr "Победа"
+
+#: settings.py:490
+msgid "Lose"
+msgstr "Проигрыш"
+
+#: settings.py:491
+msgid "Draw"
+msgstr "Ничья"
+
+#: settings.py:492 league/templates/block_group.html:35
+#: league/templates/block_group_print.html:20
+msgid "Drew"
+msgstr "Ничьих"
+
+#: settings.py:494
+msgid "Goal"
+msgstr "Гол"
+
+#: settings.py:495
+msgid "Yellow Card"
+msgstr "Желтая Карточка"
+
+#: settings.py:496
+msgid "Red Card"
+msgstr "Красная Карточка"
+
+#: settings.py:497
+msgid "Penalty"
+msgstr "Пенальти"
+
+#: settings.py:498
+msgid "Auto Goal"
+msgstr "Автогол"
+
+#: settings.py:499
+msgid "Substitution"
+msgstr "Замена"
+
+#: settings.py:500
+msgid "5th foal"
+msgstr "5-й Фол"
+
+#: settings.py:505
+msgid "Forward"
+msgstr "Нападающий"
+
+#: settings.py:506
+msgid "Defender"
+msgstr "Защитник"
+
+#: settings.py:507
+msgid "Midfielder"
+msgstr "Полузащитник"
+
+#: settings.py:508
+msgid "Goalkeeper"
+msgstr "Вратарь"
+
+#: common/models.py:201 common/templates/index_old.html:78
+#: tournament/templates/create.html:41
+#: tournament/templates/create_step1.html:37 tournament/templates/edit.html:20
+msgid "Tournament Name"
+msgstr "Название Турнира"
+
+#: common/models.py:215 tournament/templates/create.html:63
+#: tournament/templates/create_step1.html:53 tournament/templates/edit.html:32
+msgid "About Tournament"
+msgstr "Описание Турнира"
+
+#: common/models.py:216 common/models.py:275 team/templates/edit.html:33
+#: team/templates/item.html:61 tournament/templates/create.html:54
+#: tournament/templates/create_step1.html:44 tournament/templates/edit.html:35
+#: tournament/templates/item.html:60 tournament/templates/item.html.py:63
+msgid "Contacts"
+msgstr "Контакты"
+
+#: common/models.py:218 common/models.py:280 team/templates/item.html:79
+#: tournament/templates/item.html:65
+msgid "URL"
+msgstr ""
+
+#: common/models.py:219 tournament/templates/create.html:60
+#: tournament/templates/create_step1.html:50 tournament/templates/edit.html:41
+msgid "E-mail"
+msgstr ""
+
+#: common/models.py:222 tournament/templates/create.html:44
+#: tournament/templates/edit.html:23
+msgid "Country"
+msgstr "Страна"
+
+#: common/models.py:223 tournament/templates/create.html:47
+#: tournament/templates/edit.html:26
+msgid "City"
+msgstr "Город"
+
+#: common/models.py:225
+msgid "ZIP Code"
+msgstr "Индекс"
+
+#: common/models.py:227
+msgid "Full Address"
+msgstr "Полный адрес"
+
+#: common/models.py:228
+msgid "Street"
+msgstr "Улица"
+
+#: common/models.py:229 common/models.py:282
+#: common/templates/index_old.html:83 team/templates/edit.html:51
+#: tournament/templates/create.html:50
+#: tournament/templates/create_step1.html:40 tournament/templates/edit.html:29
+#: tournament/templates/item.html:62
+msgid "Address"
+msgstr "Адрес"
+
+#: common/models.py:266 team/templates/create.html:53
+#: team/templates/edit.html:21 team/templates/item.html:45
+msgid "Team Name"
+msgstr "Название Команды"
+
+#: common/models.py:272 team/templates/edit.html:24
+#: team/templates/item.html:49
+msgid "Manager"
+msgstr "Руководитель"
+
+#: common/models.py:273 team/templates/edit.html:27
+#: team/templates/item.html:53
+msgid "Coach"
+msgstr "Тренер"
+
+#: common/models.py:274 team/templates/edit.html:30
+#: team/templates/item.html:57
+msgid "Captain"
+msgstr "Капитан"
+
+#: common/models.py:276 team/templates/edit.html:36
+#: team/templates/item.html:65
+msgid "About Team"
+msgstr "О Команде"
+
+#: common/models.py:278 team/templates/edit.html:39
+#: team/templates/item.html:69
+msgid "Team Sponsor"
+msgstr "Спонсор"
+
+#: common/models.py:279 team/templates/edit.html:42
+#: team/templates/item.html:74
+msgid "About Sponsor"
+msgstr "О Спонсоре"
+
+#: common/models.py:281 team/templates/edit.html:48
+#: team/templates/item.html:84
+msgid "Sponsor E-mail"
+msgstr "e-mail Спонсора"
+
+#: common/models.py:283 team/templates/edit.html:54
+#: team/templates/item.html:89 team/templates/item.html.py:94
+msgid "Sponsor Contacts"
+msgstr "Контакты Спонсора"
+
+#: common/templates/base_aside.html:16 league/templates/item.html:68
+#: team/templates/item.html:6 tournament/templates/team_browse.html:4
+#: tournament/templates/team_browse.html:5
+#: tournament/templates/team_browse.html:9
+#: tournament/templates/team_browse.html:17
+msgid "Teams"
+msgstr "Команды"
+
+#: common/templates/base_aside.html:17 referee/templates/browse.html:4
+#: referee/templates/browse.html.py:5 referee/templates/browse.html:9
+#: referee/templates/browse.html.py:17 referee/templates/browse.html:29
+#: referee/templates/create.html:8 referee/templates/item.html:8
+msgid "Referees"
+msgstr "Судьи"
+
+#: common/templates/base_aside.html:18
+#: tournament/templates/regulations_edit.html:7
+#: tournament/templates/regulations_item.html:4
+#: tournament/templates/regulations_item.html:8
+msgid "Regulations"
+msgstr "Регламент"
+
+#: common/templates/base_aside.html:24 news/templates/create.html:7
+#: news/templates/create.html.py:24 news/templates/edit.html:25
+#: news/templates/item.html:8
+msgid "News"
+msgstr "Новости"
+
+#: common/templates/base_aside.html:28 news/templates/create.html:3
+#: news/templates/create.html.py:14
+msgid "Create News"
+msgstr "Создать Новость"
+
+#: common/templates/base_aside.html:34
+msgid "Last Matches"
+msgstr "Последние Матчи"
+
+#: common/templates/base_header.html:8
+msgid "Language"
+msgstr "Язык"
+
+#: common/templates/base_header.html:20
+msgid "Log out"
+msgstr "Выйти"
+
+#: common/templates/base_header.html:25 common/templates/block_login.html:2
+msgid "Login"
+msgstr "Войти"
+
+#: common/templates/base_search.html:7
+msgid "Tournament Manager"
+msgstr "Менеджер Турниров"
+
+#: common/templates/base_search.html:11 common/templates/index_old.html:25
+#: tournament/templates/create_step1.html:82
+msgid "type your address"
+msgstr "введите адрес"
+
+#: common/templates/base_search.html:26 common/templates/index_old.html:60
+#: tournament/templates/create.html:24
+#: tournament/templates/create_step1.html:21
+msgid "Create a New Tournament"
+msgstr "Создать Новый Турнир"
+
+#: common/templates/block_login.html:3
+msgid "Sign in using your account with"
+msgstr "Войти используя аккаунт"
+
+#: common/templates/block_photo_upload.html:15 news/templates/edit.html:52
+msgid "Upload Photo"
+msgstr "Загрузить Фото"
+
+#: common/templates/block_photo_upload.html:30
+msgid "Remove Photo"
+msgstr "Удалить Фото"
+
+#: common/templates/fb_comments.html:30 common/templates/fb_comments.html:48
+msgid "Comments"
+msgstr "Комментарии"
+
+#: common/templates/footnav.html:5
+msgid "About"
+msgstr "О нас"
+
+#: common/templates/footnav.html:7
+msgid "Support"
+msgstr "Поддержка"
+
+#: common/templates/footnav.html:8
+msgid "Privacy"
+msgstr "Конфиденциальность"
+
+#: common/templates/footnav.html:12
+msgid "Blog"
+msgstr "Блог"
+
+#: common/templates/index.html:22 common/templates/index_old.html:34
+msgid "Tournaments near You"
+msgstr "Ближайшие Турниры"
+
+#: common/templates/index_old.html:21
+msgid "Find A Tournament Near You"
+msgstr "Найти Ближайший Турнир"
+
+#: common/templates/index_old.html:61 tournament/templates/create.html:25
+msgid "It's simple and absolutely free"
+msgstr "Это просто и абсолютно бесплатно"
+
+#: common/templates/index_old.html:66 tournament/templates/create.html:30
+#: tournament/templates/create_step1.html:26
+msgid "Sport"
+msgstr "Вид Спорта"
+
+#: common/templates/index_old.html:68 tournament/templates/create.html:32
+#: tournament/templates/create_step1.html:28
+msgid "Choose Sport"
+msgstr "Выберите Вид Спорта"
+
+#: common/templates/index_old.html:91 tournament/templates/create.html:81
+#: tournament/templates/create_step1.html:65
+msgid "Create Tournament"
+msgstr "Создать Турнир"
+
+#: common/templates/scripts.html:187 match/templates/browse.html:36
+#: match/templates/browse.html.py:46 match/templates/browse.html:50
+msgid "Remove Match"
+msgstr "Удалить Матч"
+
+#: common/templates/scripts.html:188
+msgid "Cancel"
+msgstr "Отмена"
+
+#: common/templates/scripts.html:295 match/templates/block_players.html:143
+#: match/templates/block_players.html:168
+msgid "Choose Player"
+msgstr "Выбрать Игрока"
+
+#: league/templates/block_group.html:19
+#: league/templates/block_group_print.html:8
+#: league/templates/block_group_print.html:59
+msgid "Table"
+msgstr "Таблица"
+
+#: league/templates/block_group.html:20
+msgid "Cross Table"
+msgstr "Шахматка"
+
+#: league/templates/block_group.html:29 league/templates/block_group.html:88
+#: league/templates/block_group_print.html:14
+#: league/templates/block_group_print.html:65 league/templates/item.html:95
+#: league/templates/print.html:92 league/templates/stat.html:33
+#: referee/templates/browse.html:29 referee/templates/browse.html.py:30
+#: team/templates/create.html:22 tournament/templates/team_browse.html:30
+msgid "Team"
+msgstr "Команда"
+
+#: league/templates/block_group.html:31
+#: league/templates/block_group_print.html:16
+msgid "matches Played"
+msgstr "Матчей Сыграно"
+
+#: league/templates/block_group.html:31
+#: league/templates/block_group_print.html:16
+msgid "P"
+msgstr "И"
+
+#: league/templates/block_group.html:33
+#: league/templates/block_group_print.html:18
+msgid "Won"
+msgstr "Выйгрыши"
+
+#: league/templates/block_group.html:33
+#: league/templates/block_group_print.html:18
+msgid "W"
+msgstr "В"
+
+#: league/templates/block_group.html:35
+#: league/templates/block_group_print.html:20
+msgid "D"
+msgstr "Н"
+
+#: league/templates/block_group.html:37
+#: league/templates/block_group_print.html:22
+msgid "Loss"
+msgstr "Поражений"
+
+#: league/templates/block_group.html:37
+#: league/templates/block_group_print.html:22
+msgid "L"
+msgstr "П"
+
+#: league/templates/block_group.html:39
+#: league/templates/block_group_print.html:24
+msgid "goals For || goal scored"
+msgstr "Забито"
+
+#: league/templates/block_group.html:39
+#: league/templates/block_group_print.html:24
+msgid "F"
+msgstr "Заб"
+
+#: league/templates/block_group.html:41
+#: league/templates/block_group_print.html:26
+msgid "goals Against || goal conceded"
+msgstr "Пропущено"
+
+#: league/templates/block_group.html:41
+#: league/templates/block_group_print.html:26
+msgid "A"
+msgstr "Проп"
+
+#: league/templates/block_group.html:43
+#: league/templates/block_group_print.html:28
+msgid "Goal Different"
+msgstr "Разница Мячей"
+
+#: league/templates/block_group.html:43
+#: league/templates/block_group_print.html:28
+msgid "GD"
+msgstr "Разн"
+
+#: league/templates/block_group.html:45 league/templates/block_group.html:94
+#: league/templates/block_group_print.html:30
+#: league/templates/block_group_print.html:71
+msgid "Points"
+msgstr "Очков"
+
+#: league/templates/block_group.html:45 league/templates/block_group.html:94
+#: league/templates/block_group_print.html:30
+#: league/templates/block_group_print.html:71
+msgid "Pts"
+msgstr "О"
+
+#: league/templates/block_group.html:181 league/templates/block_group.html:185
+msgid "Remove Team"
+msgstr "Удалить Команду"
+
+#: league/templates/block_group.html:182
+msgid ""
+"Team and all scores will be permanently deleted from this League and cannot "
+"be recovered. Are you sure?"
+msgstr "Команда и вся статистика команды в этой Лиге будут удалены. Вы уверены?"
+
+#: league/templates/block_group.html:188
+msgid "Team have removed from League successfully."
+msgstr "Команда удалена из Лиги успешно."
+
+#: league/templates/block_group_print.html:54
+#: league/templates/block_group_print.html:115 league/templates/print.html:78
+#: league/templates/print.html.py:113
+msgid "Full Tournament Statistics on site"
+msgstr "Подробная Статистика Турнира на сайте"
+
+#: league/templates/create.html:3 league/templates/create.html.py:14
+#: league/templates/create.html:24
+msgid "Create League"
+msgstr "Создать Лигу"
+
+#: league/templates/create.html:6 referee/templates/create.html:6
+#: team/templates/edit.html:6 tournament/templates/browse.html:92
+#: tournament/templates/edit.html:6 tournament/templates/item.html:8
+msgid "Tournaments"
+msgstr "Турниры"
+
+#: league/templates/create.html:20
+msgid "League Name"
+msgstr "Название Лиги"
+
+#: league/templates/index.html:8 tournament/templates/item.html:53
+msgid "Create New League"
+msgstr "Создать Лигу"
+
+#: league/templates/index.html:13
+msgid "Leagues You Administer"
+msgstr "Созданные Вами Лиги"
+
+#: league/templates/index.html:21
+msgid "All Leagues"
+msgstr "Все Лиги"
+
+#: league/templates/item.html:10 league/templates/stat.html:4
+#: league/templates/stat.html.py:5 league/templates/stat.html:10
+msgid "Statistics"
+msgstr "Статистика"
+
+#: league/templates/item.html:13 league/templates/print.html:122
+msgid "Print"
+msgstr "Отправить на Печать"
+
+#: league/templates/item.html:19
+msgid "Edit League"
+msgstr "Редактировать Лигу"
+
+#: league/templates/item.html:65
+msgid "Points for a win"
+msgstr "Очков за победу"
+
+#: league/templates/item.html:66
+msgid "Points for a draw"
+msgstr "Очков на ничью"
+
+#: league/templates/item.html:67
+msgid "Points for a loss"
+msgstr "Очков за поражение"
+
+#: league/templates/item.html:69 player/templates/item.html:76
+#: referee/templates/browse.html:30 referee/templates/item.html:77
+msgid "Matches"
+msgstr "Матчей"
+
+#: league/templates/item.html:70
+msgid "scheduled"
+msgstr "запланированно"
+
+#: league/templates/item.html:71
+msgid "played"
+msgstr "сыграно"
+
+#: league/templates/item.html:72
+msgid "not played"
+msgstr "не сыграно"
+
+#: league/templates/item.html:73
+msgid "Goals scored"
+msgstr "Забито голов"
+
+#: league/templates/item.html:74
+msgid "per game"
+msgstr "в среднем за игру"
+
+#: league/templates/item.html:75 league/templates/print.html:103
+msgid "Yellow Cards"
+msgstr "Жел/карт"
+
+#: league/templates/item.html:76 league/templates/print.html:103
+msgid "Red Cards"
+msgstr "Кр/карт"
+
+#: league/templates/item.html:81
+msgid "TOP-10 Strikers"
+msgstr "ТОП-10 Бомбардиров"
+
+#: league/templates/item.html:92 league/templates/print.html:90
+#: league/templates/stat.html:30 match/templates/pool.html:14
+msgid "Goals"
+msgstr "Голов"
+
+#: league/templates/item.html:94 league/templates/print.html:91
+#: league/templates/stat.html:32 match/templates/block_players.html:27
+#: player/templates/create.html:26 team/templates/item.html:127
+msgid "Player"
+msgstr "Игрок"
+
+#: league/templates/item.html:115
+msgid "Full Statistics"
+msgstr "Подробная Статистика"
+
+#: league/templates/item.html:125 league/templates/item.html.py:144
+msgid "Create Playoff"
+msgstr "Создать Плей-офф"
+
+#: league/templates/item.html:146
+msgid "All form fields are required"
+msgstr "Все поля должны быть заполнены"
+
+#: league/templates/item.html:151
+msgid "Playoff Name"
+msgstr "Название Плей-офф"
+
+#: league/templates/item.html:155
+msgid "Number of Teams"
+msgstr "Количество Команд"
+
+#: league/templates/item.html:167
+msgid "Match for third place"
+msgstr "Матч за третье место"
+
+#: league/templates/league_tiles.html:14 tournament/templates/item.html:40
+msgid "Settings"
+msgstr "Настройки"
+
+#: league/templates/print.html:33
+msgid "Schedule"
+msgstr "Расписание"
+
+#: league/templates/print.html:63 match/templates/block_players.html:134
+#: match/templates/block_players.html:183
+msgid "Disqualifications"
+msgstr "Дисквалификации"
+
+#: league/templates/print.html:85
+msgid "Strikers"
+msgstr "Бомбардиры"
+
+#: league/templates/print.html:93 league/templates/stat.html:34
+msgid "Cards"
+msgstr "Карточки"
+
+#: league/templates/print.html:123
+msgid "Click To Print this page!"
+msgstr "Нажмите чтобы распечатать страницу!"
+
+#: league/templates/stat.html:17
+msgid "League Strikers"
+msgstr "Бомбардиры Лиги"
+
+#: league/templates/stat.html:51
+msgid "More"
+msgstr "Больше"
+
+#: match/templates/block_players.html:7 match/templates/pool.html:3
+msgid "Voting"
+msgstr "Голосование"
+
+#: match/templates/block_players.html:128
+#: match/templates/block_players.html:129 player/templates/create.html:31
+msgid "Add Player"
+msgstr "Добавить игрока"
+
+#: match/templates/block_players.html:159
+msgid "Add Disqualification"
+msgstr "Добавить Дисквалификацию"
+
+#: match/templates/browse.html:3
+msgid "All Matches"
+msgstr "Все Матчи"
+
+#: match/templates/browse.html:30
+msgid "Date"
+msgstr "Дата"
+
+#: match/templates/browse.html:31
+msgid "Time"
+msgstr "Время"
+
+#: match/templates/browse.html:32 match/templates/create.html:30
+msgid "Home Team"
+msgstr "Команда1"
+
+#: match/templates/browse.html:33
+msgid "Result"
+msgstr "Результат"
+
+#: match/templates/browse.html:34 match/templates/create.html:38
+msgid "Guest Team"
+msgstr "Команда2"
+
+#: match/templates/browse.html:47
+msgid ""
+"Match and all scores will be permanently deleted and cannot be recovered. "
+"Are you sure?"
+msgstr "Матч и вся статистика матча будут удалены. Вы уверены?"
+
+#: match/templates/browse.html:53
+msgid "Match have removed successfully."
+msgstr "Матч удален успешно."
+
+#: match/templates/create.html:3 match/templates/create.html.py:14
+msgid "Create a New Match"
+msgstr "Создать Матч"
+
+#: match/templates/create.html:23 match/templates/edit.html:19
+msgid "Match Date"
+msgstr "Дата Игры"
+
+#: match/templates/create.html:26 match/templates/edit.html:20
+msgid "Match Time"
+msgstr "Время Игры"
+
+#: match/templates/create.html:32 match/templates/create.html.py:40
+#: team/templates/create.html:24
+msgid "Choose Team"
+msgstr "Выберете Команду"
+
+#: match/templates/create.html:46 match/templates/edit.html:24
+#: match/templates/item.html:16
+msgid "Match Referee"
+msgstr "Судья Матча"
+
+#: match/templates/create.html:48 match/templates/edit.html:26
+msgid "Choose Referee"
+msgstr "Выберите Судью"
+
+#: match/templates/create.html:57 match/templates/edit.html:34
+#: match/templates/item.html:23
+msgid "Place"
+msgstr "Место"
+
+#: match/templates/create.html:61
+msgid "Create Match"
+msgstr "Создать Матч"
+
+#: match/templates/edit.html:42 match/templates/edit.html.py:76
+#: match/templates/item.html:32 match/templates/item.html.py:59
+#: team/templates/item.html:128 tournament/templates/team_browse.html:28
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: match/templates/edit.html:101
+msgid "Save"
+msgstr "Сохранить"
+
+#: news/templates/create.html:21 news/templates/edit.html:22
+msgid "Title"
+msgstr "Заголовок"
+
+#: news/templates/create.html:32 news/templates/edit.html:38
+msgid "Save News"
+msgstr "Сохранить Новость"
+
+#: news/templates/edit.html:3 news/templates/edit.html.py:14
+#: news/templates/item.html:13
+msgid "Edit News"
+msgstr "Редактировать Новость"
+
+#: news/templates/edit.html:7 player/templates/edit.html:8
+#: player/templates/item.html:8 referee/templates/edit.html:8
+#: referee/templates/item.html:12 team/templates/edit.html:9
+#: team/templates/item.html:9 tournament/templates/regulations_edit.html:8
+msgid "Edit"
+msgstr "Редактировать"
+
+#: news/templates/item.html:59
+msgid "Remove News"
+msgstr "Удалить Новость"
+
+#: player/templates/create.html:3
+msgid "Create a New Player"
+msgstr "Создать Нового Игрока"
+
+#: player/templates/create.html:14
+msgid "Add Player from Other Team"
+msgstr "Добавить Игрока из другой команды"
+
+#: player/templates/create.html:38 team/templates/create.html:43
+msgid "or"
+msgstr "или"
+
+#: player/templates/create.html:41 team/templates/item.html:162
+#: team/templates/item.html.py:163
+msgid "Create New Player"
+msgstr "Создать Нового Игрока"
+
+#: player/templates/create.html:48 player/templates/edit.html:22
+#: referee/templates/create.html:22 referee/templates/edit.html:21
+msgid "Second Name"
+msgstr "Фамилия"
+
+#: player/templates/create.html:51 player/templates/edit.html:26
+#: referee/templates/create.html:25 referee/templates/edit.html:25
+msgid "First Name"
+msgstr "Имя"
+
+#: player/templates/create.html:54 player/templates/edit.html:30
+msgid "Third Name"
+msgstr "Отчество"
+
+#: player/templates/create.html:57 player/templates/edit.html:34
+msgid "Player Number"
+msgstr "Номер Игрока"
+
+#: player/templates/create.html:60 player/templates/edit.html:38
+#: player/templates/item.html:37
+msgid "Position"
+msgstr "Амплуа"
+
+#: player/templates/create.html:62 player/templates/edit.html:40
+msgid "Choose Position"
+msgstr "Выберите Амплуа"
+
+#: player/templates/create.html:68 player/templates/edit.html:46
+#: referee/templates/create.html:29 referee/templates/edit.html:30
+msgid "Birthday"
+msgstr "День Рождения"
+
+#: player/templates/create.html:71 player/templates/edit.html:50
+#: player/templates/item.html:38
+msgid "Height"
+msgstr "Рост"
+
+#: player/templates/create.html:74 player/templates/edit.html:54
+#: player/templates/item.html:39
+msgid "Weight"
+msgstr "Вес"
+
+#: player/templates/create.html:78
+msgid "Create Player"
+msgstr "Создать Игрока"
+
+#: player/templates/edit.html:14 player/templates/item.html:15
+msgid "Edit Player"
+msgstr "Редактировать игрока"
+
+#: player/templates/edit.html:59
+msgid "Save Player"
+msgstr "Сохранить Игрока"
+
+#: player/templates/item.html:35 referee/templates/item.html:38
+msgid "Full Name"
+msgstr "Имя"
+
+#: player/templates/item.html:36 referee/templates/item.html:40
+msgid "Birth Date"
+msgstr "Дата Рождения"
+
+#: player/templates/item.html:52 player/templates/item.html.py:118
+#: player/templates/item.html:122
+msgid "Remove Player"
+msgstr "Удалить Игрока"
+
+#: player/templates/item.html:63
+msgid "Player Stastistics"
+msgstr "Статистика Игрока"
+
+#: player/templates/item.html:75 referee/templates/item.html:76
+msgid "Seasons"
+msgstr "Сезоны"
+
+#: player/templates/item.html:119
+msgid ""
+"Player and all scores will be permanently deleted and cannot be recovered. "
+"Are you sure?"
+msgstr "Матч и вся статистика матча будут удалены. Вы уверены?"
+
+#: player/templates/item.html:125
+msgid "Player have removed successfully."
+msgstr "Матч удален успешно."
+
+#: referee/templates/browse.html:52 referee/templates/create.html:3
+#: referee/templates/create.html.py:33
+msgid "Create Referee"
+msgstr "Создать Судью"
+
+#: referee/templates/create.html:15
+msgid "Create New Referee"
+msgstr "Создать Нового Судью"
+
+#: referee/templates/edit.html:14 referee/templates/item.html:17
+#: referee/templates/item.html.py:46
+msgid "Edit Referee"
+msgstr "Редактировать Судью"
+
+#: referee/templates/edit.html:37
+msgid "Save Referee"
+msgstr "Сохранить Судью"
+
+#: referee/templates/item.html:54
+msgid "Remove referee"
+msgstr "Удалить Судью"
+
+#: referee/templates/item.html:64
+msgid "Referee Stastistics"
+msgstr "Статистика Судьи"
+
+#: team/templates/create.html:3
+msgid "Create a New Team"
+msgstr "Создать Команду"
+
+#: team/templates/create.html:14 team/templates/create.html.py:36
+msgid "Add Team"
+msgstr "Добавить Команду"
+
+#: team/templates/create.html:47 team/templates/create.html.py:65
+msgid "Create Team"
+msgstr "Создать Команду"
+
+#: team/templates/create.html:56
+msgid "League"
+msgstr "Лига"
+
+#: team/templates/edit.html:15
+msgid "Edit team"
+msgstr "Редактировать Команду"
+
+#: team/templates/edit.html:45 tournament/templates/edit.html:38
+msgid "Url"
+msgstr ""
+
+#: team/templates/edit.html:59
+msgid "Save team"
+msgstr "Сохранить Команду"
+
+#: team/templates/item.html:16
+msgid "Edit Team"
+msgstr "Редактировать Команду"
+
+#: team/templates/item.html:100
+msgid "All Players"
+msgstr "Все Игроки"
+
+#: tournament/templates/create.html:57
+#: tournament/templates/create_step1.html:47
+msgid "Website"
+msgstr "Вебсайт"
+
+#: tournament/templates/create.html:67
+#: tournament/templates/create_step1.html:57
+msgid "Location"
+msgstr "Координаты"
+
+#: tournament/templates/create_step1.html:78
+msgid "Point your Tournament location"
+msgstr "Укажите точное месторасположение Вашего Турнира"
+
+#: tournament/templates/edit.html:13 tournament/templates/item.html:14
+msgid "Edit Tournament"
+msgstr "Редактировать Турнира"
+
+#: tournament/templates/edit.html:46
+msgid "Save Tournament"
+msgstr "Сохранить Турнир"
+
+#: tournament/templates/item.html:64
+msgid "Email"
+msgstr ""
+
+#: tournament/templates/regulations_edit.html:3
+#: tournament/templates/regulations_edit.html:15
+#: tournament/templates/regulations_item.html:13
+msgid "Edit Regulations"
+msgstr "Редактировать Регламент"
+
+#: tournament/templates/regulations_edit.html:27
+msgid "Save Regulations"
+msgstr "Сохранить Регламент"
+
+#: tournament/templates/team_browse.html:29
+msgid "Ranking"
+msgstr "Очков"
+
+#~ msgid "Info"
+#~ msgstr "Информация"
+
+#~ msgid "Rules"
+#~ msgstr "Правила"
+
+#~ msgid "Create"
+#~ msgstr "Создать"
+
+#~ msgid "Football"
+#~ msgstr "Футбол"
+
+#~ msgid "Click to view Tournament"
+#~ msgstr "Перейти к Турниру"
+
+#~ msgid "Matches You Administer"
+#~ msgstr "Созданные Вами Турниры"
+
+#~ msgid "Your Matches"
+#~ msgstr "Ваши Матчи"
+
+#~ msgid "Playeres You Administer"
+#~ msgstr "Созданные Вами Турниры"
+
+#~ msgid "All Playeres"
+#~ msgstr "Все Лиги"
+
+#~ msgid "Your Playeres"
+#~ msgstr "Все Турниры"
+
+#~ msgid "Teams You Administer"
+#~ msgstr "Созданные Вами Турниры"
+
+#~ msgid "All Teams"
+#~ msgstr "Все Команды"
+
+#~ msgid "Your Teams"
+#~ msgstr "Ваши Турниры"
+
+#~ msgid "Create New Tournament"
+#~ msgstr "Создать Турнир"
+
+#~ msgid "Tournaments You Administer"
+#~ msgstr "Созданные Вами Турниры"
+
+#~ msgid "All Tournaments"
+#~ msgstr "Все Турниры"
+
+#~ msgid "Sign Out"
+#~ msgstr "Выход"
+
+#~ msgid "Don't have an account?"
+#~ msgstr "Нет аккаунта?"
+
+#~ msgid "Sign Up Now"
+#~ msgstr "Зарегистрироваться"
+
+#~ msgid "Players"
+#~ msgstr "Игроки"
+
+#~ msgid "1/16 final"
+#~ msgstr "1/16 Финала"
+
+#~ msgid "1/8 final"
+#~ msgstr "1/8 Финала"
+
+#~ msgid "Quarter-finals"
+#~ msgstr "1/4 Финала"
+
+#~ msgid "Semi-finals"
+#~ msgstr "1/2 Финала"
+
+#~ msgid "Final"
+#~ msgstr "Финал"
+
+#~ msgid "Print Table"
+#~ msgstr "Распечатать Таблицу"

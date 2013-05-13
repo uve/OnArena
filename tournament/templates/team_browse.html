@@ -1,0 +1,52 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ tournament.name }} - {% trans "Teams" %}{% endblock %}
+{% block caption %}{{ tournament.name }} - {% trans "Teams" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a href="/tournament/{{ tournament.id }}/teams/">{% trans "Teams" %}</a></li>    
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="block-15">
+  <div class="caption lfloat">{% trans "Teams" %}</div>
+  <div class="block-table">
+    <table>
+
+       <colgroup>
+        <col width="15%">
+        <col width="15%">
+        <col width="70%">
+       </colgroup>
+      <thead> 
+        <tr>
+        <th><div title="{% trans 'Rating' %}"></div>{% trans "Rating" %}</th>
+        <th><div title="{% trans 'Ranking' %}"></div>{% trans "Ranking" %}</th>
+        <th><div title="{% trans 'Team' %}"></div>{% trans "Team" %}</th>
+        </tr>
+     </thead>
+     <tbody>
+     {% if all_teams|length %}
+        {% for item in all_teams %}
+            <tr>
+                <td>{% if item.rating %}{{ item.rating }}{% endif %}</td>
+                <td>{{ item.ranking }}</td>                
+                <td><div class="lfloat"><a class="sw-link" href="/team/{{ item.id }}/">{{ item.name }}</a></div></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+      </tbody>
+     </table>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

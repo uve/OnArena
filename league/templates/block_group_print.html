@@ -1,0 +1,118 @@
+{% load i18n %}
+
+   <div class="caption">{{ group.group.name }}</div>
+
+<div id="tabs{{ forloop.counter }}">
+
+ <div id="tabs{{ forloop.counter }}-1">
+  <h2>{{ tournament.name }}  &rarr;  {{ league.name }}  &rarr;  {% trans "Table" %}</h2>
+      <div class="events"  style="margin-bottom: 40px;">
+      <table width="95%" border="1" cellspacing="0" cellpadding="5">
+      <thead>  
+        <tr>
+        <th><div title="">№</div></th>
+        <th><div title="">{% trans "Team" %}</div></th>
+        {% comment %} Matches Played {% endcomment %}
+        <th><div title="{% trans 'matches Played' %}">{% trans "P" %}</div></th>
+        {% comment %} Matches Won {% endcomment %}
+        <th><div title="{% trans 'Won' %}">{% trans "W" %}</div></th>
+        {% comment %} Matches Drew {% endcomment %}
+        <th><div title="{% trans 'Drew' %}">{% trans "D" %}</div></th>
+        {% comment %} Matches Loss {% endcomment %}
+        <th><div title="{% trans 'Loss' %}">{% trans "L" %}</div></th>
+        {% comment %} goals For || goal scored {% endcomment %}
+        <th><div title="{% trans 'goals For || goal scored' %}">{% trans "F" %}</div></th>
+        {% comment %} goals Against || goal conceded {% endcomment %}
+        <th><div title="{% trans 'goals Against || goal conceded' %}">{% trans "A" %}</div></th>
+        {% comment %} Goal Different {% endcomment %}
+        <th><div title="{% trans 'Goal Different' %}">{% trans "GD" %}</div></th>
+        {% comment %} Points {% endcomment %}
+        <th><div title="{% trans 'Points' %}">{% trans "Pts" %}</div></th>
+        </tr>
+     </thead>
+     <tbody>
+     {% if all_teams|length %}
+        {% for item in all_teams %}
+            <tr>
+                <td align="center"><div>{{ item.team.place }}</div></td>
+                <td align="center"><div class="events-left">{{  item.team.name  }}</div></td>
+
+                <td align="center"><div>{{ item.team.match_played }}</div></td>
+                <td align="center"><div>{{ item.team.won }}</div></td>
+                <td align="center"><div>{{ item.team.drew }}</div></td>
+                <td align="center"><div>{{ item.team.loss }}</div></td>
+                <td align="center"><div>{{ item.team.scored }}</div></td>
+                <td align="center"><div>{{ item.team.conceded }}</div></td>
+                <td align="center"><div>{{ item.team.diff }}</div></td>
+                <td align="center"><div><b>{{ item.team.points }}</b></div></td>
+            </tr>
+        {% endfor %}
+      {% endif %}
+      </tbody>
+     </table>
+    </div>
+    <font face="Tahoma"><span style="font-size: 12pt; text-decoration: none">* {% trans 'Full Tournament Statistics on site' %}: <b>www.onarena.com</b></span></font>
+</div>
+
+
+	<div id="tabs{{ forloop.counter }}-2" style="margin-bottom: 40px; page-break-before:always;">
+  <h2>{{ tournament.name }}  &rarr;  {{ league.name }}  &rarr;  {% trans "Table" %}</h2>  
+		<div class="events"  style="margin-bottom: 40px">
+      <table width="95%" border="1" cellspacing="0" cellpadding="2">
+      <thead>  
+        <tr>
+        <th><div title=""></div></th>
+        <th><div title="">{% trans "Team" %}</div></th>
+        {% if all_teams|length %}
+          {% for item in all_teams %}
+            <th><div title="">{{ item.team.place }}</div></th>
+          {% endfor %}
+        {% endif %}
+        <th><div title="{% trans 'Points' %}">{% trans "Pts" %}</div></th>
+        </tr>
+     </thead>
+     <tbody>
+       {% if all_teams|length %}
+          {% for item in all_teams %}
+            <tr>
+                  <td align="center"><div>{{ item.team.place }}</div></td>
+                  <td align="center">{{ item.team.name }}</td>
+                  
+                  {% with forloop.counter as row_counter %}
+                  {% for nodes in item.matches %}                
+                  <td align="center">
+                  {% ifequal row_counter forloop.counter %}     
+                      <div><b>x</b></div>
+                  {% endifequal %}                                         
+                  {% if nodes %}          
+                        {% for match in nodes %}    
+                            {% if match.1 == 2 %}      
+                                 {% if match.4 == 0 %}<p>{% endif %}
+                                 {% if match.4 == 1 %}<p>{% endif %}
+                                 {% if match.4 == 2 %}<p>{% endif %}
+                                 {{ match.2 }}-{{ match.3 }}</p>
+                            {% else %}
+                              {% if match.1 == 1 %}
+                                <p>? - ?</p>
+                              {% else %}
+                              {% endif %}
+                            {% endif %}   
+                        {% endfor %}     
+                               
+                  {% endif %}                                                
+
+                  </td>          
+                  {% endfor %}
+                  {% endwith %} 
+                  <td align="center"><b>{{ item.team.points }}</b></td>
+            </tr>
+        {% endfor %}
+      {% endif %}
+      </tbody>
+     </table>
+    </div>
+	</div>
+<font face="Tahoma"><span style="font-size: 12pt; text-decoration: none">* {% trans 'Full Tournament Statistics on site' %}: <b>www.onarena.com</b></span></font>
+</div>
+
+

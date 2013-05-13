@@ -1,0 +1,95 @@
+
+@import "compass/css3";
+
+
+/******************* Images Transform  ***********************/
+.image-gallery{
+
+}
+
+#group_image {
+    float: left;
+}
+
+#group_image img{
+
+    padding: 5px;
+    background: white;
+    border: 1px solid #BBB;
+    margin: 7px 14px 7px 0;
+    width: 200px;
+}
+/*
+.team-photo-small{
+
+    width: 330px;
+
+    border: 1px solid #89A4B0; 
+   
+    @include border-radius(10px);
+    @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 8px);    
+
+    margin-top: 0;
+    margin-bottom: 0; 
+
+
+    
+    margin-left:  auto;
+    margin-right: auto;
+
+}
+
+.team-photo-small img{
+   background: white;
+   border: 1px solid #89A4B0;
+
+   @include border-radius(10px);
+   @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 8px);    
+
+   margin-top: 15px;
+   margin-bottom: 11px;
+   margin-left: 14px;
+   
+   width: 300px;
+
+   background: white;
+
+}
+*/
+
+.team-photo-small{
+
+    /*width: 330px;*/
+
+    border: 1px solid #89A4B0; 
+   
+    @include border-radius(10px);
+    @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 8px);    
+
+    
+    margin-left:  auto;
+    margin-right: auto;
+    
+    padding-right: 2px;
+    padding-top: 3px;    
+
+}
+
+
+.team-photo-small img{
+   background: white;
+   border: 1px solid #89A4B0;
+
+   @include border-radius(10px);
+   @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 8px);    
+
+   width: 94%;
+   margin: 10px;
+
+
+}
+
+
+.team-photo-small img:hover{
+
+}

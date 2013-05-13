@@ -1,0 +1,58 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+
+{% block title %}{{ tournament.name }} - {% trans "Referees" %}{% endblock %}
+{% block caption %}{{ tournament.name }} - {% trans "Referees" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}/">{{ tournament.name }}</a></li>
+    <li id="current"><a href="/tournament/{{ tournament.id }}/referees/">{% trans "Referees" %}</a></li>    
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="block-15">
+   <div class="caption lfloat">{% trans "Referees" %}</div>
+  <div class="block-table">
+    <table>     
+
+       <colgroup>
+        <col width="70%">
+        <col width="10%">        
+        <col width="10%">           
+        <col width="10%">           
+       </colgroup>
+      <thead> 
+        <tr>
+        <th><div title="{% trans 'Team' %}"></div>{% trans "Referees" %}</th>
+        <th><div title="{% trans 'Team' %}"></div>{% trans "Matches" %}</th>        
+        <th><img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="28"></th>
+        <th><img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="28"></th>                     
+        </tr>
+     </thead>
+     <tbody>
+     {% if all_referees|length %}
+        {% for item in all_referees %}
+            <tr>
+                <td><div class="lfloat"><a class="sw-link" href="/referee/{{ item.id }}/">{% if item.second_name %}{{ item.second_name }}{% endif %} {% if item.name %}{{ item.name }}{% endif %}</a></div></td>
+                <td>{{ item.matches }}</td>                                
+                <td>{{ item.yellow_cards }}</td>     
+                <td>{{ item.red_cards }}</td>                                     
+            </tr>
+        {% endfor %}
+    {% endif %}
+     </tbody>
+   </table>
+ </div>
+
+{% if request.is_owner %}
+  <div class="events-left shift-bottom">
+      <a class="large orange awesome" href="/referee/create/?tournament_id={{ tournament.id }}">{% trans "Create Referee" %} &raquo;</a>
+  </div>
+{% endif %}
+</div>
+
+
+{% endblock %}
