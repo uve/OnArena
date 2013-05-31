@@ -873,7 +873,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1001":       
         for item in results:
-            if int(item.id) >= int("1222"):
+            if int(item.id) >= int("1248"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -4279,9 +4279,9 @@ def team_edit(form = None, team_id = None, limit = 100):
 
 def test():
     
-    league_remove(league_id = "1245")
+    #league_remove(league_id = "1245")
     
-    league_browse(tournament_id = "1008", is_reload = True)
+    league_browse(tournament_id = "1001", is_reload = True)
     
     #group_browse(league_id = "1232", is_reload = True)
     

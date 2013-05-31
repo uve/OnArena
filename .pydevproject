@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?eclipse-pydev version="1.0"?>
-
-<pydev_project>
+<?eclipse-pydev version="1.0"?><pydev_project>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
@@ -11,7 +9,6 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>${GOOGLE_APP_ENGINE}</path>
 <path>${GOOGLE_APP_ENGINE}/lib/antlr3</path>
-<path>${GOOGLE_APP_ENGINE}/lib/django_1_3</path>
 <path>${GOOGLE_APP_ENGINE}/lib/enum</path>
 <path>${GOOGLE_APP_ENGINE}/lib/fancy_urllib</path>
 <path>${GOOGLE_APP_ENGINE}/lib/google-api-python-client</path>
@@ -19,16 +16,17 @@
 <path>${GOOGLE_APP_ENGINE}/lib/grizzled</path>
 <path>${GOOGLE_APP_ENGINE}/lib/httplib2</path>
 <path>${GOOGLE_APP_ENGINE}/lib/ipaddr</path>
-<path>${GOOGLE_APP_ENGINE}/lib/jinja2</path>
-<path>${GOOGLE_APP_ENGINE}/lib/markupsafe</path>
 <path>${GOOGLE_APP_ENGINE}/lib/oauth2</path>
 <path>${GOOGLE_APP_ENGINE}/lib/prettytable</path>
 <path>${GOOGLE_APP_ENGINE}/lib/protorpc</path>
 <path>${GOOGLE_APP_ENGINE}/lib/python-gflags/tests</path>
 <path>${GOOGLE_APP_ENGINE}/lib/simplejson</path>
 <path>${GOOGLE_APP_ENGINE}/lib/sqlcmd</path>
-<path>${GOOGLE_APP_ENGINE}/lib/webapp2</path>
-<path>${GOOGLE_APP_ENGINE}/lib/webob</path>
 <path>${GOOGLE_APP_ENGINE}/lib/yaml/lib</path>
+<path>/opt/google_appengine/lib/django-1.5</path>
+<path>/opt/google_appengine/lib/jinja2-2.6</path>
+<path>/opt/google_appengine/lib/markupsafe-0.15</path>
+<path>/opt/google_appengine/lib/webapp2-2.5.2</path>
+<path>/opt/google_appengine/lib/webob-1.2.3</path>
 </pydev_pathproperty>
 </pydev_project>
