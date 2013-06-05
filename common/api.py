@@ -77,7 +77,7 @@ from django.core.context_processors import csrf
 from google.appengine.api import runtime
 
 
-
+from google.appengine.api.logservice import logservice
 #######
 #######
 #######
@@ -4288,7 +4288,31 @@ def test():
     
     #league_update(league_id = "1241")
     #league_update(league_id = "1243")
-                  
+    
+    
+    end_time = time.time()
+
+    # Count specifies the max number of RequestLogs shown at one time.
+    # Use a boolean to initially turn off visiblity of the "Next" link.
+    count = 5
+    show_next = False
+    last_offset = None
+    offset = None
+
+    # Iterate through all the RequestLog objects, displaying some fields and
+    # iterate through all AppLogs beloging to each RequestLog count times.
+    # In each iteration, save the offset to last_offset; the last one when
+    # count is reached will be used for the link.
+    i = 0
+    for req_log in logservice.fetch(end_time=end_time, offset=offset,
+                                    minimum_log_level=logservice.LOG_LEVEL_INFO,
+                                    include_app_logs=True):
+
+        logging.info(
+            'IP: %s \t Method: %s \t  Resource: %s \t Cost: %s' %
+            (req_log.ip, req_log.method, req_log.resource, req_log.cost))
+
+              
     return True
     
     
