@@ -310,7 +310,7 @@ def group_browse(league_id = None, limit=1000,
     
     
     
-def group_reload(league_id = None, group_id = None, limit = 1000):
+def group_reload(league_id = None, group_id = None, limit = 5000):
 
     scoretype = models.ScoreType.get_item("1001").key()       
 
@@ -391,8 +391,9 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     team_data = {}
        
     for item in results:
-        team_ids.append(item.id)            
+        team_ids.append(item.id)
         
+                 
         team_data[item.id] =  {"won":      0,
                                "loss":     0,
                                "drew":     0,
@@ -405,9 +406,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
     for i, v in enumerate(results):           
         v.place = i + 1
         
-        
-    #logging.info("team_ids: %s",team_ids)
-
+ 
     c = {}        
 
     for team in results: 
@@ -509,7 +508,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                                 
 
     #logging.info("##################################", )
-    
+    total_list = {}
 
     league_key = league.key()
         
@@ -526,31 +525,32 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         team.scored   = team_data[team.id]["scored"]
         team.conceded = team_data[team.id]["conceded"]
         team.diff = team.scored - team.conceded
-    
+        
+        team.equal_score = 0
+        
+            
     results = sorted(results, key=lambda student: student.scored, reverse=True) 
     results = sorted(results, key=lambda student: student.points, reverse=True)   
 
 
+    logging.info("Step 2")
 
-    total_list = {}
+    for i, team in enumerate(results, 1): 
 
-    for i, v in enumerate(results):           
-        v.place = i + 1
-        v.equal_score = 0        
+        team.place = i
+        # For recurse
+        if not team.points in total_list:
+            total_list[team.points] = []
         
-        if not v.points in total_list:
-            total_list[v.points] = []
-        else:
-            total_list[v.points].append(v)
-                
+        total_list[team.points].append(team)  
+         
+    
         
     for points, teams in total_list.items():
         
-        points = points #To don show errors
+        points = points #To don't show errors
         i = len(teams)
-        
-        if i < 2:
-            continue
+
 
         while i > 0: 
             for j in xrange(i - 1):
@@ -560,7 +560,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                 t1 = teams[j]
                 t2 = teams[j+1]
                 
-                logging.info("Compare ... team %s: %s \t team %s: %s", t1.place, t1.name, t2.place, t2.name) 
+                #logging.info("Points: %s \t Compare ... team %s: %s \t team %s: %s", points, t1.place, t1.name, t2.place, t2.name) 
     
                 if t1.key == t2.key:
                     continue
@@ -607,7 +607,7 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                         elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
                             replace = True
                                    
-                    logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+                    #logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
                     
                     # Change team places in the table
                     if replace:                                         
@@ -627,7 +627,8 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
             
                 
     results = sorted(results, key=lambda student: student.place, reverse=False)              
-            
+    
+   
     cross_table = []
     
     # Filling Cross Table 
@@ -4281,9 +4282,9 @@ def test():
     
     #league_remove(league_id = "1245")
     
-    league_browse(tournament_id = "1001", is_reload = True)
+    #league_browse(tournament_id = "1001", is_reload = True)
     
-    #group_browse(league_id = "1232", is_reload = True)
+    group_browse(league_id = "1248", is_reload = True)
     
     #league_update(league_id = "1241")
     #league_update(league_id = "1243")
