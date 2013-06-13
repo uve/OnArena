@@ -1,6 +1,6 @@
 application: cometiphrd
-#version: 17
-version: test
+version: 17
+#version: test
 
 #application: music-ology
 #version: trial-1
@@ -8,21 +8,15 @@ version: test
 runtime: python27
 api_version: 1
 threadsafe: false
-skip_files: |
- ^(.*/)?(
- (#.*#)|
- (.*~)|
- (.*\.py[co])|
- (.*/RCS/.*)|
- (README)|
- (CHANGELOG)|
- (Makefile)|
- (doc/.*)|
- (manage.py)|
- (appengine_django/management/commands/.*)|
- (.bak)| 
- (.sass-cache/.*)|
- )$
+
+skip_files:
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?.*/sass-cache/.*
+
 
 #inbound_services:
 #- mail

@@ -401,7 +401,8 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
                                "conceded": 0,}
         
                       
-    results = sorted(results, key=lambda student: student.name, reverse=False)   
+    results = sorted(results, key=lambda student: student.name, reverse=False)
+    results = sorted(results, key=lambda student: student.rating, reverse=False)      
 
     for i, v in enumerate(results):           
         v.place = i + 1
@@ -606,8 +607,9 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     
                         elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
                             replace = True
-                                   
-                    #logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+
+                            
+                    logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
                     
                     # Change team places in the table
                     if replace:                                         
@@ -4304,6 +4306,8 @@ def test():
     # In each iteration, save the offset to last_offset; the last one when
     # count is reached will be used for the link.
     i = 0
+    
+    '''
     for req_log in logservice.fetch(end_time=end_time, offset=offset,
                                     minimum_log_level=logservice.LOG_LEVEL_INFO,
                                     include_app_logs=True):
@@ -4311,7 +4315,7 @@ def test():
         logging.info(
             'IP: %s \t Method: %s \t  Resource: %s \t Cost: %s' %
             (req_log.ip, req_log.method, req_log.resource, req_log.cost))
-
+    '''
               
     return True
     
