@@ -1,0 +1,177 @@
+indexes:
+  
+- kind: League
+  properties:
+  - name: tournament_id
+  - name: id
+
+- kind: Match
+  properties:
+  - name: league_id
+  - name: datetime
+    direction: asc
+  
+- kind: Match
+  properties:
+  - name: league_id
+  - name: datetime
+    direction: desc
+
+- kind: Match
+  properties:
+  - name: tournament_id
+  - name: datetime
+    direction: asc
+    
+- kind: News
+  properties:
+  - name: tournament_id
+  - name: created
+    direction: desc        
+    
+- kind: StatPlayer
+  properties:
+  - name: eventtype_id
+  - name: league_id
+  - name: score
+    direction: desc
+    
+- kind: Competitor
+  properties:
+  - name: match_id
+  - name: created
+     
+- kind: Competitor
+  properties:
+  - name: team_id
+  - name: created
+    direction: desc
+
+- kind: RefereeMatch
+  properties:
+  - name: match_id
+  - name: created
+  
+- kind: RefereeMatch
+  properties:
+  - name: referee_id
+  - name: created
+    direction: desc  
+  
+- kind: Referee
+  properties:
+  - name: tournament_id
+  - name: second_name
+  - name: name
+  
+- kind: Regulations
+  properties:
+  - name: tournament_id
+  - name: created
+    direction: desc  
+
+- kind: Score
+  properties:
+  - name: group_id
+  - name: league_id
+  - name: scoretype_id
+  - name: created
+
+- kind: PlayerTeam
+  properties:
+  - name: player_id
+  - name: created
+    direction: desc
+ 
+- kind: Player
+  properties:
+  - name: tournament_id
+  - name: full_name
+
+- kind: Season
+  properties:
+  - name: team_id
+  - name: created
+    direction: desc
+
+- kind: PlayerMatch
+  properties:
+  - name: league_id
+  - name: team_id
+  - name: player_id
+
+- kind: Event
+  properties:
+  - name: league_id
+  - name: team_id
+  - name: player_id
+  - name: eventtype_id
+
+- kind: Player
+  properties:
+  - name: name
+  - name: second_name
+  - name: tournament_id
+  - name: created
+
+- kind: Player
+  properties:
+  - name: tournament_id
+  - name: second_name
+
+- kind: Player
+  properties:
+  - name: tournament_id
+  - name: ranking
+    direction: desc      
+    
+- kind: Team
+  properties:
+  - name: tournament_id
+  - name: ranking
+    direction: desc    
+    
+- kind: Team
+  properties:
+  - name: tournament_id
+  - name: name
+    direction: asc       
+
+- kind: Image
+  properties:
+  - name: team_id
+  - name: created
+    direction: desc
+
+- kind: Image
+  properties:
+  - name: player_id
+  - name: created
+    direction: desc    
+    
+- kind: Image
+  properties:
+  - name: referee_id
+  - name: created
+    direction: desc      
+
+- kind: Tournament
+  properties:
+  - name: sport_id
+  - name: created 
+
+- kind: PlayoffNode
+  properties:
+  - name: playoff_id
+  - name: created
+
+- kind: PlayoffCompetitor
+  properties:
+  - name: playoffnode_id
+  - name: created
+  
+- kind: Match
+  properties:
+  - name: playoffnode_id
+  - name: created    
+  

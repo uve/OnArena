@@ -1,0 +1,35 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load i18n %}
+{% block title %}{% trans "Edit Regulations" %}{% endblock %}
+
+{% block path %}
+    <li><a href="/tournament/{{ tournament.id }}">{{ tournament.name }}</a></li>
+    <li><a href="/tournament/{{ tournament.id }}/regulations/">{% trans "Regulations" %}</a></li>    
+    <li id="current"><a>{% trans "Edit" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+  <div id="stylized-news" class="form-news">
+    <form id="form" name="form" method="post" action="">
+      <h1>{% trans "Edit Regulations" %}</h1>
+      <p></p>
+      <input type="hidden" name="regulations_edit" value="true" />
+    
+
+		<div class="regulations-row">
+			<textarea id="elm1" name="content" rows="15" cols="80" style="width: 100%" class="tinymce">
+			{{ regulations.content }}
+			</textarea>
+		</div>
+            
+    <div id="non-stylized" class="shift-left">
+      <input class="large orange awesome" type="submit" value="{% trans 'Save Regulations' %}"/>
+    </div>
+    <div class="spacer"></div>
+
+  </form>
+   
+</div> 
+
+{% endblock %}

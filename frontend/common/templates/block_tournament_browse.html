@@ -1,0 +1,38 @@
+{% load verbatim_templatetag %}
+
+<script id="template-tournament-browse" type="text/x-jquery-tmpl">
+
+
+ 
+ {% verbatim %}
+     {{ if 1 < 3000 }}        
+         <li>
+             <a href="#!/tournament/${ id }/">
+                
+                <div class="block-balls">
+                   {{ if sport_id.id == "1001" }}       
+                    <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="40"></img>
+                   {{ /if }} 
+                   {{ if sport_id.id == "1002" }}        
+                    <img src="http://commondatastorage.googleapis.com/cometip/images/sport/basketball1.png" width="40"></img>
+                   {{ /if }}                    
+                   {{ if sport_id.id == "1003" }}    
+                    <img src="http://commondatastorage.googleapis.com/cometip/images/sport/voleyball1.png" width="40"></img>
+                   {{ /if }} 
+                   {{ if sport_id.id == "1004" }}        
+                    <img src="http://commondatastorage.googleapis.com/cometip/images/sport/hockey1.png" width="40"></img>
+                   {{ /if }}                                       
+                </div>
+                <div class="block-17">
+
+                     <h1>${ name }</h1>
+                     <p>{{ if country }}${ country }{{ /if }}
+                        {{ if city }}, ${ city }{{ /if }}</p>                   
+                     <p>{{ if address }}${ address }{{ /if }}</p>
+                     <p>Distance:  km</p> 
+                </div>
+             </a>
+         </li>
+      {{ /if }}            
+ {% endverbatim %}
+</script>

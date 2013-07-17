@@ -1,0 +1,93 @@
+@import "compass/css3";
+
+/**      My Trics */
+.ui-tabs .ui-tabs-panel { padding: 0 !important; }
+
+.ui-tabs .ui-tabs-nav li a {
+    padding: 5px;
+    margin: 1px;
+    font-size: 16px;
+}
+
+
+/* ----------- Jquery UI reload ---------*/
+#tabs{
+
+    border: 0px;
+    background: none;
+    color: #222;
+    
+    float: left;
+    width: 100%;
+}
+
+#tabs .ui-widget-header {
+
+    border: 0px;
+    background: none;
+    color: #222;
+}
+
+
+#tabs1{
+
+    border: 0px;
+    background: none;
+    color: #222;
+    
+    float: left;
+    width: 100%;
+}
+
+#tabs1 .ui-widget-header {
+
+    border: 0px;
+    background: none;
+    color: #222;
+}
+
+#tabs2{
+
+    border: 0px;
+    background: none;
+    color: #222;
+    
+    float: left;
+    width: 100%;
+}
+
+#tabs2 .ui-widget-header {
+
+    border: 0px;
+    background: none;
+    color: #222;
+}
+
+
+#tabs3{
+
+    border: 0px;
+    background: none;
+    color: #222;
+    
+    float: left;
+    width: 100%;
+}
+
+#tabs3 .ui-widget-header {
+
+    border: 0px;
+    background: none;
+    color: #222;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+    margin-top: 2px;
+}
+
+
+
+.fileupload-content .ui-progressbar-value {
+  background: url('https://commondatastorage.googleapis.com/cometip/images/pbar-ani.gif');
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>OnArena.com</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="css/screen.css">
+	
+	
+	<script src="static/out.js"></script>	
+	
+
+    
+</head>
+<body>
+
+
+	<form class="well form-horizontal" id="textForm">
+			<fieldset>
+			
+				<!-- INPUT TEXT -->
+				<div class="control-group">
+					<label class="control-label" for="inputText">Input Text</label>
+					<div class="controls">
+						<input type="text" class="span3" placeholder="Type something..." id="inputText">
+					</div>
+				</div>
+
+				<!-- OUTPUT TEXT (REVERSED) -->
+				<div class="control-group">
+					<label class="control-label" for="outputText" id="outputTextLabel">Output Text</label>
+					<div class="controls">
+						<input type="text" class="span3 uneditable-input" placeholder="Nothing to reverse..." id="outputText">
+					</div>
+				</div>		
+
+				<!-- OPTIONS -->
+				<div class="control-group">
+					<!-- REVERSE AS I TYPE -->
+					<label class="control-label" for="optionsCheckboxList">Options</label>
+					<div class="controls">
+						<label class="checkbox">
+							<input type="checkbox" name="optionsCheckboxList1" value="option1">Reverse as I type
+						</label>
+					</div>
+				</div>
+
+				<!-- ACTIONS -->
+				<div class="form-actions">
+					<!-- REVERSE -->
+					<button type="submit" class="btn btn-inverse vertical">Reverse</button>
+					<!-- CLEAR -->
+					<button type="reset" class="btn">Clear</button>
+				</div>
+			</fieldset>
+		</form>
+		
+		<!--  -->
+		
+    
+<div id="container">
+
+
+    <header role="banner">
+        
+
+
+       <div id="header-top">
+          <div id="nav-login">
+          
+             <ul class="panel-nav-top">              
+                  <div class="soc-networks" id="sn">
+                      <div class="provider" id="language-caption">
+                          <span>Язык:</span>
+                      </div>
+                      <div class="provider" id="language">
+                          <form action="" method="post">              
+                              <input name="next" type="hidden" value="" />
+                              <select name="language">
+                                  <option value="ru" selected="selected" >Русский</option>
+                                  <option value="en-us">English</option>
+                      
+                              </select>
+                         </form>
+                     </div>         
+                     <div class="provider" id="login-button"><span>Войти</span></div>
+                  </div>
+            </ul> 
+         </div>
+      </div>
+
+
+           
+     <div id="header-search">
+           <div id="header-logo">
+               <a href="/">
+                  <img src="/static/logo_small.png" height="60" width="79" />
+                  <h1>OnArena.com</h1>
+               </a>
+           </div>
+           <div id="block-search" class="block-8">
+               <input id="search-query" type="text" placeholder="введите адрес">
+               <input id="search-submit-site" type="submit" value="Search">
+           </div>
+           <div id="block-search-results"></div>
+     </div>
+
+    </header>   
+    
+    
+    <!--  SIDEBAR -->
+    
+    
+    <aside id="sidebar">
+
+
+       <section>
+        <h2>Затулинка</h2> 
+        <nav>  
+            <ul id="list-league">  
+            </ul>  
+        </nav>
+
+      </section>
+       
+     
+      <section>
+            <ul>
+            <li><a id="a1004">1004</a></li>
+            <li><a id="a1005">1005</a></li>
+            <li><a href="/#!/tournament/1003/teams/">Команды</a></li>
+            <li><a href="/#!/tournament/1003/teams/">Команды</a></li>
+            <li><a href="/#!/tournament/1003/referees/">Судьи</a></li>
+            <li><a href="/#!/tournament/1003/regulations/">Регламент</a></li>        
+            </ul>
+      </section>
+       
+     
+      <section>
+        <h2>Новости</h2>
+         <ul id="list-news">
+         </ul>
+        
+      </section>
+     
+
+      <section>
+          <h2>Последние Матчи</h2>
+          <div class="block-table-mini">
+            <table>
+              <colgroup>
+                <col width="15%">
+                <col width="32.5%">
+                <col width="20%">
+                <col width="32.5%">
+                </colgroup>
+              <tbody id="list-match">
+              </tbody>
+            </table>
+          </div>
+      </section>
+
+      <section>
+    </section>
+
+
+    </aside>
+    
+    
+    <!--  MAIN CONTENT -->
+        
+    
+    <section id="main-content" role="main">    
+         
+    </section>      
+    
+    
+</div>  
+  
+</body>
+</html> 

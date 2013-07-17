@@ -1,0 +1,37 @@
+{% extends 'common/templates/base.html' %}
+{% load i18n %}
+{% block container %}
+    
+<div id="container">
+    <header role="banner">
+        {% include 'common/templates/base_header.html' %}    
+        {% include 'common/templates/base_search.html' %}
+    </header>   
+    
+    <aside id="sidebar">{% include 'common/templates/base_aside.html' %}</aside>
+    
+    <section id="main-content" role="main">    
+    
+         <div id="caption">
+            <div id="edit" class="aw-link">
+                {% if request.is_owner %}{% block edit %}{% endblock %}{% endif %}  
+            </div>
+            <h1>{% block title %}{% endblock %}</h1>                     
+            <nav> 
+               <ul id="path">   
+                {% block path %}{% endblock %}  
+               </ul>
+            </nav>
+         </div>  
+         {% block content %}{% endblock %} 
+    </section>  
+    <div id="reformal"><a href="http://feedback.onarena.com/" target="_blank">&nbsp;</a></div>    
+
+    {% include 'common/templates/base_footer.html' %}
+  
+</div>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,42 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>
+<script type="text/javascript">window.location ="{{ DOMAIN }}/ie6/"</script>
+<![endif]-->
+
+<!--[if lt IE 9]> <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+
+<head>
+  <meta charset="utf-8">
+
+  <meta property="fb:app_id" content="{{ FACEBOOK_API_KEY }}">
+  <meta name='yandex-verification' content='53c4df3f0f034eae' />  
+  
+
+  <meta name="description" content="Любительские Турниры по Футболу в Новосибирске. Таблицы и расписание матчей чемпионатов. Подробная статистика игроков и команд, фотографии, рейтинги, голосования." />
+
+  <link rel="shortcut icon" href="{{ STORAGE_URL }}/images/favicon.ico">      
+  
+  <title>{{SITE_NAME}} {{DEBUG|yesno:"DEBUG ,"}}| {% block title %} {% endblock %}</title>
+
+  <link rel="stylesheet" href="http://commondatastorage.googleapis.com/cometip/js/14/screen.css">
+  
+  <script data-main="js/main" src="js/libs/require/require.js"></script>
+
+  {% block head %}
+  {% endblock %}
+  
+  {% block headtag %}
+  {% endblock %}     
+  
+
+</head>
+<body>
+    {% csrf_token %}
+
+    {% block container %}  
+    {% endblock %}                          
+    
+</body>
+</html>
