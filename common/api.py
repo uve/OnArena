@@ -540,8 +540,8 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
         
         if not v.points in total_list:
             total_list[v.points] = []
-        else:
-            total_list[v.points].append(v)
+        
+        total_list[v.points].append(v)
                 
         
     for points, teams in total_list.items():
@@ -553,6 +553,8 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
             continue
 
         while i > 0: 
+            
+            logging.info("Differ: %s", teams[i-1].name) 
             for j in xrange(i - 1):
                 
                 replace = False    
@@ -603,12 +605,28 @@ def group_reload(league_id = None, group_id = None, limit = 1000):
                     if team_score1 == team_score2:
                         if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
                             replace = True
+                            
+                        elif (t1.diff == t2.diff):    
+                            if (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
+                                replace = True
     
-                        elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
-                            replace = True
                                    
-                    logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+    
+                    if league_id == "1248":
+                        replace = False
+
+                        if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
+                            replace = True
+    
+                        elif (t1.diff == t2.diff):
+                            if (t1.scored < t2.scored and t1.place < t2.place) or (t1.scored > t2.scored and t1.place > t2.place):            
+                                replace = True
+
                     
+                    
+                    logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
+    
+                                        
                     # Change team places in the table
                     if replace:                                         
                         teams[j].place, teams[j+1].place = teams[j+1].place, teams[j].place
@@ -855,14 +873,6 @@ def league_browse(tournament_id = None, limit = 100,
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)   
-        
-    if tournament_id == "1003":       
-        for item in results:
-            if int(item.id) >= int("1239"):
-                new_res.append(item)    
-                
-        return cache_set(key_name, new_res, include)           
- 
 
     if tournament_id == "1007":       
         for item in results:
@@ -879,9 +889,12 @@ def league_browse(tournament_id = None, limit = 100,
         return cache_set(key_name, new_res, include)           
     
     if tournament_id in ["1003"]:       
-        for item in results:
-            if int(item.id) >= int("1068"):
-                new_res.append(item)    
+        
+        res2 = ["1244", "1239", "1241", "1242", "1243"]
+        
+        new_res = [models.League.get_item(item) for item in res2]
+        
+        return cache_set(key_name, new_res, include)     
                 
     if tournament_id in ["1008"]:     
         res2 = ["1191", "1192", "1170", "1139", "1138", "1137"]
@@ -4280,10 +4293,101 @@ def team_edit(form = None, team_id = None, limit = 100):
     return team
 
 
-def test():
+
+def test_create(league_id = None, name = None, group_teams=[]):
+
+    league = models.League.get_item(league_id)
+    
+    tournament = league.tournament_id
+    
+    params = {  "name":          name,
+                "league_id":     league,
+                "tournament_id": tournament,                    
+    }
+
+    new_group = models.Group.create(params)
+
+    all_seasons = []
+    
+    for team_id in group_teams:
+        team = models.Team.get_item(team_id)
+        item = models.Season.gql("WHERE team_id = :1 and league_id = :2", team, league).get()
+    
+        if item:    
+            item.group_id = new_group
+            all_seasons.append(item)
+        else:               
+            params_season = {'tournament_id': tournament,
+                             'league_id':     league,
+                             'team_id':       team,
+                             'group_id':      new_group
+            }
+        
+            item = models.Season(**params_season)
+            item.put()        
+    
+    models.db.put(all_seasons)   
+
+    deferred.defer(group_browse, league_id = league_id, is_reload = True)
+    
+    return True 
+
+
+def test_create_confirm(league_id = None, group_id = None, name = None, group_teams=[]):
+
+    league = models.League.get_item(league_id)
     
 
-    group_browse(league_id = "1232", is_reload = True)
+    new_group = models.Group.get_item(group_id)
+
+    all_seasons = []
+    
+    for team_id in group_teams:
+        team = models.Team.get_item(team_id)
+        item = models.Season.gql("WHERE team_id = :1 and league_id = :2", team, league).get()
+        item.group_id = new_group
+        all_seasons.append(item)
+    
+    models.db.put(all_seasons)   
+
+    deferred.defer(group_browse, league_id = league_id, is_reload = True)
+    
+    return True 
+
+
+def get_class( kls ):
+    parts = kls.split('.')
+    module = ".".join(parts[:-1])
+    m = __import__( module )
+    for comp in parts[1:]:
+        m = getattr(m, comp)            
+    return m
+    
+
+
+
+
+
+
+def test():
+    
+    
+    
+    #league_browse(tournament_id = "1003", is_reload = True)
+    
+    
+    '''
+    test_create(league_id = "1239", name=u'Первая лига. Места 1-6',
+                 group_teams=["1854", "1373", "1670", "1482", "1371", "1179"])
+    '''
+    test_create(league_id = "1242", name=u'Третья лига. Места 9-12',
+                 group_teams=["1875", "1326", "1874", "1791"])
+
+
+
+    
+    group_browse(league_id = "1242", is_reload = True)
+    
     
     #league_update(league_id = "1241")
     #league_update(league_id = "1243")
