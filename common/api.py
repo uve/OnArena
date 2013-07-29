@@ -892,7 +892,7 @@ def league_browse(tournament_id = None, limit = 100,
     
     if tournament_id in ["1003"]:       
         
-        res2 = ["1244", "1239", "1241", "1242", "1243"]
+        res2 = ["1244", "1239", "1241", "1242", "1243", "1251"]
         
         new_res = [models.League.get_item(item) for item in res2]
         
@@ -4372,17 +4372,18 @@ def test():
     
     
     
-    #league_browse(tournament_id = "1003", is_reload = True)
+    league_browse(tournament_id = "1003", is_reload = True)
     
     
+    return True
     '''
     test_create(league_id = "1239", name=u'Первая лига. Места 1-6',
                  group_teams=["1854", "1373", "1670", "1482", "1371", "1179"])
-    '''
+    
     test_create(league_id = "1242", name=u'Третья лига. Места 9-12',
                  group_teams=["1875", "1326", "1874", "1791"])
 
-
+    '''
 
     
     group_browse(league_id = "1242", is_reload = True)
