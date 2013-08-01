@@ -22,10 +22,10 @@ inbound_services:
 - warmup
 #- mail
 
-automatic_scaling:
-  min_idle_instances: 1
-  max_idle_instances: 1
-  min_pending_latency: 2.1s
+#automatic_scaling:
+#  min_idle_instances: 1
+#  max_idle_instances: 1
+#  min_pending_latency: 2.1s
 
 
 libraries:
