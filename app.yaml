@@ -47,7 +47,6 @@ builtins:
 #- django_wsgi: on
 - deferred: off
 - appstats: off  
-
   
 handlers:
 
