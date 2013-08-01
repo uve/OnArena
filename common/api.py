@@ -4378,6 +4378,7 @@ def test():
     
     
     return True
+
     '''
     test_create(league_id = "1239", name=u'Первая лига. Места 1-6',
                  group_teams=["1854", "1373", "1670", "1482", "1371", "1179"])
