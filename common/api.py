@@ -4377,8 +4377,6 @@ def test():
     league_browse(tournament_id = "1003", is_reload = True)
     
     
-    return True
-
   
     test_create(league_id = "1239", name=u'Группа А',
                  group_teams=["1177", "1556", "1924", "1786", "1184"])
