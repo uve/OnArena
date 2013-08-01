@@ -30,8 +30,8 @@ automatic_scaling:
 
 libraries:
 - name: django
-  version: latest  
-#  version: "1.2"  
+#  version: latest  
+  version: "1.4"  
 - name: webapp2
   version: latest  
 - name: markupsafe
