@@ -4374,10 +4374,12 @@ def test():
     
     
     
-    league_browse(tournament_id = "1003", is_reload = True)
+    #league_browse(tournament_id = "1003", is_reload = True)
     
     league_id = "1251"
     
+    
+    '''    
     group_remove(group_id = "1045", league_id = "1239")
     group_remove(group_id = "1046", league_id = "1242")
     
@@ -4388,7 +4390,8 @@ def test():
     
     test_create(league_id = league_id, name=u'Группа Б',
                  group_teams=["1178", "1174", "1374", "1634", "1631"])
-
+    '''
+    
     
     group_browse(league_id = league_id, is_reload = True)
     
