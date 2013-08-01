@@ -4379,17 +4379,17 @@ def test():
     
     return True
 
-    '''
-    test_create(league_id = "1239", name=u'Первая лига. Места 1-6',
-                 group_teams=["1854", "1373", "1670", "1482", "1371", "1179"])
+  
+    test_create(league_id = "1239", name=u'Группа А',
+                 group_teams=["1177", "1556", "1924", "1786", "1184"])
     
-    test_create(league_id = "1242", name=u'Третья лига. Места 9-12',
-                 group_teams=["1875", "1326", "1874", "1791"])
+    test_create(league_id = "1242", name=u'Группа Б',
+                 group_teams=["1178", "1174", "1374", "1634", "1631"])
 
-    '''
+
 
     
-    group_browse(league_id = "1242", is_reload = True)
+    group_browse(league_id = "1251", is_reload = True)
     
     
     #league_update(league_id = "1241")
