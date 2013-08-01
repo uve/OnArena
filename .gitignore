@@ -5,4 +5,4 @@ www/logs/*
 !.gitignore
 !.htaccess
 *~
-.pyc
+*.pyc
