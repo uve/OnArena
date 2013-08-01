@@ -787,8 +787,8 @@ def group_remove(group_id = None, league_id = None, limit = 1000):
         db.delete(rem)                
         rem = models.Competitor.gql("WHERE group_id = :1", item).fetch(limit)  
         db.delete(rem)
-        rem = models.GroupCompetitor.gql("WHERE group_id = :1", item).fetch(limit)  
-        db.delete(rem)
+        #rem = models.GroupCompetitor.gql("WHERE group_id = :1", item).fetch(limit)  
+        #db.delete(rem)
         rem = models.GroupNode.gql("WHERE group_id = :1", item).fetch(limit)  
         db.delete(rem)
 
