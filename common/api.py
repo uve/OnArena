@@ -292,7 +292,7 @@ def group_browse(league_id = None, limit=1000,
 
 
     # Не выводить общую таблицу    
-    if not league_id in ["1236"]:
+    if not league_id in ["1236", "1251"]:
         all_teams = group_reload(league_id = league_id, group_id = None)        
         group = {"group": None, "all_teams": all_teams}        
         results.append(group)   
@@ -329,10 +329,12 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     all_leagues = [league.key()]
     
     
+    # Удалить!!
     if league_id in ["1220", "1221"]:
         all_leagues.append( models.League.get_item("1198").key() )
         all_leagues.append( models.League.get_item("1199").key() )
         
+    
     
     group = None
     group_key = None
