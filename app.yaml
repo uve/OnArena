@@ -44,7 +44,7 @@ libraries:
   
 builtins:
 - remote_api: on
-- django_wsgi: on
+#- django_wsgi: on
 - deferred: off
 - appstats: off  
 
