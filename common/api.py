@@ -4377,6 +4377,9 @@ def test():
     #league_browse(tournament_id = "1003", is_reload = True)
     
     league_id = "1251"
+    group_browse(league_id = league_id, is_reload = True)
+    
+    return True
     
     
     '''    
