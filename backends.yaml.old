@@ -1,0 +1,9 @@
+backends:
+- name: defworker
+  class: B1
+  instances: 3
+  options: dynamic
+- name: hardworker
+  class: B2
+  instances: 1
+  options: dynamic  
