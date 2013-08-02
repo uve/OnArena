@@ -3,7 +3,7 @@ application: cometiphrd
 module: hardworker
 runtime: python27
 threadsafe: false
-version: 'Release'
+version: 'release'
 instance_class: B2
 
 basic_scaling:

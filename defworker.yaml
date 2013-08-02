@@ -3,7 +3,7 @@ application: cometiphrd
 module: defworker
 runtime: python27
 threadsafe: false
-version: 'Release'
+version: 'release'
 instance_class: B1
 
 basic_scaling:
