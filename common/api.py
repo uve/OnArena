@@ -895,8 +895,14 @@ def league_browse(tournament_id = None, limit = 100,
     if tournament_id in ["1003"]:       
         
         res2 = ["1244", "1239", "1241", "1242", "1243", "1251"]
-        
         new_res = [models.League.get_item(item) for item in res2]
+        
+        
+        for item in results:
+            if int(item.id) >= int("1252") and not item.id in res2:
+                new_res.append(item)        
+        
+
         
         return cache_set(key_name, new_res, include)     
                 
@@ -4374,10 +4380,10 @@ def test():
     
     
     
-    #league_browse(tournament_id = "1003", is_reload = True)
+    league_browse(tournament_id = "1003", is_reload = True)
     
-    league_id = "1251"
-    group_browse(league_id = league_id, is_reload = True)
+    #league_id = "1251"
+    #group_browse(league_id = league_id, is_reload = True)
     
     return True
     
