@@ -285,6 +285,9 @@ def tournament_test(request,tournament_id=None, format='html'):
     
     #return http.HttpResponse(status = 200)    
     
+    all_results = api.test()
+    return api.response_get(request, locals(), 'tournament/templates/test.html') 
+    
     if api.test():
         status_code = 200
     else:

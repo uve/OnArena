@@ -4389,6 +4389,7 @@ def test():
     tournament = models.Tournament.get_item("1003")
     
     all_results = models.League.gql("WHERE tournament_id = :1", tournament).fetch(5000)
+    return all_results
     
     for item in all_results:
         print item.name
