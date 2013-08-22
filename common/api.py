@@ -4376,8 +4376,16 @@ def test():
     
     #league_browse(tournament_id = "1003", is_reload = True)
     
-    league_id = "1251"
-    group_browse(league_id = league_id, is_reload = True)
+    #league_id = "1251"
+    #group_browse(league_id = league_id, is_reload = True)
+    
+    tournament = models.Tournament.get_item("1003")
+    
+    all_results = models.League.gql("WHERE tournament_id = :1", tournament).fetch(5000)
+    
+    for item in all_results:
+        print item.name
+        print "</br>"
     
     return True
     

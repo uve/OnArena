@@ -1,7 +1,6 @@
 application: cometiphrd
 version: 17
 
-
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -45,6 +44,11 @@ builtins:
 - deferred: off
 - appstats: off  
   
+#dispatch:  
+# Send any domain/sub-domain with a path that starts with “work” to the static backend module. 
+#- url: "*/api*"
+#  module: goapi
+      
 handlers:
 
 - url: /_ah/pipeline(/.*)?
