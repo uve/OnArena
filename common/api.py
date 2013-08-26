@@ -2873,6 +2873,7 @@ def player_create(request, **kw):
     is_played_create = request.POST["player_create"]
     
     player = None
+    is_teamplayed = None
     
     if is_played_create == "false":
 
@@ -2890,9 +2891,6 @@ def player_create(request, **kw):
         
         is_teamplayed = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player, team).get()        
         
-        if is_teamplayed:
-            logging.error("Alreddy played. Player: %s \t Team: %s", player.id, team.id )
-            return None
                 
     else:        
     
@@ -2957,8 +2955,13 @@ def player_create(request, **kw):
     if number:
         params['number'] = int(number)
 
-    teamplayer = models.PlayerTeam(**params)
-    teamplayer.put()
+
+
+    if is_teamplayed:
+        logging.error("Alreddy played. Player: %s \t Team: %s", player.id, team.id )        
+    else:
+        teamplayer = models.PlayerTeam(**params)
+        teamplayer.put()
     
     
     
