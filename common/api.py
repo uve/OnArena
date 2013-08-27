@@ -4379,11 +4379,27 @@ def get_class( kls ):
 
 
 
-def test():
+def test(limit = 5000):
     
+    to_disable = models.Tournament.gql("ORDER BY created ASC").fetch(limit)
+    for tournament in to_disable:
+                
+        tournament.active = True
+        
+        tournament.put()    
     
+    to_disable = ["1014", "1005", "1009", "1004", "1007", "1010", "1034", "1031", "1018", "1033", "1006"] 
     
-    league_browse(tournament_id = "1003", is_reload = True)
+    for item in to_disable:
+        tournament = models.Tournament.get_item(item)
+        
+        tournament.active = False
+        
+        tournament.put()
+        
+    tournament_browse(limit = 1000, is_reload = True)
+    
+    league_browse(tournament_id = "1038", is_reload = True)
     
     #league_id = "1251"
     #group_browse(league_id = league_id, is_reload = True)
@@ -4391,13 +4407,7 @@ def test():
     
     tournament = models.Tournament.get_item("1003")
     
-    all_results = models.League.gql("WHERE tournament_id = :1", tournament).fetch(5000)
-    return all_results
-    
-    for item in all_results:
-        print item.name
-        print "</br>"
-    
+
     return True
     
     
@@ -4632,7 +4642,7 @@ def tournament_edit(form = None, tournament_id = None, limit = 100):
 def tournament_browse(limit=1000,
                  is_reload=None, memcache_delete=None, key_name=""):
                  
-    results = models.Tournament.gql("ORDER BY created ASC").fetch(limit)
+    results = models.Tournament.gql("where active = :1 ORDER BY created ASC", True).fetch(limit)
     
     #logging.info("len(results): %s",len(results))
         

@@ -218,9 +218,9 @@ class Tournament(CustomModel):
     
     formatted_address = db.StringProperty(required=False, verbose_name=_('Full Address'))      
     street            = db.StringProperty(required=False, verbose_name=_('Street'))      
-    address           = db.StringProperty(required=False, verbose_name=_('Address'))   
+    address           = db.StringProperty(required=False, verbose_name=_('Address'))       
     
-
+    active = db.BooleanProperty(default=True)
     #logo    = db.LinkProperty(required=False)
 
     
