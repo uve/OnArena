@@ -899,7 +899,7 @@ def league_browse(tournament_id = None, limit = 100,
         
         
         for item in results:
-            if int(item.id) >= int("1252") and not item.id in res2:
+            if int(item.id) >= int("1271") and not item.id in res2:
                 new_res.append(item)        
         
 
@@ -4381,6 +4381,16 @@ def get_class( kls ):
 
 def test(limit = 5000):
     
+    league_browse(tournament_id = "1003", is_reload = True)
+    
+    #league_id = "1251"
+    #group_browse(league_id = league_id, is_reload = True)
+
+    
+    tournament = models.Tournament.get_item("1003")
+    
+
+    return []
     
     '''
     to_disable = models.Tournament.gql("ORDER BY created ASC").fetch(limit)
@@ -4404,7 +4414,7 @@ def test(limit = 5000):
         
     tournament_browse(limit = 1000, is_reload = True)
     
-    league_browse(tournament_id = "1038", is_reload = True)
+    league_browse(tournament_id = "1003", is_reload = True)
     
     #league_id = "1251"
     #group_browse(league_id = league_id, is_reload = True)
