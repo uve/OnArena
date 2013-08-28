@@ -52,6 +52,7 @@ CONTACTS_PER_PAGE = 24
 
 def tournament_create(request, format='html'):  
         
+        
     if request.method == 'POST':
         form = models.TournamentFormCreate(request.POST)
         if form.is_valid():             
@@ -66,6 +67,8 @@ def tournament_create(request, format='html'):
     all_sports = api.sport_browse(limit = 1000)
     
     #logging.info("hes: %s", all_sports)
+
+    deafult_location = request.META["HTTP_X_APPENGINE_CITYLATLONG"]
 
     area = 'create'    
     is_map = True    

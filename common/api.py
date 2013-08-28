@@ -4381,14 +4381,19 @@ def get_class( kls ):
 
 def test(limit = 5000):
     
+    
+    '''
     to_disable = models.Tournament.gql("ORDER BY created ASC").fetch(limit)
     for tournament in to_disable:
                 
         tournament.active = True
         
-        tournament.put()    
+        tournament.put()
+        
+    to_disable = ["1014", "1005", "1009", "1004", "1007", "1010", "1034", "1031", "1018", "1033", "1006"]    
+    '''
     
-    to_disable = ["1014", "1005", "1009", "1004", "1007", "1010", "1034", "1031", "1018", "1033", "1006"] 
+    to_disable = ["1033", "1006"] 
     
     for item in to_disable:
         tournament = models.Tournament.get_item(item)
@@ -4408,7 +4413,7 @@ def test(limit = 5000):
     tournament = models.Tournament.get_item("1003")
     
 
-    return True
+    return []
     
     
     '''    
