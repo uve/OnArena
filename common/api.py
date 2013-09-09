@@ -321,7 +321,10 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     loss_key = models.ResultType.get_item("1003").key()
     drew_key = models.ResultType.get_item("1004").key()    
 
-    league = models.League.get_item(league_id)
+    league = models.League.get_item(league_id)    
+    
+    tournament_id = league.tournament_id.id
+    
     
     logging.info("League_id: %s",league_id)
     logging.info("Group_id: %s",group_id)    
@@ -613,7 +616,7 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     
                                    
     
-                    if league_id == "1248":
+                    if tournament_id == "1001":
                         replace = False
 
                         if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
@@ -4393,7 +4396,7 @@ def test(limit = 5000):
     to_disable = ["1014", "1005", "1009", "1004", "1007", "1010", "1034", "1031", "1018", "1033", "1006"]    
     '''
     
-    to_disable = ["1033", "1006"] 
+    to_disable = ["1039"] 
     
     for item in to_disable:
         tournament = models.Tournament.get_item(item)
@@ -4404,7 +4407,7 @@ def test(limit = 5000):
         
     tournament_browse(limit = 1000, is_reload = True)
     
-    league_browse(tournament_id = "1038", is_reload = True)
+    #league_browse(tournament_id = "1038", is_reload = True)
     
     #league_id = "1251"
     #group_browse(league_id = league_id, is_reload = True)

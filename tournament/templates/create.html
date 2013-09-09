@@ -65,11 +65,11 @@
                                           
     <p>
         <label for="id_location">{% trans "Location" %}:*</label>
-        <input type="text" name="location" id="id_location" disabled="disabled" required="required" />
+        <input type="text" name="location" id="id_location" disabled="disabled" required="required"/>
     </p>    
     
-     <input type="hidden" name="lat" id="id_lat" />                     
-     <input type="hidden" name="lon" id="id_lon" />    
+     <input type="hidden" name="lat" id="id_lat" value="{{ lat }}" />                     
+     <input type="hidden" name="lon" id="id_lon" value="{{ lon }}" />    
      
      <input type="hidden" name="user" id="id_user" value="{{ request.user.id }}" />  
              
