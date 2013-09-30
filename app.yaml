@@ -39,10 +39,10 @@ libraries:
   
   
 builtins:
+- appstats: on
 - remote_api: on
 #- django_wsgi: on
-- deferred: off
-- appstats: off  
+- deferred: off 
   
 #dispatch:  
 # Send any domain/sub-domain with a path that starts with “work” to the static backend module. 
