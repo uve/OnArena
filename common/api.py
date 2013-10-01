@@ -77,6 +77,10 @@ from django.core.context_processors import csrf
 from google.appengine.api import runtime
 
 
+
+from google.appengine.datastore import datastore_query
+
+
 from google.appengine.api.logservice import logservice
 #######
 #######
@@ -98,6 +102,7 @@ import aetycoon
 import zlib
 COMPRESSION_LEVEL = 1
 
+MAX_LIMIT = 10000
 
 
 def decode_datetime(obj):
@@ -153,8 +158,10 @@ def cache_set(key_name, value, include = [], commit = False):
     
     try:
         
+        
         logging.info("Start encoding: %s", key_name)
         
+        logging.info("memory usage: %s",runtime.memory_usage().current())
            
         #value = jsonloader.encode(input = value, include = include)
                   
@@ -183,13 +190,15 @@ def cache_set(key_name, value, include = [], commit = False):
         logging.info("Cache saved")             
 
         last_modified = content.last_modified.strftime(HTTP_DATE_FMT)
-                                 
+                  
+        logging.info("memory usage: %s",runtime.memory_usage().current())               
         
         if commit:
             #del value
             return True
         
         logging.info("json.loads: %s", key_name)
+                
     
         return cache_get(key_name)
      
@@ -897,12 +906,12 @@ def league_browse(tournament_id = None, limit = 100,
     
     if tournament_id in ["1003"]:       
         
-        res2 = ["1244", "1239", "1241", "1242", "1243", "1251"]
-        new_res = [models.League.get_item(item) for item in res2]
+        #res2 = ["1244", "1239", "1241", "1242", "1243", "1251"]
+        #new_res = [models.League.get_item(item) for item in res2]
         
         
         for item in results:
-            if int(item.id) >= int("1271") and not item.id in res2:
+            if int(item.id) >= int("1271"):# and not item.id in res2:
                 new_res.append(item)        
         
 
@@ -2813,47 +2822,88 @@ def playoff_set(league_id = None, team_id = None, competitor_id = None, limit = 
 
 ################
 
-@check_cache
-def player_browse(tournament_id = None, limit=5000,
+def player_browse(tournament_id = None, limit=500,
                  is_reload=None, memcache_delete=None, key_name=""):
 
+    name = "offset_player_browse_" + tournament_id
+    
+    
+    
     if not tournament_id:
         return None
                
     logging.info("memory usage: %s",runtime.memory_usage().current())
 
-    tournament = models.Tournament.get_item(tournament_id)  
-    results = models.Player.gql("WHERE tournament_id = :1 ORDER BY full_name ASC", tournament).fetch(limit)    
+    tournament = models.Tournament.get_item(tournament_id)
     
-    logging.info("All Players len: %s",len(results))                 
     
-    gql = 'SELECT * FROM PlayerTeam WHERE player_id = :1 ORDER BY created DESC' 
-    qq = db.GqlQuery(gql) 
+    limit = 10000
+    batch_limit = 500
+    
+    new_players = {}
+    new_playerteams = {}
+    new_teams = {}
+      
+         
 
+    
+    
+    logging.info("iterate all_playerteams")
+    
+    query =  models.PlayerTeam.all().filter("tournament_id", tournament)
+    
+    count = query.count(limit)
+    
+    for i in xrange(0, count, batch_limit):
+        
+        for item in query.run(config=datastore_query.QueryOptions(deadline=60, offset=i, limit=batch_limit)):
+            
+            value = str(item.player_id.key())     
+            if not value in new_teams:
+                new_playerteams[value] = []
+            new_playerteams[value].append(str(item.team_id.key()))
+    
+    
+    
+    logging.info("iterate all_players")
+    
+    query = models.Player.all().filter("tournament_id", tournament).order("full_name")
+    count = query.count(limit)
+    
+    for i in xrange(0, count, batch_limit):
+        for item in query.run(config=datastore_query.QueryOptions(deadline=60, offset=i, limit=batch_limit)):
+            
+            new_players[str(item.key())] = { "id": item.id, "full_name" : item.full_name }
+
+
+    logging.info("iterate all_teams")
+    
+    for item in models.Team.all().filter("tournament_id", tournament).run(config=datastore_query.QueryOptions(limit=limit)):
+                
+        new_teams[str(item.key())] = { "id": item.id, "name" : item.name }
+    
+    
+    logging.info("Updating results")    
+    
+    results = []
+    
+    for k,v in new_players.iteritems():
+        
+        v["teams"] = []
+        if str(k) in new_playerteams:
+            for value in new_playerteams[str(k)]:
+                v["teams"].append( new_teams[value] )
    
-    for item in results:       
-        item.teams = []               
-        #all_teams = models.PlayerTeam.gql("WHERE player_id = :1 ORDER BY created DESC", item).fetch(limit)   
-        qq.bind(item) 
-
-        #all_teams = qq.fetch(limit)      
-        all_teams = qq.fetch(1)
-     
-        for value in all_teams:            
-            item.teams.append(value.team_id)
-                                                                    
-                                                     
-    logging.info("memory usage: %s",runtime.memory_usage().current())   	
-
-    logging.info("cpu usage: %s",runtime.cpu_usage().total())   	    
-              
-    #include = ["id", "name", "full_name", "rating", "ranking", "teams"]
-    #include = ["id", "name", "full_name", "teams"]
+        results.append(v)
+    
+    
+    logging.info("all_players len: %s", len(results))
+    
     
     include = ["id", "name", "full_name", "teams"]
+    results = cache_set(key_name, results, include, commit = False)
     
-    
-    return cache_set(key_name, results, include, commit = True)   
+    return results
 
         
                  
@@ -2972,15 +3022,16 @@ def player_create(request, **kw):
     team_get_players(team_id = team_id, is_reload = True) 
     team_get_players_active(team_id = team_id, is_reload = True)     
     
-    target = "defworker"
-    if tournament_id == "1001":
-        target = "hardworker"
-
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)   
+    
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
+       
     deferred.defer( player_get, player_id = player.id,  is_reload = True )       
     deferred.defer( player_stat_get, player_id = player.id,  is_reload = True )   
                         
     return player.id
+
+
+
 
 def player_disable(team_id = None, player_id = None, is_checked = True):
         
@@ -4029,11 +4080,14 @@ def statistics(league_id=None, limit = 10,
 
 
  
-0
+
 @check_cache  
 def stat_league(league_id, limit = 1000,
                  is_reload=None, memcache_delete=None, key_name=""):
-    
+
+
+    fill_database()
+        
     league = models.League.get_item(league_id)
     league_key = league.key()
     goal_key        = models.EventType.get_item("1001").key()
@@ -4384,13 +4438,30 @@ def get_class( kls ):
 
 def test(limit = 5000):
     
-    league_browse(tournament_id = "1003", is_reload = True)
+    team   = models.Team.get_item("1091")
+    player = models.Player.get_item("2984")
+
+
+    #item = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player, team).get()
+    
+    #db.delete(item)
+    
+    
+    #player_browse(tournament_id = "1001", is_reload = True)
+    #league_browse(tournament_id = "1003", is_reload = True)
+    
+    deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
+    
+    #deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
     
     #league_id = "1251"
     #group_browse(league_id = league_id, is_reload = True)
 
     
-    tournament = models.Tournament.get_item("1003")
+    #tournament = models.Tournament.get_item("1003")
+    
+    
+    #league_update(league_id = "1001")
     
 
     return []

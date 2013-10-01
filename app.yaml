@@ -15,7 +15,7 @@ skip_files:
 
 
 inbound_services:
-- warmup
+#- warmup
 #- mail
 
 #automatic_scaling:
@@ -40,9 +40,7 @@ libraries:
   
 builtins:
 - remote_api: on
-#- django_wsgi: on
-- deferred: off
-- appstats: off  
+- appstats: on  
   
 #dispatch:  
 # Send any domain/sub-domain with a path that starts with “work” to the static backend module. 

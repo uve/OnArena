@@ -26,5 +26,9 @@ libraries:
 - name: PIL
   version: latest
 
+builtins:
+- remote_api: on
+- appstats: off
+
 skip_files: (?:^(.*/)?#.*#)|(?:^(.*/)?.*~)|(?:^(.*/)?.*\.py[co])|(?:^(.*/)?.*/RCS/.*)|(?:^(.*/)?\..*)|(?:^(.*/)?.*/sass-cache/.*)
 
