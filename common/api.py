@@ -3018,10 +3018,12 @@ def player_create(request, **kw):
     
     
     
-    team_get_players(team_id = team_id, stat = True, is_reload = True)         
-    team_get_players(team_id = team_id, is_reload = True) 
-    team_get_players_active(team_id = team_id, is_reload = True)     
+    team_get_players_active(team_id = team_id, is_reload = True)
+        
     
+    deferred.defer( team_get_players, team_id = team_id, stat = True, is_reload = True)         
+    deferred.defer( team_get_players, team_id = team_id, is_reload = True) 
+             
     
     deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
        
