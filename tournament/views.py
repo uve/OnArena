@@ -68,7 +68,11 @@ def tournament_create(request, format='html'):
     
     #logging.info("hes: %s", all_sports)
 
-    deafult_location = request.META["HTTP_X_APPENGINE_CITYLATLONG"]
+    lat, lon = request.META["HTTP_X_APPENGINE_CITYLATLONG"].split(",")
+    
+    logging.info("lat: %s", lat)
+    logging.info("lon: %s", lon)
+    
 
     area = 'create'    
     is_map = True    

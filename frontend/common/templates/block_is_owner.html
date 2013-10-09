@@ -1,6 +1,0 @@
-{% load verbatim_templatetag %}
-{% if request.is_owner %}
- {% verbatim %}{{ var is_owner=true }}{% endverbatim %}
-{% else %}
- {% verbatim %}{{ var is_owner=false }}{% endverbatim %}
-{% endif %} 

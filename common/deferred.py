@@ -96,9 +96,10 @@ import os
 import pickle
 import types
 
-from google.appengine.api import taskqueue
+from google.appengine.api import taskqueue, memcache
 from google.appengine.ext import db
 
+from google.appengine.api import runtime
 
 from django import http
 import random
@@ -158,6 +159,9 @@ def run(data):
         key_name += '_' + k + '_' + unicode(v)
 
     logging.info("Unpickled key_name: %s", key_name)  
+    
+    memcache.delete(key_name)
+    
   except Exception, e:
     raise PermanentTaskFailure(e)
   else:
@@ -282,10 +286,33 @@ def defer(obj, *args, **kwargs):
   queue = kwargs.pop("_queue", _DEFAULT_QUEUE)
   pickled = serialize(obj, *args, **kwargs)
   
+  
+  
+  key_name = 'deferred_' + obj.__name__      
+         
+  for k,v in kwargs.items():
+    if not k in ["is_reload", "memcache_delete", "get_key_name"]:
+      key_name += '_' + k + '_' + unicode(v)
+
+  logging.info("Pickled key_name: %s", key_name)  
+    
+  status = memcache.get(key_name)
+  
+  logging.info("Task in pool: %s", status)
+  
+  if status == True:
+      logging.warning("Task in pool")
+      return True
+
+  memcache.set(key_name, True, time=300)
+  
+  
   #if not os.environ['SERVER_SOFTWARE'].startswith('Dev'):
   
-  if taskargs["target"] != "hardworker": 
-    taskargs["target"] = "defworker"
+  #if taskargs["target"] != "hardworker": 
+  #  taskargs["target"] = "defworker"
+  
+  taskargs["target"] = "defworker"
       
   queue = random.choice(queue_buckets)
 
@@ -324,14 +351,11 @@ def deferred(request):
 
 
     try:
-      logging.info('request3')
+      #logging.info('request3')
       
       raw_post_data = request.read()
       
-      logging.info(raw_post_data)        
-      #logging.info(request.POST)
-      
-      #run(request.POST)
+      logging.info("memory usage: %s",runtime.memory_usage().current())
       
       run(raw_post_data)
 

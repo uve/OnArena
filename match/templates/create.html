@@ -7,7 +7,11 @@
     <li class="current"><a href="/league/{{ league.id }}">{{ league.name }}</a></li>
 {% endblock %}
 
+
 {% block content %}
+
+
+
 
     <div id="stylized" class="myform">
       <form id="form" name="form" method="post" action="">
@@ -24,7 +28,8 @@
       <input type="text" id="datepicker" name="datepicker" value="{{ match.match_date }}" />
 
       <label>{% trans "Match Time" %}*</label>
-      <input type="text" id="timepicker" name="timepicker" value="{{ match.match_time }}" />
+      
+      <input type="text" id="timepicker" name="timepicker" value="{{ match.match_time }}" onkeyup="replacedots()"/>
 
 
       <label>{% trans "Home Team" %}*</label>
@@ -65,5 +70,14 @@
   </form>
 
   </div>
+  
+<script>
+	function replacedots(test){
+		e = document.getElementById('timepicker');
+		e.value = e.value.replace('.',':');
+		e.value = e.value.replace(',',':');
+	}
+</script>
+  
 
 {% endblock %}
