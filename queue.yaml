@@ -2,113 +2,158 @@ queue:
 - name: default
   rate: 10/s
   bucket_size: 100
-  
+  retry_parameters:
+    task_retry_limit: 0
   
 - name: deferred
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
   
   
 - name: players
   rate: 10/s
-  bucket_size: 100  
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0  
 
   
 - name: images
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
    
     
 - name: default1
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
     
 - name: default2
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
     
 - name: default3
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default4
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default5
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
                     
 
 - name: default6
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default7
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default8
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default9
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default10
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default11
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
     
 - name: default12
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
     
 - name: default13
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default14
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
 
 
 - name: default15
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
                     
 
 - name: default16
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default17
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default18
   rate: 10/s
   bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0
     
     
 - name: default19
   rate: 10/s
-  bucket_size: 100    
+  bucket_size: 100
+  retry_parameters:
+    task_retry_limit: 0    

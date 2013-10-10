@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import with_statement
-import pipeline
-from pipeline import common
-
-# Let anyone hit Pipeline handlers!
-pipeline.set_enforce_auth(False)
 
 
 #import fix_path
@@ -989,63 +984,6 @@ def league_cross_table(league, limit=1000):
 
     return c
 
-
-class MatchBrowse(pipeline.Pipeline):
-    def run(self, tournament_id, league_id):        
-        match_browse(league_id = league_id, is_reload = True)        
-        match_browse(tournament_id = tournament_id, is_reload = True) 
-        match_browse(tournament_id = tournament_id, league_id = league_id, is_reload = True)         
-        
-
-class GroupBrowse(pipeline.Pipeline):
-    def run(self, league_id):
-        group_browse(league_id = league_id, is_reload = True)
-        
-
-
-class PlayoffBrowse(pipeline.Pipeline):
-    def run(self, league_id):
-        playoff_browse(league_id = league_id, is_reload = True)
-
-
-class Statistics(pipeline.Pipeline):
-    def run(self, league_id):
-        
-        statistics(league_id = league_id, is_reload = True)
-        stat_league(league_id = league_id, is_reload = True)            
-        statistics(league_id = league_id, limit = 1000, is_reload = True)        
-        
-
-class TeamRating(pipeline.Pipeline):
-    def run(self, tournament_id):
-        
-        team_browse_rating(tournament_id = tournament_id, is_reload = True)   
-        
-        
-class RefereeBrowse(pipeline.Pipeline):
-    def run(self, tournament_id):
-        
-        referees_browse(tournament_id = tournament_id, stat = True, is_reload = True)
-                
-
-#from api2 import GroupBrowse, PlayoffBrowse, MatchBrowse, Statistics, RefereeBrowse
-
-class LeagueUpdate(pipeline.Pipeline):
-    def run(self, league_id):
-        
-        league = models.League.get_item(league_id)
-        tournament = league.tournament_id   
-        tournament_id = tournament.id       
-        
-        
-        yield GroupBrowse(league_id = league_id)        
-        yield PlayoffBrowse(league_id = league_id)
-        
-        yield MatchBrowse(tournament_id = tournament_id, league_id = league_id)                
-        yield Statistics(league_id = league_id)
-        
-        yield RefereeBrowse(tournament_id = tournament_id)
-                
 
 
 
@@ -2821,10 +2759,14 @@ def playoff_set(league_id = None, team_id = None, competitor_id = None, limit = 
     
 
 ################
-
+@check_cache
 def player_browse(tournament_id = None, limit=500,
                  is_reload=None, memcache_delete=None, key_name=""):
 
+
+    taskqueue.add(url='/v1/tournament/1001/player/', params={'tournament_id': '1001'},
+                      target='goapi.17', method="PUT")
+    return []
     name = "offset_player_browse_" + tournament_id
     
     
@@ -3023,8 +2965,8 @@ def player_create(request, **kw):
     deferred.defer( team_get_players, team_id = team_id, is_reload = True) 
              
     
-    if tournament_id != "1001":
-        deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
+
        
     deferred.defer( player_get, player_id = player.id,  is_reload = True )       
     deferred.defer( player_stat_get, player_id = player.id,  is_reload = True )   
@@ -3153,9 +3095,6 @@ def player_edit(request, player_id, **kw):
 
     player = player_get(player_id = player_id, is_reload = True)
     
-    target = "defworker"
-    if tournament_id == "1001":
-        target = "hardworker"
 
     deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)  
        
@@ -3383,9 +3322,6 @@ def rating_player_update(tournament_id = None, limit = 5000):
     logging.info("Rating Players update time: %s", end3)
     
     
-    target = "defworker"
-    if tournament_id == "1001":
-        target = "hardworker"
 
     deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)
           
@@ -4440,7 +4376,7 @@ def get_class( kls ):
 def test(limit = 5000):
     
     
-    league_browse(tournament_id = "1001", is_reload = True)
+    player_browse(tournament_id = "1001", is_reload = True)
     
     return []
     
@@ -4486,10 +4422,6 @@ def test(limit = 5000):
     
     #player_browse(tournament_id = "1001", is_reload = True)
     #league_browse(tournament_id = "1003", is_reload = True)
-    
-    #deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
-    
-    #deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
     
     #league_id = "1251"
     #group_browse(league_id = league_id, is_reload = True)
