@@ -899,7 +899,7 @@ def league_browse(tournament_id = None, limit = 100,
         
     if tournament_id == "1001":       
         for item in results:
-            if int(item.id) >= int("1248"):
+            if int(item.id) > int("1248"):
                 new_res.append(item)    
                 
         return cache_set(key_name, new_res, include)           
@@ -2845,8 +2845,6 @@ def player_browse(tournament_id = None, limit=500,
     new_teams = {}
       
          
-
-    
     
     logging.info("iterate all_playerteams")
     
@@ -3025,7 +3023,8 @@ def player_create(request, **kw):
     deferred.defer( team_get_players, team_id = team_id, is_reload = True) 
              
     
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
+    if tournament_id != "1001":
+        deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
        
     deferred.defer( player_get, player_id = player.id,  is_reload = True )       
     deferred.defer( player_stat_get, player_id = player.id,  is_reload = True )   
@@ -4440,8 +4439,44 @@ def get_class( kls ):
 
 def test(limit = 5000):
     
+    
+    league_browse(tournament_id = "1001", is_reload = True)
+    
+    return []
+    
+    league_id = "1256"
+    league = models.League.get_item(league_id)
+    
     team   = models.Team.get_item("1091")
     player = models.Player.get_item("2984")
+
+
+    goal        = models.EventType.get_item("1001").key()    
+    
+
+    total_goals = models.Event.gql("WHERE player_id = :1 AND eventtype_id = :2 AND league_id = :3 AND team_id = :4", 
+                                   player, goal, league, team).fetch(limit)
+
+    db.delete(total_goals)
+    
+   
+    
+    stat_player = models.StatPlayer.gql("WHERE league_id = :1 AND eventtype_id = :2 AND player_id = :3 AND team_id = :4",
+                                            league, goal, player, team).fetch(limit)
+
+    db.delete(stat_player)
+    
+    
+    playermatches = models.PlayerMatch.gql("WHERE player_id = :1 and team = :2", player, team).fetch(limit)
+    
+    db.delete(playermatches)
+    
+    
+    
+    deferred.defer(stat_league, league_id = league_id, is_reload = True)
+
+    deferred.defer(statistics, league_id = league_id, is_reload = True)
+    deferred.defer(statistics, league_id = league_id, limit = 1000, is_reload = True)
 
 
     #item = models.PlayerTeam.gql("WHERE player_id = :1 AND team_id = :2", player, team).get()
@@ -4452,7 +4487,7 @@ def test(limit = 5000):
     #player_browse(tournament_id = "1001", is_reload = True)
     #league_browse(tournament_id = "1003", is_reload = True)
     
-    deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
+    #deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
     
     #deferred.defer( player_browse, tournament_id = "1001", is_reload = True)
     
