@@ -1,9 +1,14 @@
-api_version: '1'
 application: cometiphrd
+version: v1
+
 module: defworker
+
 runtime: python27
+api_version: 1
 threadsafe: false
-version: 'release'
+
+
+
 instance_class: B1
 
 basic_scaling:

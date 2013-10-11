@@ -135,9 +135,12 @@
                
                              <td><b>${ item.team.points }</b></td>
    {{ if is_owner == true }}
-    <td><span class="remove-team-group" data-team_id="${ item.team.id }"  data-team_name="${ item.team.name }" 
+    <td>
+<span class="remove-team-group" style="display: none; "data-team_id="${ item.team.id }"  data-team_name="${ item.team.name }" 
          data-league_id="{% endverbatim %}{{ league_id }}{% verbatim %}" data-group_id="{{ if group }}${ group.id }{{ /if }}">
-           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span></td>
+           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span>
+
+</td>
    {{ /if }}                                  
                         </tr>
                      {{ /each }}   

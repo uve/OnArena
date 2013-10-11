@@ -989,7 +989,7 @@ def league_cross_table(league, limit=1000):
 
 
 def league_update(league_id = None, limit = 1000):
-
+ 
     league = models.League.get_item(league_id)
     tournament = league.tournament_id   
     tournament_id = tournament.id       
@@ -1001,8 +1001,8 @@ def league_update(league_id = None, limit = 1000):
     deferred.defer(match_browse, tournament_id = tournament_id, is_reload = True) 
     deferred.defer(match_browse, league_id = league_id, is_reload = True)
     deferred.defer(match_browse, tournament_id = tournament_id, league_id = league_id, is_reload = True)  
-        
-    deferred.defer(team_browse, league_id = league_id, is_reload = True)     
+
+    deferred.defer(team_browse,  league_id = league_id, is_reload = True)     
 
     deferred.defer(playoff_browse, league_id = league_id, is_reload = True)
     
@@ -1234,9 +1234,16 @@ def league_remove(league_id = None, limit=100):
     
 def league_remove_team(league_id = None, group_id = None, team_id = None, limit=5000):
     
+    
     league = models.League.get_item(league_id)
     group  = models.Group.get_item(group_id)
     team   = models.Team.get_item(team_id) 
+    
+    if not league:
+        return False
+        
+    if not team:
+        return False  
     
     season = models.Season.gql("WHERE league_id = :1 and team_id = :2 and group_id = :3", league, team, group).get()
         
@@ -1260,7 +1267,7 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     if del_value:       
         for item in del_mas:
             try:
-                rem  = item.gql("WHERE season_id = :1", del_value).fetch(limit)
+                rem  = item.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, del_value)).fetch(limit)
                 hub.append(db.delete_async(rem))
                 #db.delete(rem)
             except:
@@ -2753,8 +2760,7 @@ def playoff_set(league_id = None, team_id = None, competitor_id = None, limit = 
     competitor.team_id = team
     competitor.put()
     
-    #deferred.defer(playoff_browse, league_id = league_id, is_reload = True,
-    #                                                 _target = "defworker")
+    
     deferred.defer(playoff_browse, league_id = league_id, is_reload = True)    
     
 
@@ -2764,8 +2770,8 @@ def player_browse(tournament_id = None, limit=500,
                  is_reload=None, memcache_delete=None, key_name=""):
 
 
-    taskqueue.add(url='/v1/tournament/1001/player/', params={'tournament_id': '1001'},
-                      target='goapi.17', method="PUT")
+    taskqueue.add(url='/api/v1/tournament/1001/player/', #params={'tournament_id': '1001'}
+                      target='goapi.default', method="PUT")
     return []
     name = "offset_player_browse_" + tournament_id
     
@@ -3096,7 +3102,7 @@ def player_edit(request, player_id, **kw):
     player = player_get(player_id = player_id, is_reload = True)
     
 
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)  
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)  
        
     deferred.defer( player_stat_get, player_id = player_id,  is_reload = True )  
         
@@ -3323,7 +3329,7 @@ def rating_player_update(tournament_id = None, limit = 5000):
     
     
 
-    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True, _target=target)
+    deferred.defer( player_browse, tournament_id = tournament_id, is_reload = True)
           
     
     return True
@@ -4376,7 +4382,8 @@ def get_class( kls ):
 def test(limit = 5000):
     
     
-    player_browse(tournament_id = "1001", is_reload = True)
+    #player_browse(tournament_id = "1001", is_reload = True)
+    league_update_task(league_id = "1272")
     
     return []
     
