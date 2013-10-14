@@ -9,32 +9,32 @@ load_async({
             }, function(data) {
                            
                   var index = 0;
-                  var all_players = new Array();
+                  window.all_players = this;//new Array();
 
+                  //console.log(this);
                   
-                 $.each($(this), function(index, value) { 
-                    
-                   
-                    personObj = new Object();
-                    personObj.id = value.id;
-                    personObj.value = value.full_name;
-                                        
-                    personObj.label = value.full_name + " ( ";
-                    
+                  for (var i=0;i<all_players.length;i++)
+                  {       
+                	  
+                	  all_players[i].label = all_players[i].full_name + " (";
+                	  
 
-                    $.each(value.teams, function(k, value2) { 
-                          personObj.label += value2.name;
-                          if (k < value.teams.length - 1 ){
-                            personObj.label += ", ";
-                          }                           
-                    })
-                  
-                    personObj.label += " )";                                      
-                    all_players[index] = personObj;                                 
-                    index++;
-                });  
-                  
-                                      
+                	  if (all_players[i].teams){
+	                	  for (var j=0;j<all_players[i].teams.length;j++)
+	                      {   
+	                		  all_players[i].label += all_players[i].teams[j].name;
+	                		  
+	                            if (j < all_players[i].teams.length - 1 ){
+	                            	all_players[i].label += ", ";
+	                            }                           
+	                      }
+                	  }
+                      
+                      all_players[i].label += ")";    
+                      
+                  }
+                
+                                    
                                                             
                  $("input#autocomplete").autocomplete({ source: all_players,
                                                         minLength: 2,
