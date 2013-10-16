@@ -2771,7 +2771,7 @@ def player_browse(tournament_id = None, limit=500,
 
 
     taskqueue.add(url='/api/v1/tournament/%s/player/' % tournament_id, #params={'tournament_id': '1001'}
-                      target='goapi.default', method="PUT")
+                      target='goworker', method="PUT")
     return []
 
     name = "offset_player_browse_" + tournament_id

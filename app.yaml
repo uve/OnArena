@@ -37,10 +37,9 @@ libraries:
 - name: PIL
   version: latest
   
-  
 builtins:
-- remote_api: on
 - appstats: on  
+- remote_api: on
   
 #dispatch:  
 # Send any domain/sub-domain with a path that starts with “work” to the static backend module. 
