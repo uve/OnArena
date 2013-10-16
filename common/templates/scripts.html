@@ -518,10 +518,13 @@ $(document).ready(function () {
     /*VK.Widgets.Poll("vk_poll", {width: 220}, "11189699_c3e62fac297e0d6210");*/
     
     
-   
-    
     VK.Widgets.Group("vk_groups", {mode: 2, width: "220", height: "390"}, 24970033);
-    VK.Widgets.Like("vk_like", {type: "button"});  
+
+    
+    if ( document.getElementById("vk_like") ) { 
+    	VK.Widgets.Like("vk_like", {type: "button"});	
+    }
+    
     VK.Widgets.Comments("vk_comments", {limit: 15, width: "600", attach: "*"});
     
 
