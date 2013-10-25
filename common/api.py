@@ -33,7 +33,7 @@ from google.appengine.datastore import entity_pb
 
 from common import models
 import settings
-
+import sys, inspect
 
 import time
 import random
@@ -4381,10 +4381,39 @@ def get_class( kls ):
 
 
 def test(limit = 5000):
+        
+        
+        
+        
+    return []        
+    p1 = models.Player.get_item("1252")
+    p2 = models.Player.get_item("1190")
+    
+    if not p1 or not p2:
+        logging.error("Player not found")
+        return []
+        
+    
+    for name, item in inspect.getmembers(sys.modules["common.models"]):
+        if not inspect.isclass(item):
+            continue
+
+        if not 'player_id' in dir(item):
+            continue
+    
+        logging.info(item)
+        
+        all_results  = item.gql("WHERE player_id = :1", p1).fetch(limit)
+        
+        for value in all_results:            
+            value.player_id = p2
+            
+        db.put(all_results)
+        
     
     
     #player_browse(tournament_id = "1001", is_reload = True)
-    league_update_task(league_id = "1272")
+    #league_update_task(league_id = "1272")
     
     return []
     
