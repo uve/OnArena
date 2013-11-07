@@ -300,6 +300,12 @@ def defer(obj, *args, **kwargs):
   
   logging.info("Task in pool: %s", status)
   
+  
+  memcache.incr(obj.__name__)
+  
+  logging.info("Reduced key: %s", obj.__name__)  
+  
+  
   if status == True:
       logging.warning("Task in pool")
       return True
