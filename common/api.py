@@ -1240,9 +1240,11 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     team   = models.Team.get_item(team_id) 
     
     if not league:
+        logging.error("No league found: %s", league_id)
         return False
         
     if not team:
+        logging.error("No team found: %s", team_id)
         return False  
     
     season = models.Season.gql("WHERE league_id = :1 and team_id = :2 and group_id = :3", league, team, group).get()
@@ -1254,32 +1256,22 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         return False                
         
     if not season:
+        logging.error("No season found")
         return False        
         
-    del_mas = [  models.Match, models.RefereeMatch, models.Competitor, 
-                 models.Score, models.PlayerMatch, models.Event,
-                 models.Sanction, models.StatPlayer ]
+        
+    all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, del_value)).fetch(limit)
     
-    
-    del_value = season
-    hub = []
-    
-    if del_value:       
-        for item in del_mas:
-            try:
-                rem  = item.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, del_value)).fetch(limit)
-                hub.append(db.delete_async(rem))
-                #db.delete(rem)
-            except:
-                pass
-                
-                
-        for item in hub:
-            item.get_result()
-            
-        db.delete(del_value)
-
- 
+    #Removinf all season team matches!!
+    for match in all_matches:        
+        remove_by_model(match, "match_id")
+        
+        
+        
+    #Removinf all season team!!
+    remove_by_model(season, "season_id")
+        
+   
     logging.info("TeamSeason Deleted")         
 
     league_update_task(league_id = league.id)
@@ -2359,18 +2351,12 @@ def match_remove(match_id, limit=100):
         for competitor in rem: 
             team_id = competitor.team_id.id
             teams.append(team_id)                     
-                
-        db.delete(rem)
-
-        rem = models.Event.gql("WHERE match_id = :1", match).fetch(limit)  
-        db.delete(rem)
-
-        rem = models.Score.gql("WHERE match_id = :1", match).fetch(limit)  
-        db.delete(rem)
-                
-        rem = models.RefereeMatch.gql("WHERE match_id = :1", match).fetch(limit)  
-        db.delete(rem)                        
+                    
+        
+        remove_by_model(match, "match_id")
+        
         db.delete(match)
+        
                
     league_update_task(league_id = league_id)
     
@@ -4378,11 +4364,44 @@ def get_class( kls ):
 
 
 
+def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
+         
+    all_mas = []
+    
+    if not removing_item:
+        logging.error("Model for removing was not found")
+        return False
+        
+    removing_key = removing_item.key()
+    
+    
+    for class_name, model in inspect.getmembers(sys.modules["common.models"]):
+        if not inspect.isclass(model):
+            continue
 
+        if not name in dir(model):
+            continue
+    
+        logging.info("Removing all: %s \t with %s=%s", class_name, name, removing_key)
+        
+        
+        
+        res = model.all().filter(name+' = ', removing_key).fetch(limit)
+                    
+        all_mas.append(db.delete_async(res))
+            
+            
+    for item in all_mas:
+        item.get_result()
+    
+        
+        
 
 def test(limit = 5000):
         
         
+    league_remove_team(league_id = "1284", group_id = None, team_id = "1542")
+    #league_update(league_id = "1284")
         
         
     return []        

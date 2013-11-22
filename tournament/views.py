@@ -67,8 +67,11 @@ def tournament_create(request, format='html'):
     all_sports = api.sport_browse(limit = 1000)
     
     #logging.info("hes: %s", all_sports)
-
-    lat, lon = request.META["HTTP_X_APPENGINE_CITYLATLONG"].split(",")
+    
+    try:
+        lat, lon = request.META["HTTP_X_APPENGINE_CITYLATLONG"].split(",")
+    except:
+        lat, lon = ("", "")
     
     logging.info("lat: %s", lat)
     logging.info("lon: %s", lon)

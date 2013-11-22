@@ -481,6 +481,8 @@ class EventType(CustomModel):
     name     = db.StringProperty(required=True)
     sport_id = db.ReferenceProperty(Sport, collection_name='sport_eventtypes', required=True)
 
+
+
 class Event(CustomModel):
     minute      = db.IntegerProperty()
 
