@@ -39,7 +39,7 @@ libraries:
   version: latest
   
 builtins:
-- appstats: on  
+- appstats: off  
 - remote_api: on
   
 #dispatch:  
