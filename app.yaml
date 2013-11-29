@@ -6,6 +6,13 @@ runtime: python27
 api_version: 1
 threadsafe: false
 
+
+#instance_class: F1
+#automatic_scaling:
+#  min_idle_instances: 1
+#  max_pending_latency: 1s
+
+
 skip_files:
 - ^(.*/)?#.*#
 - ^(.*/)?.*~
@@ -15,14 +22,10 @@ skip_files:
 - ^(.*/)?.*/sass-cache/.*
 
 
+
 inbound_services:
 #- warmup
 #- mail
-
-#automatic_scaling:
-#  min_idle_instances: 1
-#  max_idle_instances: 1
-#  min_pending_latency: 2.1s
 
 
 libraries:
