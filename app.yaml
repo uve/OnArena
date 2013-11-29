@@ -1,6 +1,6 @@
 application: cometiphrd
-#version: v1
-version: test
+version: v1
+#version: test
 
 runtime: python27
 api_version: 1

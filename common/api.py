@@ -919,7 +919,7 @@ def league_browse(tournament_id = None, limit = 100,
         #new_res = [models.League.get_item(item) for item in res2]
 
         for item in results:
-            if int(item.id) >= int("1245"):
+            if int(item.id) >= int("1245") and not int(item.id) in [1291, 1292, 1293]:
                 new_res.append(item)     
  
 
@@ -4400,7 +4400,10 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 def test(limit = 5000):
         
         
-    league_remove_team(league_id = "1284", group_id = None, team_id = "1542")
+    
+    league_browse(tournament_id = "1008", is_reload = True)
+        
+    #league_remove_team(league_id = "1284", group_id = None, team_id = "1542")
     #league_update(league_id = "1284")
         
         
