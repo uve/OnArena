@@ -4399,9 +4399,19 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
         
-        
     
-    league_browse(tournament_id = "1008", is_reload = True)
+    test_create(league_id = league_id, name=u'Места 1-4',
+                 group_teams=["1472", "1871", "1954", "1474"])
+    
+    test_create(league_id = league_id, name=u'Места 5-10',
+                 group_teams=["1181", "1500", "1680", "1953", "1370", "1860"])    
+    
+    
+    group_browse(league_id = "1273", is_reload = True)
+    
+    
+    
+    #league_browse(tournament_id = "1008", is_reload = True)
         
     #league_remove_team(league_id = "1284", group_id = None, team_id = "1542")
     #league_update(league_id = "1284")
