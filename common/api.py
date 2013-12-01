@@ -620,7 +620,7 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     
                                    
     
-                    if tournament_id == "1001":
+                    if tournament_id == "1001" and not league_id in ["1263", "1257"]:
                         replace = False
 
                         if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
@@ -1239,6 +1239,13 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     group  = models.Group.get_item(group_id)
     team   = models.Team.get_item(team_id) 
     
+    # Удалить!!!!!!!!!!!!!!!!
+    #if not group:
+    #    logging.error("No group found: %s", group_id)
+    #    return False  
+    
+    
+    
     if not league:
         logging.error("No league found: %s", league_id)
         return False
@@ -1253,19 +1260,20 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     #return True        
         
     if league.tournament_id.id != team.tournament_id.id:
+        logging.error("League tournament != team tournament")
         return False                
         
     if not season:
         logging.error("No season found")
         return False        
         
-        
+    
     all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, del_value)).fetch(limit)
     
     #Removinf all season team matches!!
     for match in all_matches:        
         remove_by_model(match, "match_id")
-        
+    
         
         
     #Removinf all season team!!
@@ -1274,7 +1282,7 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
    
     logging.info("TeamSeason Deleted")         
 
-    league_update_task(league_id = league.id)
+    #league_update_task(league_id = league.id)
 
     return True
 
@@ -4330,7 +4338,7 @@ def test_create(league_id = None, name = None, group_teams=[]):
     return True 
 
 
-def test_create_confirm(league_id = None, group_id = None, name = None, group_teams=[]):
+def test_create_confirm(league_id = None, group_id = None, group_teams=[]):
 
     league = models.League.get_item(league_id)
     
@@ -4399,15 +4407,19 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
         
+    league_id = "1257"
+        
+    '''
+    league_remove_team(league_id = league_id, group_id = "1050", team_id = "1500")
     
-    test_create(league_id = league_id, name=u'Места 1-4',
-                 group_teams=["1472", "1871", "1954", "1474"])
-    
-    test_create(league_id = league_id, name=u'Места 5-10',
-                 group_teams=["1181", "1500", "1680", "1953", "1370", "1860"])    
+    league_remove_team(league_id = league_id, group_id = "1049", team_id = "1953")
     
     
-    group_browse(league_id = "1273", is_reload = True)
+    test_create_confirm(league_id = league_id, group_id = "1049", group_teams=["1500"])
+    test_create_confirm(league_id = league_id, group_id = "1050", group_teams=["1953"])
+    '''
+    
+    group_browse(league_id = league_id, is_reload = True)
     
     
     
