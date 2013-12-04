@@ -620,7 +620,7 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     
                                    
     
-                    if tournament_id == "1001" and not league_id in ["1263", "1257"]:
+                    if tournament_id == "1001" and not league_id in ["1263", "1257", "1258"]:
                         replace = False
 
                         if (t1.diff < t2.diff and t1.place < t2.place) or (t1.diff > t2.diff and t1.place > t2.place): 
@@ -4407,7 +4407,7 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
         
-    league_id = "1257"
+    league_id = "1258"
         
     '''
     league_remove_team(league_id = league_id, group_id = "1050", team_id = "1500")
