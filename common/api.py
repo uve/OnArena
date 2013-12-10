@@ -1268,7 +1268,7 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         return False        
         
     
-    all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, del_value)).fetch(limit)
+    all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", (league, team, season)).fetch(limit)
     
     #Removinf all season team matches!!
     for match in all_matches:        
