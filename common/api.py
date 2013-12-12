@@ -337,9 +337,13 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
     
     
     # Удалить!!
-    if league_id in ["1220", "1221"]:
-        all_leagues.append( models.League.get_item("1198").key() )
-        all_leagues.append( models.League.get_item("1199").key() )
+    #if league_id in ["1220", "1221"]:
+    #    all_leagues.append( models.League.get_item("1198").key() )
+    #    all_leagues.append( models.League.get_item("1199").key() )
+    
+    if league_id in ["1302", "1302", "1304"]:
+        all_leagues.append( models.League.get_item("1286").key() )
+        all_leagues.append( models.League.get_item("1287").key() )
         
     
     
@@ -619,7 +623,7 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
                                 replace = True
     
                                    
-    
+                    '''
                     if tournament_id == "1001" and not league_id in ["1263", "1257", "1258", "1260", "1261"]:
                         replace = False
 
@@ -633,7 +637,7 @@ def group_reload(league_id = None, group_id = None, limit = 5000):
        
                         elif (t1.won < t2.won and t1.place < t2.place) or (t1.won > t2.won and t1.place > t2.place):            
                             replace = True
-
+                    '''
                     
                     logging.info("team %s: %s (%s - %s), \t team %s: %s (%s - %s)\t, is_replace: %s", t1.place, t1.name, team_score1, t1.diff, t2.place, t2.name, team_score2, t2.diff, replace)
     
@@ -4407,7 +4411,32 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
        
-    league_id = "1261"
+       
+       
+    league_id = "1285"
+    
+    
+    mas = ["1256", "1257", "1258", "1259", "1260", "1261", "1262", "1263", "1264", "1276"]
+    for league_id in mas:
+    
+        deferred.defer(group_browse, league_id = league_id, is_reload = True)    
+    #test_create_confirm(league_id = league_id, group_id = "1054", group_teams=[1111])
+    
+    #test_create_confirm(league_id = league_id, group_id = "1055", group_teams=[1117])
+    
+    
+    
+
+    return []
+
+    test_create(league_id = league_id, name=u'Места 1-5',
+                 group_teams=["1120", "1984", "1983", "1985", "1117"])
+    
+    
+    test_create(league_id = league_id, name=u'Места 6-9',
+                 group_teams=["1111", "1538", "1639", "1118"])
+    
+    
     
     group_browse(league_id = league_id, is_reload = True)
     
