@@ -4410,9 +4410,7 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
         
 
 def test(limit = 5000):
-       
-       
-       
+              
     league_id = "1285"
     
     
