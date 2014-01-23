@@ -294,6 +294,7 @@ def league_upload(request,league_id=None, format='html'):
         return http.HttpResponse(t.render(c))
 
 
+
 def league_remove(request, league_id=None, format='html'):
 
     area = 'league'
@@ -309,6 +310,22 @@ def league_remove(request, league_id=None, format='html'):
     #if request.is_owner:
     #    team = api.league_remove(league_id)
     return http.HttpResponse()
+    
+    
+    
+def league_hide(request, league_id=None, format='json'):
+    
+        
+    logging.info("league_id: %s",league_id)
+    
+    
+    if request.is_owner:
+        api.league_hide(league_id)
+        return http.HttpResponse(status=200)   
+        
+    return http.HttpResponse(status=405) #not allowed        
+    
+    
     
 
 def league_remove_team(request, league_id=None, format='html'):

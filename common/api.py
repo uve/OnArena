@@ -870,7 +870,7 @@ def league_browse(tournament_id = None, limit = 100,
     if not tournament:    
         return None
         
-    results = models.League.gql("WHERE tournament_id = :1 ORDER BY id ASC", tournament).fetch(limit)
+    results = models.League.gql("WHERE tournament_id = :1 and active = :2 ORDER BY id ASC", tournament, True).fetch(limit)
             
     new_res = []
     
@@ -1192,6 +1192,22 @@ def league_upload(request, league = None, limit = 1000):
 
 
 
+
+
+def league_hide(league_id = None, limit=100):
+    
+    league = models.League.get_item(league_id)
+
+    league.active = False
+    db.put(league)
+                
+
+    tournament_id = league.tournament_id.id
+    logging.info("League hide Value: %s", league_id)    
+                
+    league_browse(tournament_id = tournament_id, is_reload = True)
+
+    return True
 
 
     
@@ -4410,6 +4426,19 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
         
 
 def test(limit = 5000):
+    
+    
+    all = models.League.all().fetch(limit)
+    
+    for item in all:
+        item.active = True
+        
+    db.put(all)
+    
+    logging.info("All leagues: %s" % len(all))    
+    
+    
+    return [] 
               
     league_id = "1285"
     

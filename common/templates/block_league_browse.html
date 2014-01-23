@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load verbatim_templatetag %}
+
+<script id="template-list-league" type="text/x-jquery-tmpl">
+
+{% include 'common/templates/block_is_owner.html' %}
+{% verbatim %}
+
+
+<li>
+
+{{ if tournament_id.sport_id.id == "1001" }}       
+<img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"></img>
+{{ /if }} 
+{{ if tournament_id.sport_id.id == "1002" }}        
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/basketball1.png" width="20"></img>
+{{ /if }}                    
+{{ if tournament_id.sport_id.id == "1003" }}    
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/volleyball1.png" width="20"></img>
+{{ /if }} 
+{{ if tournament_id.sport_id.id == "1004" }}        
+<img src="http://commondatastorage.googleapis.com/cometip/images/sport/hockey1.png" width="20"></img>
+{{ /if }}    
+
+
+<h3><a href="/league/${id}/">${name}</a>
+
+
+{{ if is_owner == true }}
+
+   	<img class="remove-league" title='{% trans "Hide League" %}' league-id="${ id }" src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' style="margin-left: 5px;"/></span>
+
+{{ /if }} 
+
+</h3>
+
+</li>
+
+{% endverbatim %}
+</script>
+
+

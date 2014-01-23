@@ -252,6 +252,10 @@ class League(CustomModel):
     name          = db.StringProperty(required=True)
     tournament_id = db.ReferenceProperty(Tournament, collection_name='tournament_leagues', required=True)
     ranking = db.IntegerProperty(required=True, default = 1)  
+    
+    active        = db.BooleanProperty(required=False, default=True)
+    
+    
 
 class Team(CustomModel):
     id   = db.StringProperty(required=True)

@@ -9,6 +9,12 @@ indexes:
   properties:
   - name: tournament_id
   - name: id
+  
+- kind: League
+  properties:
+  - name: active
+  - name: tournament_id
+  - name: id  
 
 - kind: Match
   properties:

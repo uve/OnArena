@@ -8,31 +8,11 @@
 
 
 {% endif %}
-s
+
 {% verbatim %} 
 
 <!--------------------------------   TEMPLATES    ------------------------------------>
 
-<script id="template-list-league" type="text/x-jquery-tmpl">
-<li>
-
-{{ if tournament_id.sport_id.id == "1001" }}       
-<img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"></img>
-{{ /if }} 
-{{ if tournament_id.sport_id.id == "1002" }}        
-<img src="http://commondatastorage.googleapis.com/cometip/images/sport/basketball1.png" width="20"></img>
-{{ /if }}                    
-{{ if tournament_id.sport_id.id == "1003" }}    
-<img src="http://commondatastorage.googleapis.com/cometip/images/sport/volleyball1.png" width="20"></img>
-{{ /if }} 
-{{ if tournament_id.sport_id.id == "1004" }}        
-<img src="http://commondatastorage.googleapis.com/cometip/images/sport/hockey1.png" width="20"></img>
-{{ /if }}    
-
-
-<h3><a href="/league/${id}/">${name}</a></h3>
-</li>
-</script>
 
 
  
@@ -53,7 +33,8 @@ s
 {% include 'common/templates/block_login.html' %}	
 
 {% include 'common/templates/block_list_match.html' %}	
-{% include 'common/templates/block_tournament_browse.html' %}	
+{% include 'common/templates/block_tournament_browse.html' %}
+{% include 'common/templates/block_league_browse.html' %}	 	
 {% include 'common/templates/block_match_browse.html' %}	    	
 {% include 'common/templates/block_playoff.html' %}
 {% include 'league/templates/block_group.html' %}	
@@ -443,6 +424,33 @@ $(function () {
 $(document).ready(function () {
  {% if request.is_owner %}
   
+ 
+   $('.remove-league').live("click", function(e){ 
+	   
+	   if (!confirm('{% trans "League will be deleted. Are you sure?" %}')) {
+		   
+		   return false;	   
+	   }
+	   
+	   	var league_id = $(e.target).attr("league-id");	   	
+	   	
+	   	$(e.target).closest( "li" ).hide();
+	   	
+	   	$.ajax({url: '/league/' + league_id + '/hide/',
+            type: 'POST',
+            contentType: 'application/json',
+            data: '',
+            dataType: 'json',
+            success: function(response) {
+              	
+            }
+       });	
+	   	
+	   	
+   });
+   
+   
+ 	 
     {% include 'common/scripts/tinymce.js' %}    
     
   {% endif %}

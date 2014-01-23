@@ -138,7 +138,10 @@ urlpatterns += patterns('league.views',
     (r'^league/browse/$', 'league_browse'),
     (r'^league/create/$', 'league_create'),
     (r'^league/(?P<league_id>[\da-f]+)/remove/team/$', 'league_remove_team'),     
-    (r'^league/(?P<league_id>[\da-f]+)/remove/$', 'league_remove'), 
+    (r'^league/(?P<league_id>[\da-f]+)/remove/$', 'league_remove'),
+    
+    (r'^league/(?P<league_id>[\da-f]+)/hide/$', 'league_hide'), 
+     
     (r'^league/(?P<league_id>[\da-f]+)/test/$', 'league_test'),
 
     (r'^league/(?P<league_id>[\da-f]+)/stat/(?P<format>json|html)$', 'league_stat'),
