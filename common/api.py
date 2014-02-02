@@ -4428,40 +4428,17 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 def test(limit = 5000):
     
     
-    all = models.League.all().fetch(limit)
-    
-    for item in all:
-        item.active = True
-        
-    db.put(all)
-    
-    logging.info("All leagues: %s" % len(all))    
+    logging.info("Tos rassvet")
     
     
-    return [] 
-              
-    league_id = "1285"
-    
-    
-    mas = ["1256", "1257", "1258", "1259", "1260", "1261", "1262", "1263", "1264", "1276"]
-    for league_id in mas:
-    
-        deferred.defer(group_browse, league_id = league_id, is_reload = True)    
-    #test_create_confirm(league_id = league_id, group_id = "1054", group_teams=[1111])
-    
-    #test_create_confirm(league_id = league_id, group_id = "1055", group_teams=[1117])
-    
-    
-    
+    league_id = "1319"
 
-    return []
-
-    test_create(league_id = league_id, name=u'Места 1-5',
-                 group_teams=["1120", "1984", "1983", "1985", "1117"])
+    test_create(league_id = league_id, name=u'Группа А',
+                 group_teams=["1178", "1556", "2054", "1956", "2059", "1957"])
     
     
-    test_create(league_id = league_id, name=u'Места 6-9',
-                 group_teams=["1111", "1538", "1639", "1118"])
+    test_create(league_id = league_id, name=u'Группа Б',
+                 group_teams=["1177", "1178", "1871", "1961", "2055"])
     
     
     
