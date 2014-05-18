@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="PHP" scope="COMPILE">
+		<srcroot url="file://$MODULE_DIR$/../sibvaleo/www/www"/>
+		<relative-module-src project-related="file://$PROJECT_DIR$/sibvaleo/www/www"/>
+		<relative-module-cls project-related="file://$PROJECT_DIR$/sibvaleo/www/www"/>
+	</lib>
+</component>

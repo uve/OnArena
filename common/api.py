@@ -1289,7 +1289,8 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         
     
     all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", league, team, season).fetch(limit)
-    
+
+
     #Removinf all season team matches!!
     for match in all_matches:        
         remove_by_model(match, "match_id")
@@ -1298,11 +1299,10 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         
     #Removinf all season team!!
     remove_by_model(season, "season_id")
-        
-   
+
     logging.info("TeamSeason Deleted")         
 
-    #league_update_task(league_id = league.id)
+    league_update_task(league_id = league.id)
 
     return True
 
@@ -2381,7 +2381,7 @@ def match_remove(match_id, limit=100):
             teams.append(team_id)                     
                     
         
-        remove_by_model(match, "match_id")
+        #remove_by_model(match, "match_id")
         
         db.delete(match)
         
@@ -4417,6 +4417,9 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
         res = model.all().filter(name+' = ', removing_key).fetch(limit)
                     
         all_mas.append(db.delete_async(res))
+    
+        
+    all_mas.append(db.delete_async(removing_item))        
             
             
     for item in all_mas:
@@ -4427,45 +4430,39 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
     
+    tournament_browse(limit = 1000, is_reload = True)
     
-    logging.info("Tos rassvet")
+    return []
     
     
-    league_id = "1319"
+    logging.info("Tos rassvet 2224")
+    
+    
+    league_id = "1317"
 
-    test_create(league_id = league_id, name=u'Группа А',
-                 group_teams=["1178", "1556", "2054", "1956", "2059", "1957"])
+    league = models.League.get_item(league_id)
+
+    res = models.Event.gql("WHERE league_id = :1", league).count(limit)
+    logging.info("Event: %d", res)
+
+    res = models.Match.gql("WHERE league_id = :1", league).count(limit)
+    logging.info("Match: %d", res)
+
+    res = models.PlayerMatch.gql("WHERE league_id = :1", league).count(limit)
+    logging.info("PlayerMatch: %d", res)
+
+    res = models.Score.gql("WHERE league_id = :1", league).count(limit)
+    logging.info("Score: %d", res)
+
+    res = models.Sanction.gql("WHERE league_id = :1", league).count(limit)
+    logging.info("Sanction: %d", res)
     
-    
-    test_create(league_id = league_id, name=u'Группа Б',
-                 group_teams=["1177", "1178", "1871", "1961", "2055"])
-    
-    
-    
-    group_browse(league_id = league_id, is_reload = True)
-    
-        
-    '''
-    league_remove_team(league_id = league_id, group_id = "1050", team_id = "1500")
-    
-    league_remove_team(league_id = league_id, group_id = "1049", team_id = "1953")
-    
-    
-    test_create_confirm(league_id = league_id, group_id = "1049", group_teams=["1500"])
-    test_create_confirm(league_id = league_id, group_id = "1050", group_teams=["1953"])
-    '''
-    
-    #group_browse(league_id = league_id, is_reload = True)
-    
-    
-    
-    #league_browse(tournament_id = "1008", is_reload = True)
-        
-    #league_remove_team(league_id = "1284", group_id = None, team_id = "1542")
-    #league_update(league_id = "1284")
+
         
         
-    return []        
+    return []
+
+
     p1 = models.Player.get_item("1252")
     p2 = models.Player.get_item("1190")
     

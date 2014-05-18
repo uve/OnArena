@@ -1,1 +1,5 @@
 cron:
+- description: My Daily Backup
+  url: /_ah/datastore_admin/backup.create?kind=News&filesystem=gs&gs_bucket_name=onarena_backup
+  schedule: every 12 hours
+  target: ah-builtin-python-bundle

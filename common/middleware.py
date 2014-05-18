@@ -172,6 +172,12 @@ class UserAccess(object):
                     
                 elif request.user.name == "test@onarena.com" and tournament_ref.id in ["1001"]:
                     request.is_owner = True
+
+                elif request.user.name in ["nunukov@gmail.com", "kghrust@gmail.com"] \
+                        and tournament_ref.id in ["1008", "1027", "1037"]:
+                    request.is_owner = True
+
+
         
         
 
