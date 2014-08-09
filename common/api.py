@@ -4431,6 +4431,7 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 def test(limit = 5000):
     
     tournament_browse(limit = 1000, is_reload = True)
+    logging.info("test hi")
     
     return []
     
