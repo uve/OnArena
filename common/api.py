@@ -798,6 +798,10 @@ def group_remove(group_id = None, league_id = None, limit = 1000):
         db.delete(rem)                
         rem = models.Competitor.gql("WHERE group_id = :1", item).fetch(limit)  
         db.delete(rem)
+        
+        rem = models.Season.gql("WHERE group_id = :1", item).fetch(limit)  
+        db.delete(rem)
+        
         #rem = models.GroupCompetitor.gql("WHERE group_id = :1", item).fetch(limit)  
         #db.delete(rem)
         #rem = models.GroupNode.gql("WHERE group_id = :1", item).fetch(limit)  
@@ -1287,7 +1291,8 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         logging.error("No season found")
         return False        
         
-    
+ 
+    '''  
     all_matches = models.Match.gql("WHERE league_id = :1 and team_id = :2 and season_id = :3", league, team, season).fetch(limit)
 
 
@@ -1299,10 +1304,12 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
         
     #Removinf all season team!!
     remove_by_model(season, "season_id")
+    '''
 
     logging.info("TeamSeason Deleted")         
 
     league_update_task(league_id = league.id)
+    
 
     return True
 
@@ -4430,8 +4437,36 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
     
-    tournament_browse(limit = 1000, is_reload = True)
-    logging.info("test hi")
+    league_id = "1329"
+    
+    #logging.info("Tos rassvet 2224")
+    #logging.info("Tos rassvet 2224")
+    
+        
+    logging.info("GITHUB upload working!!!")
+    #tournament_browse(limit = 1000, is_reload = True)
+    
+    
+    
+    return []
+    
+    
+    league_id = "1329"
+    
+    
+    group_remove(group_id = "1062", league_id = league_id)
+    group_remove(group_id = "1063", league_id = league_id)
+    
+    
+          
+    test_create(league_id = league_id, name=u'Группа А',
+                 group_teams=["1953", "1861", "1873", "1370", "1680"])
+    
+    test_create(league_id = league_id, name=u'Группа Б',
+                 group_teams=["1358", "1957", "1673", "2089", "1860"])
+       
+    
+    #tournament_browse(limit = 1000, is_reload = True)
     
     return []
     
