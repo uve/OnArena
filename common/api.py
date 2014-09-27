@@ -4667,7 +4667,7 @@ def test(limit = 5000):
     return True
     
     
-@check_cache
+#@check_cache
 def team_get(team_id = None,
                  is_reload=None, memcache_delete=None, key_name=""):
 
