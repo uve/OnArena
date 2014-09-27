@@ -107,7 +107,7 @@ def team_item(request, team_id = None, format='html'):
    
   
     if format == 'html':
-        team = api.team_get(team_id = team_id)
+        team = api.team_get(team_id = team_id, is_reload=True)
  
         if not team:
             raise Http404    

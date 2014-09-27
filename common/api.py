@@ -4667,7 +4667,7 @@ def test(limit = 5000):
     return True
     
     
-#@check_cache
+@check_cache
 def team_get(team_id = None,
                  is_reload=None, memcache_delete=None, key_name=""):
 
@@ -4676,7 +4676,12 @@ def team_get(team_id = None,
         return None    
     
     item = models.Image.gql("WHERE team_id = :1 ORDER BY created DESC", team).get()    
-    
+
+    team.photo_small    = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
+    team.photo_big      = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
+    team.photo_original = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
+
+
     try:
         team.photo_small = settings.GOOGLE_BUCKET + item.photo_small
         team.photo_big   = settings.GOOGLE_BUCKET + item.photo_big        
@@ -4684,9 +4689,9 @@ def team_get(team_id = None,
 
     except:
         team.photo_small    = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
-        team.photo_big      = settings.GOOGLE_BUCKET + "images/anonymous_team.png"        
+        team.photo_big      = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
         team.photo_original = settings.GOOGLE_BUCKET + "images/anonymous_team.png"
-            
+
     results = team            
     
     return cache_set(key_name, results)    
