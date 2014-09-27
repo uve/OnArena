@@ -79,7 +79,7 @@ def avatar_url(value, arg="t"):
   path = "%s_%s.jpg" % (icon, size)
 
   #return 'http://%s/image/%s' % (settings.DOMAIN, http.urlquote(path))
-  return 'http://commondatastorage.googleapis.com/cometip/image/%s' % (http.urlquote(path))
+  return 'https://storage.googleapis.com/onarena/image/%s' % (http.urlquote(path))
 
 def parse_args(args):
   """Splits comma separated argument into size and rel attribute."""

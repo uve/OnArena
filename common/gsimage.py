@@ -7,8 +7,8 @@ try:
 except AttributeError:
   import gs
   files.gs = gs
-  
-  
+
+
 import cgi
 import logging
 import json
@@ -154,9 +154,9 @@ def image_send(img = None, path = None, width = None, height = None):
     img.im_feeling_lucky()  
     content = img.execute_transforms(output_encoding=images.JPEG)
               
-    logging.info("app_identity: %s",app_identity.get_service_account_name()) 
-    
-    filename='/gs/cometip/' + path
+    logging.info("app_identity: %s",app_identity.get_service_account_name())
+
+    filename='/gs/onarena/' + path
     
     write_path = files.gs.create(filename=filename,
                                  acl='public-read',
@@ -167,7 +167,7 @@ def image_send(img = None, path = None, width = None, height = None):
         fp.write(content)
 
     files.finalize(write_path)      
-    
+
     '''
     try:
         uri.new_key().set_contents_from_string(content,  headers=header_new, policy="public-read")  

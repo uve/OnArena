@@ -70,7 +70,7 @@
    {{ if is_owner == true }}
     <td><span class="remove-team-group" data-team_id="${ team.id }" data-team_name="${ team.name }"
      data-league_id="{% endverbatim %}{{ league_id }}{% verbatim %}" data-group_id="{{ if group }}${ group.id }{{ /if }}">
-           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span></td>
+           <img src="https://storage.googleapis.com/onarena/images/cross.png" width='16px' height='16px' /></span></td>
    {{ /if }}                            
                         </tr>
                      {{ /each }}   
@@ -112,7 +112,7 @@
                                {{ each(index, node) item.matches }}            
                                   <td class="small-font">
                                  {{ if index0 == index }}
-                                    <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"/>
+                                    <img src="https://storage.googleapis.com/onarena/images/soccer_ball.png" width="20"/>
                                  {{ /if }}   
                                   {{ each(index, match) node }}
                                   
@@ -138,7 +138,7 @@
     <td>
 <span class="remove-team-group" style="display: none; "data-team_id="${ item.team.id }"  data-team_name="${ item.team.name }" 
          data-league_id="{% endverbatim %}{{ league_id }}{% verbatim %}" data-group_id="{{ if group }}${ group.id }{{ /if }}">
-           <img src="http://commondatastorage.googleapis.com/cometip/images/cross.png" width='16px' height='16px' /></span>
+           <img src="https://storage.googleapis.com/onarena/images/cross.png" width='16px' height='16px' /></span>
 
 </td>
    {{ /if }}                                  

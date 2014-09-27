@@ -433,9 +433,9 @@ DEFAULT_UNITTEST_TO_EMAIL = 'unittests@example.com'
 
 PROFILING_DATA_PATH = 'profiling/prof_db.csv'
 
-GOOGLE_BUCKET = "http://commondatastorage.googleapis.com/cometip/"
+GOOGLE_BUCKET = "https://storage.googleapis.com/onarena/"
 
-STORAGE_URL  = "http://commondatastorage.googleapis.com/cometip"
+STORAGE_URL  = "https://storage.googleapis.com/onarena"
 
 
 SPORT_EVENTS = {
@@ -449,9 +449,9 @@ SPORT_EVENTS = {
     'Draw':         _("Draw"),       
     'Drew':         _("Drew"),                     
                 
-    "Goal":         [_("Goal"),        "https://commondatastorage.googleapis.com/cometip/images/soccer_ball.png"],
-    "Yellow Card":  [_("Yellow Card"), "https://commondatastorage.googleapis.com/cometip/images/yellow_card.png"],
-    "Red Card":     [_("Red Card"),    "https://commondatastorage.googleapis.com/cometip/images/red_card.png"],
+    "Goal":         [_("Goal"),        "https://storage.googleapis.com/onarena/images/soccer_ball.png"],
+    "Yellow Card":  [_("Yellow Card"), "https://storage.googleapis.com/onarena/images/yellow_card.png"],
+    "Red Card":     [_("Red Card"),    "https://storage.googleapis.com/onarena/images/red_card.png"],
     "Penalty":      [_("Penalty"),     "" ],
     "Auto Goal":    [_("Auto Goal"),""],
     "Substitution": [_("Substitution"),""],

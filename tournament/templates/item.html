@@ -28,7 +28,7 @@
         <ul id="list-league">
         {% for league in all_leagues %}
           <li {% cycle '' 'class="odd"' %}>
-            <h3><img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" width="20"></img>
+            <h3><img src="https://storage.googleapis.com/onarena/images/soccer_ball.png" width="20"></img>
             <a href="/league/{{  league.id  }}/">{{  league.name  }}</a></h3>
             {% if league.description %}
               <p>{{league.description|truncatewords:5}}</p>

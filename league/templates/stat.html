@@ -28,7 +28,7 @@
       <thead> 
         <tr>
         <th><div class="match-overview-icons"  title="{% trans 'Goals' %}">
-                  <img src="http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png" height="28"></div></th>
+                  <img src="https://storage.googleapis.com/onarena/images/soccer_ball.png" height="28"></div></th>
         <th><div title="{% trans 'Player' %}"></div>{% trans "Player" %}</th>
         <th><div title="{% trans 'Team' %}"></div>{% trans "Team" %}</th>
         <th><div title="{% trans 'Cards' %}"></div>{% trans "Cards" %}</th>
@@ -53,7 +53,7 @@
 	                {% endif %}
                 </td>
                 
-                <td>{% if player.yellow_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/yellow_card.png" height="24"> {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}<img src="http://commondatastorage.googleapis.com/cometip/images/red_card.png" height="24"> {{ player.red_cards }}{% endif %}</td>
+                <td>{% if player.yellow_cards %}<img src="https://storage.googleapis.com/onarena/images/yellow_card.png" height="24"> {{ player.yellow_cards }}    {% endif %}{% if player.red_cards %}<img src="https://storage.googleapis.com/onarena/images/red_card.png" height="24"> {{ player.red_cards }}{% endif %}</td>
             </tr>
         {% endfor %}
     {% endif %}

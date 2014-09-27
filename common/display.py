@@ -51,7 +51,7 @@ def prep_comment_list(comment_list, actors):
   comments = [prep_comment(e, actors) for e in comment_list]
   return comments
 
-DEFAULT_AVATARS = [{'name': 'animal_%s' % i, 'path': 'http://commondatastorage.googleapis.com/cometip/image/default/'}
+DEFAULT_AVATARS = [{'name': 'animal_%s' % i, 'path': 'https://storage.googleapis.com/onarena/image/default/'}
                    for i in xrange(1,17)]
 
 ICONS = {

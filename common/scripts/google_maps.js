@@ -57,22 +57,22 @@
           // Origins, anchor positions and coordinates of the marker
           // increase in the X direction to the right and in
           // the Y direction down.
-          var image_soccer = new google.maps.MarkerImage('http://commondatastorage.googleapis.com/cometip/images/soccer_ball.png',
+          var image_soccer = new google.maps.MarkerImage('https://storage.googleapis.com/onarena/images/soccer_ball.png',
               new google.maps.Size(45,48),
               new google.maps.Point(0,0),
               new google.maps.Point(0, 32));
               
-          var image_basketball = new google.maps.MarkerImage('http://commondatastorage.googleapis.com/cometip/images/sport/basketball1.png',
+          var image_basketball = new google.maps.MarkerImage('https://storage.googleapis.com/onarena/images/sport/basketball1.png',
               new google.maps.Size(45,48),
               new google.maps.Point(0,0),
               new google.maps.Point(0, 32));
               
-          var image_volleyball = new google.maps.MarkerImage('http://commondatastorage.googleapis.com/cometip/images/sport/volleyball1.png',
+          var image_volleyball = new google.maps.MarkerImage('https://storage.googleapis.com/onarena/images/sport/volleyball1.png',
               new google.maps.Size(45,48),
               new google.maps.Point(0,0),
               new google.maps.Point(0, 32));
               
-          var image_hockey = new google.maps.MarkerImage('http://commondatastorage.googleapis.com/cometip/images/sport/hockey1.png',
+          var image_hockey = new google.maps.MarkerImage('https://storage.googleapis.com/onarena/images/sport/hockey1.png',
               new google.maps.Size(45,48),
               new google.maps.Point(0,0),
               new google.maps.Point(0, 32));                                          
