@@ -4442,8 +4442,9 @@ def test(limit = 5000):
     #logging.info("Tos rassvet 2224")
     #logging.info("Tos rassvet 2224")
     
-        
-    logging.info("Tournament browse GITHUB upload working!!!")
+    logging.info("tournament browse")
+
+    
     tournament_browse(limit = 1000, is_reload = True)
     
     
