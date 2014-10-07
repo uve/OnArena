@@ -1,17 +1,18 @@
 {% load i18n %}
 <div id="login-form" title="{% trans 'Login' %}" class="dynamic-fields">
-    <h1>{% trans "Sign in using your account with" %}</h1>
+    <h1>{% trans "Sign in using your account with" %}:</h1>
     <div class="default-block">          
     <ul class="providers">
-        <li id="facebook" class="on" ><a href="/login/?redirect_to={{ request.path }}"></a></li>
-        <li id="yahoo" class="on"><a href="{{ request.yahoo_login }}"></a></li>
+        <li id="google" class="on2"><a href="{{ request.google_login }}"></a></li>
+        <!--<li id="yahoo" class="on"><a href="{{ request.yahoo_login }}"></a></li> -->
     </ul>                         
-    <ul class="providers">        
-        <li id="google" class="on"><a href="{{ request.google_login }}"></a></li>                        
-        <li id="aol" class="on"><a href="{{ request.aol_login }}"></a></li>                                                           
+    <ul class="providers">
+        <li id="facebook" class="on2" ><a href="/login/?redirect_to={{ request.path }}"></a></li>
+        <!--<li id="aol" class="on"><a href="{{ request.aol_login }}"></a></li> -->
     </ul>      
-    </div>      
+    </div>
+    <!--
     <div class="default-block" id="powered_by">                 
         <span>Powered by OnArena.com</span>
-    </div>        
+    </div>-->
 </div>

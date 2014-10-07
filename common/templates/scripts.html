@@ -30,7 +30,7 @@
 
 {% endverbatim %}
 
-{% include 'common/templates/block_login.html' %}	
+<!-- include block_login.html -->
 
 {% include 'common/templates/block_list_match.html' %}	
 {% include 'common/templates/block_tournament_browse.html' %}
@@ -162,8 +162,6 @@ $(function () {
       
 
 
-
-
      {% if request.tournament.id %}
 
          {% include 'common/scripts/load_league_browse.js' %}          
@@ -173,7 +171,8 @@ $(function () {
      {% endif %}      
       
 
-     {% include 'common/scripts/login.js' %}      
+     /* include block login */
+
      {% include 'common/scripts/search.js' %}   
         
 

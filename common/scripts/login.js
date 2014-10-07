@@ -3,7 +3,7 @@
 
 $("#login-form").dialog({
 		autoOpen: false,
-		height: 280,
+		height: 180,
 		width: 360,
 		modal: true
 	});
@@ -20,7 +20,10 @@ $('#non-stylized-create-tournament').bind('click', function() {
 });                  
 
 $('#login-button').bind('click', function() {        
-  $( "#login-form" ).dialog( "open" );            
+  $( "#login-form" ).dialog( "open" );
+
+
+  $('#login-form a').blur();
 });    
          
                  

@@ -22,7 +22,9 @@
 
 
 
-        <div class="provider" id="login-button"><span>{% trans "Login" %}</span></div>
+
+        <!-- <div class="provider" id="login-button"><span>{% trans "Login" %}</span></div> -->
+              <a href="{{ request.google_login }}" class="provider" id="login-button">{% trans "Login" %}</a>
       </div>
            {% endif %}
        
