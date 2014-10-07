@@ -63,7 +63,7 @@ TIME_ZONE = 'UTC'
 
 LANGUAGE_CODE_RUS = 'ru'
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'#'en-us'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -72,15 +72,15 @@ USE_L10N = True
 
 LANGUAGES = (
     ('ru', (u'Русский')),
-    ('en-us', ('English')),
+    #('en-us', ('English')),
 
 )
 
 
-LANGUAGE_CODE_FB = 'en_US'
+LANGUAGE_CODE_FB = 'ru_RU'
 
 LANGUAGES_FB = (
-    ('en-us', ('en_US')),
+    # ('en-us', ('en_US')),
     ('ru', ('ru_RU')), 
 )
 

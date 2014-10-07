@@ -21,9 +21,15 @@
     </div>
     
     {% ifequal area "index" %}
-     <div id="non-stylized-create-tournament" class="block-7-last"> 
-        <input class="large green awesome" type="submit" 
-                value="{% trans 'Create a New Tournament' %} &raquo;">
+     <div id="non-stylized-create-tournament" class="block-7-last">
+
+         {% if request.user %}
+
+             <a href="/create/" class="large green awesome">{% trans 'Create a New Tournament' %} &raquo;</a>
+         {% else %}
+             <a href="{{ request.google_login_create }}" class="large green awesome">{% trans 'Create a New Tournament' %} &raquo;</a>
+         {% endif %}
+
      </div>
     {% endifequal %}                
 

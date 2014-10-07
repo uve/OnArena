@@ -3,10 +3,8 @@
 
 <div id="header-top">
   <div id="nav-login">
-     <ul class="panel-nav-top"> 
-      <div class="soc-networks" id="sn">
-      <div class="provider" id="language-caption"><span>{% trans "Language" %}:</span></div>
-      <div class="provider" id="language"> {% include 'common/templates/block_languages.html' %}</div>
+
+
       {% block login %}
 
      
@@ -22,16 +20,17 @@
 
 
 
+               <a href="{{ request.google_login }}" id="customBtn" class="customGPlusSignIn">
+                   <span class="icon"></span>
+                   <span class="buttonText" style="margin-top: 6px;">{% trans "Login" %}</span>
+               </a>
 
-        <!-- <div class="provider" id="login-button"><span>{% trans "Login" %}</span></div> -->
-              <a href="{{ request.google_login }}" class="provider" id="login-button">{% trans "Login" %}</a>
-      </div>
+
+
            {% endif %}
        
      {% endblock %}
-      
-       
-      </ul> 
+
    </div>
 
 

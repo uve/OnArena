@@ -178,13 +178,19 @@ class UserAccess(object):
                     request.is_owner = True
 
 
-        
+
+        if not request.user:
+
+            request.google_login = users.create_login_url(url)
+            request.google_login_create = users.create_login_url("/create/")
         
 
-        try:    
-            request.google_login = users.create_login_url(url)        
-            request.yahoo_login  = users.create_login_url(url,federated_identity="yahoo.com")
-            request.aol_login    = users.create_login_url(url,federated_identity="aol.com")             
+        try:
+            pass
+            #request.google_login = users.create_login_url(url)
+
+            #request.yahoo_login  = users.create_login_url(url,federated_identity="yahoo.com")
+            #request.aol_login    = users.create_login_url(url,federated_identity="aol.com")
 
         except:
             pass

@@ -207,7 +207,7 @@ def logout(request):
     redirect_to = request.REQUEST.get("redirect_to")
     
     logging.info("redirect_to: %s",redirect_to)
-    if not redirect_to:
+    if not redirect_to or redirect_to == "/create/":
         redirect_to = "/" 
  
     response = http.HttpResponseRedirect(users.create_logout_url(redirect_to))
