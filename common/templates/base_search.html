@@ -25,9 +25,9 @@
 
          {% if request.user %}
 
-             <a href="/create/" class="large green awesome">{% trans 'Create a New Tournament' %} &raquo;</a>
+             <a href="/create/" class="large green awesome create-tournament">{% trans 'Create a New Tournament' %} &raquo;</a>
          {% else %}
-             <a href="{{ request.google_login_create }}" class="large green awesome">{% trans 'Create a New Tournament' %} &raquo;</a>
+             <a href="{{ request.google_login_create }}" class="large green awesome create-tournament">{% trans 'Create a New Tournament' %} &raquo;</a>
          {% endif %}
 
      </div>
