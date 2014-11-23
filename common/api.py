@@ -4437,22 +4437,25 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
 
-    league_id = "1329"
+    league_id = "1358"
 
     #logging.info("Tos rassvet 2224")
     #logging.info("Tos rassvet 2224")
 
-    logging.info("tournament browse 55")
+    logging.info("tournament browse 66")
 
 
+    test_create(league_id = league_id, name=u'Места 1-6',
+                 group_teams=["2210", "1854", "1957", "1183", "2055", "1956"])
+
+    test_create(league_id = league_id, name=u'Места 7-11',
+                 group_teams=["1170", "1786", "1861", "1953", "2214"])
     #tournament_browse(limit = 1000, is_reload = True)
 
 
 
     return []
 
-
-    league_id = "1329"
 
 
     group_remove(group_id = "1062", league_id = league_id)
