@@ -4439,6 +4439,8 @@ def test(limit = 5000):
 
     league_id = "1387"
 
+    return []
+
     test_create(league_id = league_id, name=u'Группа А',
                 group_teams=["1183", "1631", "2213", "1184", "1187", "1556"])
 
