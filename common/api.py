@@ -4439,6 +4439,8 @@ def test(limit = 5000):
 
     league_id = "1387"
 
+    tournament_browse(limit = 1000, is_reload = True)
+
     return []
 
     test_create(league_id = league_id, name=u'Группа А',
