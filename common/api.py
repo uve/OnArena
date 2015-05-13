@@ -1306,6 +1306,8 @@ def league_remove_team(league_id = None, group_id = None, team_id = None, limit=
     remove_by_model(season, "season_id")
     '''
 
+    db.delete(season)
+
     logging.info("TeamSeason Deleted")
 
     league_update_task(league_id = league.id)
@@ -4437,7 +4439,7 @@ def remove_by_model(removing_item = None, name = 'something_id', limit=5000):
 
 def test(limit = 5000):
 
-    league_id = "1387"
+    league_id = "1403"
 
     tournament_browse(limit = 1000, is_reload = True)
 
