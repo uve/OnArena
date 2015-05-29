@@ -4441,8 +4441,7 @@ def test(limit = 5000):
 
     league_id = "1403"
 
-    #tournament_browse(limit = 1000, is_reload = True)
-    playoff_remove(playoff_id = None, league_id = league_id, limit = 1000):
+    tournament_browse(limit = 1000, is_reload = True)
 
     return []
 
