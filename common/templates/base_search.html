@@ -24,10 +24,12 @@
      <div id="non-stylized-create-tournament" class="block-7-last">
 
          {% if request.user %}
-
-             <a href="/create/" class="large green awesome create-tournament">{% trans 'Create a New Tournament' %} &raquo;</a>
+            <!--
+             <a href="/create_old/" class="large green awesome create-tournament">{% trans 'Create a New Tournament' %} &raquo;</a> -->
          {% else %}
+         <!--
              <a href="{{ request.google_login_create }}" class="large green awesome create-tournament">{% trans 'Create a New Tournament' %} &raquo;</a>
+             -->
          {% endif %}
 
      </div>
