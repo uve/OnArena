@@ -1,6 +1,7 @@
 application: cometiphrd
 version: disabled_registration
 #version: test
+module: default
 
 runtime: python27
 api_version: 1
