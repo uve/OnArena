@@ -1,5 +1,5 @@
 application: cometiphrd
-version: v1
+version: disabled_registration
 #version: test
 
 runtime: python27
